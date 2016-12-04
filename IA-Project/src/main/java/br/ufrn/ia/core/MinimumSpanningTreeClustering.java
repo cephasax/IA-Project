@@ -4,18 +4,39 @@ import java.util.Arrays;
 import java.util.PriorityQueue;
 
 import br.ufrn.ia.graph.Edge;
-import br.ufrn.ia.utils.EdgeComparator;
-import br.ufrn.ia.utils.EdgeReverseComparator;
 
 public class MinimumSpanningTreeClustering {
 
-	public final int Kmax = 10;
+	public static final int Kmax = 10;
+
 	private double mstSum;
+
+	public static void main(String[] args) {
+
+		double[][] distance = new double[6][6];
+
+		for (int i = 0; i < distance.length; i++)
+			Arrays.fill(distance[i], 100);
+
+		distance[0][1] = distance[1][0] = 1;
+		distance[0][3] = distance[3][0] = 4;
+		distance[0][4] = distance[4][0] = 3;
+		distance[1][3] = distance[3][1] = 4;
+		distance[1][4] = distance[4][1] = 2;
+		distance[2][4] = distance[4][2] = 4;
+		distance[2][5] = distance[5][2] = 5;
+		distance[3][4] = distance[4][3] = 4;
+		distance[4][5] = distance[5][4] = 7;
+
+		new MinimumSpanningTreeClustering(distance);
+	}
+
 	private int maxK;
 	private int[] maxClustering;
 
-	public MinimumSpanningTreeClustering(double[][] distance) {		
-		PriorityQueue<Edge> edges = new PriorityQueue<Edge>(distance.length * distance.length, new EdgeComparator(distance));
+	public MinimumSpanningTreeClustering(double[][] distance) {
+		PriorityQueue<Edge> edges = new PriorityQueue<Edge>(distance.length * distance.length,
+				new EdgeComparator(distance));
 		for (int i = 0; i < distance.length; i++) {
 			for (int j = 0; j < distance.length; j++) {
 				if (i != j) {
@@ -29,7 +50,7 @@ public class MinimumSpanningTreeClustering {
 		int[] sets = new int[numClusterings];
 		for (int i = 0; i < sets.length; i++)
 			sets[i] = i;
-		PriorityQueue<Edge> mst = new PriorityQueue<Edge>(new EdgeReverseComparator(distance));
+		PriorityQueue<Edge> mst = new PriorityQueue<Edge>(distance.length, new EdgeReverseComparator(distance));
 		mstSum = 0;
 		while (numClusterings > 1) {
 			Edge e = edges.poll();
@@ -82,7 +103,7 @@ public class MinimumSpanningTreeClustering {
 			double P = numClusterings;
 			for (int i = 0; i < count.length; i++)
 				P *= Math.pow(count[i], wc[i] / mstSum);
-			
+
 			if (P > maxP) {
 				maxP = P;
 				this.maxK = numClusterings;

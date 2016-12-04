@@ -1,9 +1,12 @@
 package br.ufrn.ia.metrics;
 
 import br.ufrn.ia.core.Fitness;
-import br.ufrn.ia.utils.Util;
+import br.ufrn.ia.core.Util;
 import weka.core.Instances;
 
+
+
+// maximization objective (0,1) range
 public class CorrectRand implements Fitness {
 
 	public double evaluate(Instances instances, int[] consensus) {
@@ -52,7 +55,7 @@ public class CorrectRand implements Fitness {
 		double MAX_INDEX = 0.5 * (TERMO_B + TERMO_C);
 
 		double cr = ((INDEX - EXP_INDEX) / (MAX_INDEX - EXP_INDEX));
-		return 1.0 - cr; // (1.0 - cr) minimization objective
+		return 1.0 - cr; //(1.0 - cr) minimization objective
 	}
 
 	private long combinationOf(long a, long b) {

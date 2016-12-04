@@ -1,7 +1,7 @@
 package br.ufrn.ia.metrics;
 
 import br.ufrn.ia.core.Fitness;
-import br.ufrn.ia.utils.Util;
+import br.ufrn.ia.core.Util;
 import weka.core.Attribute;
 import weka.core.Instance;
 import weka.core.Instances;
@@ -14,10 +14,14 @@ public class DaviesBouldin implements Fitness {
 		Util.replaceClassByConsensus(instances, clustering);
 
 		/*
-		 * try { PrintStream p = new PrintStream("IrisConsensus.arff");
-		 * p.println(instances); p.close(); } catch (IOException e) {
-		 * e.printStackTrace(); }
-		 */
+		try {
+			PrintStream p = new PrintStream("IrisConsensus.arff");
+			p.println(instances);
+			p.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		*/
 
 		Instances[] group = new Instances[instances.numClasses()];
 		for (int i = 0; i < group.length; i++)
@@ -87,8 +91,7 @@ public class DaviesBouldin implements Fitness {
 			else if (base.attribute(i).isNumeric())
 				center.setValue(i, median(base, base.attribute(i)));
 			else
-				throw new IllegalArgumentException(
-						"Attribute " + base.attribute(i).name() + " not is numeric or nominal");
+				throw new IllegalArgumentException("Attribute " + base.attribute(i).name() + " not is numeric or nominal");
 		}
 		return center;
 	}

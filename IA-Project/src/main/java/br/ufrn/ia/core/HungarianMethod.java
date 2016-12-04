@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class HungarianMethod {
 
-	public int[] evaluate(int[][] clusterings) {
+	public static int[] evaluate(int[][] clusterings) {
 		clusterings = normalizeMatrix(clusterings);
 
 		minimumRow(clusterings);
@@ -29,7 +29,7 @@ public class HungarianMethod {
 		return assignment;
 	}
 
-	private int assignment(int[] assig, int[][] cost, int position) {
+	private static int assignment(int[] assig, int[][] cost, int position) {
 		if (position < assig.length) {
 			int min = Integer.MAX_VALUE;
 			for (int i = 0; i < cost[0].length; i++) {
@@ -55,7 +55,7 @@ public class HungarianMethod {
 		return 0;
 	}
 
-	private int getMinZerosDraw(int[][] matrix, int[][] marks, int deep) {
+	private static int getMinZerosDraw(int[][] matrix, int[][] marks, int deep) {
 		boolean hasUnmarkedZero = false;
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[i].length; j++) {
@@ -87,7 +87,7 @@ public class HungarianMethod {
 		return deep;
 	}
 
-	private void copyMatrix(int[][] matrix, int[][] destination) {
+	private static void copyMatrix(int[][] matrix, int[][] destination) {
 		for (int i = 0; i < destination.length; i++) {
 			for (int j = 0; j < destination[i].length; j++) {
 				destination[i][j] = matrix[i][j];
@@ -95,7 +95,7 @@ public class HungarianMethod {
 		}
 	}
 
-	private void smallestEntry(int[][] matrix, int[][] marks) {
+	private static void smallestEntry(int[][] matrix, int[][] marks) {
 		int value = Integer.MAX_VALUE;
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[i].length; j++) {
@@ -126,7 +126,7 @@ public class HungarianMethod {
 		}
 	}
 
-	private void minimumCol(int[][] matrix) {
+	private static void minimumCol(int[][] matrix) {
 		for (int i = 0; i < matrix[0].length; i++) {
 			int min = Integer.MAX_VALUE;
 			for (int j = 0; j < matrix.length; j++) {
@@ -138,7 +138,7 @@ public class HungarianMethod {
 		}
 	}
 
-	private void minimumRow(int[][] matrix) {
+	private static void minimumRow(int[][] matrix) {
 		for (int i = 0; i < matrix.length; i++) {
 			int min = Integer.MAX_VALUE;
 			for (int j = 0; j < matrix[i].length; j++) {
@@ -151,7 +151,7 @@ public class HungarianMethod {
 		}
 	}
 
-	private int[][] normalizeMatrix(int[][] matrix) {
+	private static int[][] normalizeMatrix(int[][] matrix) {
 		int[][] m = new int[matrix[0].length][matrix[0].length];
 		if (matrix.length < matrix[0].length) {
 			for (int i = 0; i < matrix.length; i++) {

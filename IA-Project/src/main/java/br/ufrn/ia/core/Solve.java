@@ -1,59 +1,94 @@
 package br.ufrn.ia.core;
+
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Locale;
+import java.util.Vector;
 
 public class Solve implements Cloneable {
-	
-	public Problem problem;
-	public int[][] clusterings;
+
+	public static final double pPartitions = 0.9;
+
+	public static final double pEquals = 0.9;
+
+	public static Problem problem;
+
+	public int[] cluster;
+
 	public double cost;
-	
-	public Solve(int [][] clusterings){
-		this.clusterings = new int [clusterings.length][];
-		for(int i=0;i<this.clusterings.length;i++)
-			this.clusterings[i] = clusterings[i].clone();
-		evaluate();
+
+	/**
+	 * Técnica de randomize de Anne
+	 * 
+	 * @param k
+	 *            quantidade de clusters.
+	 * @param clusterings
+	 *            clusterings a ser formando o consensus, devem estar de acordo
+	 *            com o rótulos.
+	 * @param partitions
+	 *            Probabilidade do valor ser escolhido entre as partições.
+	 * @param equals
+	 *            Se o valor for escolhido entre as partições elea probabilidade
+	 *            equals de ser o mesmo valor.
+	 */
+	public Solve(int k, int[][] clusterings, double partitions, double equals) {
+		cluster = new int[clusterings[0].length];
+		for (int i = 0; i < cluster.length; i++) {
+			if (Problem.rand.nextDouble() < partitions) {
+				HashSet<Integer> set = new HashSet<Integer>();
+				for (int j = 0; j < clusterings.length; j++)
+					set.add(clusterings[j][i]);
+				if (set.size() == 1) {
+					Vector<Integer> others = new Vector<Integer>();
+					for (int j = 0; j < k; j++)
+						if (j != clusterings[0][i])
+							others.add(j);
+					cluster[i] = Problem.rand.nextDouble() < equals ? clusterings[0][i]
+							: others.get(Problem.rand.nextInt(others.size()));
+				}
+			} else {
+				cluster[i] = Problem.rand.nextInt(k);
+			}
+		}
+	}
+
+	public Solve(int[] cluster) {
+		this.cluster = cluster.clone();
 	}
 
 	public Solve(Solve solve) {
-		clusterings = new int[solve.clusterings.length][];
-		for (int i = 0; i < solve.clusterings.length; i++)
-			clusterings[i] = solve.clusterings[i].clone();
+		cluster = solve.cluster.clone();
 		cost = solve.cost;
 	}
-	
-	public int getNumClusteres(){
+
+	public int getNumClusteres() {
 		return problem.getNumClusterers();
 	}
-	
-	public int [] getConsensus(){
-		problem.evaluate(clusterings);
-		return problem.getConsensus();
+
+	public boolean isValid() {
+		HashSet<Integer> set = new HashSet<Integer>();
+		for (int i = 0; i < cluster.length; i++)
+			set.add(cluster[i]);
+		return set.size() == getNumClusteres();
 	}
-	
-	public void randomize (){
-		for(int i=0;i<clusterings.length;i++){
-			int numClusteres = 2+Problem.rand.nextInt(clusterings[i].length-2); // minimum 2 groups
-			for(int j=0;j<clusterings[i].length;j++)
-				clusterings[i][j] = Problem.rand.nextInt(numClusteres);
-		}
+
+	public void randomize() {
+		for (int i = 0; i < cluster.length; i++)
+			cluster[i] = Problem.rand.nextInt(getNumClusteres());
 	}
-	
-	public int numClusteres (int clustering){
-		HashSet <Integer> set = new HashSet <Integer> ();
-		for(int i=0;i<clusterings[clustering].length;i++)
-			set.add(clusterings[clustering][i]);
+
+	public int numClusteres(int clustering) {
+		HashSet<Integer> set = new HashSet<Integer>();
+		for (int i = 0; i < cluster.length; i++)
+			set.add(cluster[i]);
 		return set.size();
 	}
 
 	public void evaluate() {
-		cost = problem.evaluate(clusterings);
+		cost = problem.evaluate(cluster);
 	}
-	
-	public String toString(){
-		StringBuilder str = new StringBuilder(Arrays.toString(getConsensus())+" | ");
-		for(int i=0;i<clusterings.length;i++)
-			str.append(Arrays.toString(clusterings[i]));
-		return String.format("(%6.3f,%s) | ", cost, str.toString());
+
+	public String toString() {
+		return String.format(Locale.ENGLISH, "(%6.3f,%s)", cost, Arrays.toString(cluster));
 	}
 }

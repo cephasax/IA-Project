@@ -1,10 +1,10 @@
 package br.ufrn.ia.metrics;
-
 import java.util.HashSet;
 
 import br.ufrn.ia.core.Fitness;
-import br.ufrn.ia.utils.Util;
+import br.ufrn.ia.core.Util;
 import weka.core.Instances;
+
 
 // maximization objective (0,1) range
 public class MX implements Fitness {
@@ -31,7 +31,7 @@ public class MX implements Fitness {
 		return 1.0 - mx; // (1.0 - mx) minimization objective
 	}
 
-	public double evaluate(Instances instances, double[][] distance, double EPS, double clusterID) {
+	public static double evaluate(Instances instances, double[][] distance, double EPS, double clusterID) {
 		int instancesInCluster;
 		double[][] distanceMatrix;
 		int[][] vizinhos;
@@ -77,7 +77,7 @@ public class MX implements Fitness {
 		return 0;
 	}
 
-	public double[][] baseDistanceMatrix(Instances instances, double[][] distance, int clusterID) {
+	public static double[][] baseDistanceMatrix(Instances instances, double[][] distance, int clusterID) {
 		int numInstances = 0;
 		int aux = instances.numInstances();
 
