@@ -9,7 +9,8 @@ public class Dom implements Fitness {
 
 	public double evaluate(Instances instances, int[] consensus) {
 		Instances y = new Instances(instances);
-		Util.replaceClassByConsensus(y, consensus);
+		Util util = new Util();
+		util.replaceClassByConsensus(y, consensus);
 		
 		Instances[] clustersOriginal = new Instances[instances.numClasses()];
 		Instances[] clustersModified = new Instances[y.numClasses()];

@@ -1,0 +1,19 @@
+package br.ufrn.ia.graph;
+
+import java.util.Comparator;
+
+public class EdgeReverseComparator implements Comparator<Edge> {
+
+	private double[][] distance;
+
+	public EdgeReverseComparator(double[][] distance) {
+		this.distance = distance;
+	}
+
+	public int compare(Edge e1, Edge e2) {
+		double d1 = distance[e1.v1][e1.v2];
+		double d2 = distance[e2.v1][e2.v2];
+		int cmp = d1 < d2 ? -1 : d1 > d2 ? 1 : 0;
+		return -cmp;
+	}
+}

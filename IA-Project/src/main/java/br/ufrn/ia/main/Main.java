@@ -2,7 +2,6 @@ package br.ufrn.ia.main;
 
 import java.io.File;
 import java.io.FileReader;
-import java.util.Arrays;
 
 import br.ufrn.ia.view.FileManager;
 import weka.clusterers.AbstractClusterer;

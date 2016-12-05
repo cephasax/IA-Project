@@ -3,20 +3,21 @@ package br.ufrn.ia.core;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Locale;
+import java.util.Random;
 import java.util.Vector;
 
 public class Solve implements Cloneable {
 
-	public static final double pPartitions = 0.9;
-
-	public static final double pEquals = 0.9;
-
-	public static Problem problem;
-
+	public final double pPartitions = 0.9;
+	public final double pEquals = 0.9;
+	public Problem problem;
 	public int[] cluster;
-
 	public double cost;
 
+	public Solve(Problem problem){
+		this.problem = problem;
+	}
+	
 	/**
 	 * Técnica de randomize de Anne
 	 * 
@@ -34,7 +35,8 @@ public class Solve implements Cloneable {
 	public Solve(int k, int[][] clusterings, double partitions, double equals) {
 		cluster = new int[clusterings[0].length];
 		for (int i = 0; i < cluster.length; i++) {
-			if (Problem.rand.nextDouble() < partitions) {
+			Random r = new Random();
+			if (r.nextDouble() < partitions) {
 				HashSet<Integer> set = new HashSet<Integer>();
 				for (int j = 0; j < clusterings.length; j++)
 					set.add(clusterings[j][i]);
@@ -43,11 +45,11 @@ public class Solve implements Cloneable {
 					for (int j = 0; j < k; j++)
 						if (j != clusterings[0][i])
 							others.add(j);
-					cluster[i] = Problem.rand.nextDouble() < equals ? clusterings[0][i]
-							: others.get(Problem.rand.nextInt(others.size()));
+					cluster[i] = r.nextDouble() < equals ? clusterings[0][i]
+							: others.get(r.nextInt(others.size()));
 				}
 			} else {
-				cluster[i] = Problem.rand.nextInt(k);
+				cluster[i] = r.nextInt(k);
 			}
 		}
 	}
@@ -73,8 +75,10 @@ public class Solve implements Cloneable {
 	}
 
 	public void randomize() {
-		for (int i = 0; i < cluster.length; i++)
-			cluster[i] = Problem.rand.nextInt(getNumClusteres());
+		for (int i = 0; i < cluster.length; i++){
+			Random r = new Random();
+			cluster[i] = r.nextInt(getNumClusteres());
+		}
 	}
 
 	public int numClusteres(int clustering) {

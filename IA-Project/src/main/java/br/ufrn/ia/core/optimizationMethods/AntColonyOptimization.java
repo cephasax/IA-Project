@@ -7,65 +7,27 @@ import java.util.Arrays;
 import java.util.Locale;
 
 import br.ufrn.ia.core.ARFF;
-import br.ufrn.ia.core.Main;
 import br.ufrn.ia.core.OptimizationAlgorithm;
-import br.ufrn.ia.core.Problem;
 import br.ufrn.ia.core.Solve;
 import br.ufrn.ia.core.Util;
-import br.ufrn.ia.metrics.CalinskiHarabasz;
-import br.ufrn.ia.metrics.MX;
 import br.ufrn.ia.naturalDomain.Ant;
 import weka.core.Instances;
 
 public class AntColonyOptimization extends OptimizationAlgorithm {
 
-	public static void main(String[] args) throws Exception {
-
-		int numK = 2;
-		ARFF base = ARFF.Lung_Cancer;
-		Problem problem = new Problem(base, new MX(), numK);
-		Solve.problem = problem;
-
-		int numAnts = 1;
-		int[][] clusterings = Main.getClusterings(base, numK);
-
-		Solve[] start = new Solve[numAnts];
-		for (int i = 0; i < start.length; i++) {
-			start[i] = new Solve(numK, clusterings, Solve.pPartitions, Solve.pEquals);
-			start[i].evaluate();
-		}
-
-		double [][] distance = AntColonyOptimization.buildHeuristic1(base, numK, clusterings);
-
-		AntColonyOptimization aco = new AntColonyOptimization(start, 5, true, 0.3, 0.7, 0.2, distance);
-		aco.run();
-
-		Solve solve = aco.getBestSolve();
-
-		System.out.println(solve);
-
-		problem = new Problem(base, new CalinskiHarabasz(), numK);
-		Solve.problem = problem;
-		solve.evaluate();
-		System.out.println(solve);
-	}
-
 	private int epochs;
-
 	private double alpha;
-
 	private double beta;
-
 	private double ro;
-
 	private Solve[] population;
-
 	private double[][] distance;
-
 	private Solve bestSolve;
-
 	private boolean heuristic;
 
+	public AntColonyOptimization (){
+		
+	}
+	
 	/**
 	 * Executa o algoritmo genético para os parâmetros informados.
 	 * @see AntColonyOptimization#getBestSolve() para recuperar a solução após a execução de {@link AntColonyOptimization#run()}
@@ -139,19 +101,20 @@ public class AntColonyOptimization extends OptimizationAlgorithm {
 		return String.format(Locale.ENGLISH, "ACO MST(%b) AFN(%b) Alpha(%f) Beta(%f) Ro(%f)", heuristic, !heuristic, alpha, beta, ro);
 	}
 	
-	public static double [][] buildHeuristic1(ARFF arff, int numK, int[][]clusterings) throws IOException {
+	public double [][] buildHeuristic1(ARFF arff, int numK, int[][]clusterings) throws IOException {
 		Instances instances = new Instances(new FileReader(new File(arff.location)));
 		instances.setClassIndex(instances.numAttributes() - 1);
 		double[][] distance = new double[instances.numInstances()][instances.numInstances()];
 		for (int i = 0; i < distance.length; i++) {
 			for (int j = 0; j < distance.length; j++) {
-				distance[i][j] = Util.distance(instances.get(i), instances.get(j));
+				Util util = new Util();
+				distance[i][j] = util.distance(instances.get(i), instances.get(j));
 			}
 		}
 		return distance;
 	}
 
-	public static double[][] buildHeuristic2(int numK, int[][] clusterings) {
+	public double[][] buildHeuristic2(int numK, int[][] clusterings) {
 		double[][] heuristic = new double[clusterings[0].length][];
 		for (int i = 0; i < heuristic.length; i++) {
 			double[] votes = new double[numK];

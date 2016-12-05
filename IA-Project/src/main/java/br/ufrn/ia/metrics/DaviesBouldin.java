@@ -11,7 +11,8 @@ import weka.core.SparseInstance;
 public class DaviesBouldin implements Fitness {
 
 	public double evaluate(Instances instances, int[] clustering) {
-		Util.replaceClassByConsensus(instances, clustering);
+		Util util = new Util();
+		util.replaceClassByConsensus(instances, clustering);
 
 		/*
 		try {

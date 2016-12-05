@@ -11,7 +11,8 @@ public class CorrectRand implements Fitness {
 
 	public double evaluate(Instances instances, int[] consensus) {
 		Instances instancesY = new Instances(instances);
-		Util.replaceClassByConsensus(instancesY, consensus);
+		Util util = new Util();
+		util.replaceClassByConsensus(instancesY, consensus);
 
 		int[][] table = new int[instances.numClasses() + 1][instancesY.numClasses() + 1];
 

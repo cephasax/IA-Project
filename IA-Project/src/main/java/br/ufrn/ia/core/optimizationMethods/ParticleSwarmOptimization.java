@@ -1,49 +1,18 @@
 package br.ufrn.ia.core.optimizationMethods;
 
 import java.util.Locale;
+import java.util.Random;
 
-import br.ufrn.ia.core.ARFF;
-import br.ufrn.ia.core.Main;
 import br.ufrn.ia.core.OptimizationAlgorithm;
-import br.ufrn.ia.core.Problem;
 import br.ufrn.ia.core.Solve;
-import br.ufrn.ia.metrics.MX;
 
 public class ParticleSwarmOptimization extends OptimizationAlgorithm {
 
-	public static void main(String[] args) throws Exception {
-		int numK = 2;
-		Problem problem = new Problem(ARFF.Breast_Cancer_Wisconsin_Original, new MX(), numK);
-		Solve.problem = problem;
-
-		int numAnts = 10;
-		int[][] clusterings = Main.getClusterings(ARFF.Breast_Cancer_Wisconsin_Original, numK);
-		Solve[] start = new Solve[numAnts];
-		for (int i = 0; i < start.length; i++) {
-			start[i] = new Solve(numK, clusterings, Solve.pPartitions, Solve.pEquals);
-			start[i].evaluate();
-		}
-
-		double time = System.currentTimeMillis();
-		ParticleSwarmOptimization pso = new ParticleSwarmOptimization(start, 10, 0.95, 0.5, 0);
-		pso.run();
-		time = (System.currentTimeMillis() - time) / 1000;
-
-		System.out.println(time);
-
-		System.out.println(pso.getBestSolve());
-	}
-
 	private Solve[] particle;
-
 	private double pOwnWay;
-
 	private double pPreviousPosition;
-
 	private double pBestPosition;
-
 	private int epochs;
-
 	private Solve bestSolve;
 
 	/**
@@ -57,7 +26,6 @@ public class ParticleSwarmOptimization extends OptimizationAlgorithm {
 	 * @param pPreviousPosition Probabilidade inicial da partícula voltar para a melhor posição encontrada por ela. 0<=pPreviousPosition<=1. Geralmente 0.05.
 	 * @param pBestPosition Probabilidade inicial de seguir a melhor posição encontrada entre todas as partículas. 0<=pPreviousPosition<=1. Geralmente 0.
 	 */
-
 	public ParticleSwarmOptimization(Solve[] start, int epochs, double pOwnWay, double pPreviousPosition, double pBestPosition) {
 		this.epochs = epochs;
 		particle = start.clone();
@@ -93,10 +61,11 @@ public class ParticleSwarmOptimization extends OptimizationAlgorithm {
 			}
 
 			for (int i = 0; i < particle.length; i++) {
-				int v = roulette(p, Problem.rand);
+				Random r = new Random();
+				int v = roulette(p, r);
 				switch (v) {
 				case 0:
-					particle[i] = localSearch(particle[i], Problem.rand, Math.min(particle.length, particle[0].cluster.length));
+					particle[i] = localSearch(particle[i], r, Math.min(particle.length, particle[0].cluster.length));
 					break;
 				case 1:
 					particle[i] = pathRelink(pBest[i], particle[i]);

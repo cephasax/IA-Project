@@ -1,34 +1,14 @@
 package br.ufrn.ia.core;
 
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.PriorityQueue;
 
 import br.ufrn.ia.graph.Edge;
+import br.ufrn.ia.graph.EdgeComparator;
+import br.ufrn.ia.graph.EdgeReverseComparator;
 
 public class MinimumSpanningTree {
-
-	public static void main(String[] args) {
-
-		double[][] distance = new double[6][6];
-
-		for (int i = 0; i < distance.length; i++)
-			Arrays.fill(distance[i], 100);
-
-		distance[0][1] = distance[1][0] = 1;
-		distance[0][3] = distance[3][0] = 4;
-		distance[0][4] = distance[4][0] = 3;
-		distance[1][3] = distance[3][1] = 4;
-		distance[1][4] = distance[4][1] = 2;
-		distance[2][4] = distance[4][2] = 4;
-		distance[2][5] = distance[5][2] = 5;
-		distance[3][4] = distance[4][3] = 4;
-		distance[4][5] = distance[5][4] = 7;
-
-		new MinimumSpanningTree(distance, 3);
-	}
 
 	private int[] clustering;
 
@@ -108,34 +88,6 @@ public class MinimumSpanningTree {
 	}
 }
 
-class EdgeComparator implements Comparator<Edge> {
 
-	private double[][] distance;
 
-	public EdgeComparator(double[][] distance) {
-		this.distance = distance;
-	}
 
-	public int compare(Edge e1, Edge e2) {
-		double d1 = distance[e1.v1][e1.v2];
-		double d2 = distance[e2.v1][e2.v2];
-		int cmp = d1 < d2 ? -1 : d1 > d2 ? 1 : 0;
-		return cmp;
-	}
-}
-
-class EdgeReverseComparator implements Comparator<Edge> {
-
-	private double[][] distance;
-
-	public EdgeReverseComparator(double[][] distance) {
-		this.distance = distance;
-	}
-
-	public int compare(Edge e1, Edge e2) {
-		double d1 = distance[e1.v1][e1.v2];
-		double d2 = distance[e2.v1][e2.v2];
-		int cmp = d1 < d2 ? -1 : d1 > d2 ? 1 : 0;
-		return -cmp;
-	}
-}

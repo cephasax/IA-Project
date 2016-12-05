@@ -27,25 +27,22 @@ import weka.clusterers.SimpleKMeans;
 import weka.core.Instances;
 import weka.core.Utils;
 
-
-
 public class Main {
 
 	public static String logFile = "results.txt";
-
 	public static final int epochs = 200;
-
 	public static final int numMaxK = 10; // 2 - 10
-
 	public static final int numRepetitions = 1;
-
 	public static final int numPopulation = 50;
 
 	public static void main(String[] args) throws Exception {
+		
 		if (args.length > 0) {
 			logFile = args[0];
 		}
-
+		
+		Analysis analysis = new Analysis();
+		
 		PrintStream output = new PrintStream(new File(logFile + ".output"));
 		System.setOut(output);
 
@@ -87,26 +84,28 @@ public class Main {
 				for (int k = 2; k <= numMaxK; k++) {
 					for (int current = 0; current < numRepetitions; current++) {
 						Problem problem = new Problem(arff, fitness, k);
-						Solve.problem = problem;
+						Solve solve = new Solve(problem);
+						solve.problem = problem;
 
 						int[][] clusterings = Main.getClusterings(arff, k);
 						Solve[] start = new Solve[numPopulation];
 						for (int i = 0; i < start.length; i++) {
-							start[i] = new Solve(k, clusterings, Solve.pPartitions, Solve.pEquals);
+							start[i] = new Solve(k, clusterings, solve.pPartitions, solve.pEquals);
 							start[i].evaluate();
 						}
-
-						double[][] heuristicMachine = AntColonyOptimization.buildHeuristic2(k, clusterings);
+						
+						AntColonyOptimization antColonyOptimization = new AntColonyOptimization();
+						double[][] heuristicMachine = antColonyOptimization.buildHeuristic2(k, clusterings);
 
 						OptimizationAlgorithm[] optimizers = new OptimizationAlgorithm[] { new AntColonyOptimization(start.clone(), epochs, false, 0.5, 0.5, 0.2, heuristicMachine), new GeneticAlgorithm(start.clone(), epochs, 0.1, 0.9), new BeeColonyOptimization(start.clone(), epochs, 10), new CoralReefOptimization(start.clone(), epochs, 100, false, 0.9, 0.5, 0.8, 0.05, 1), new CoralReefOptimization(start.clone(), epochs, 100, true, 0.9, 0.5, 0.8, 0.1, 5), new CoralReefOptimization(start.clone(), epochs, 100, false, 0.9, 0.5, 0.8, 0.1, 5), new ParticleSwarmOptimization(start.clone(), epochs, 0.95, 0.05, 0) };
 
 						for (int i = 0; i < optimizers.length; i++) {
 							evaluate(problem, arff, k, optimizers[i]);
-							Solve.problem = new Problem(arff, new CalinskiHarabasz(), k);
+							solve.problem = new Problem(arff, new CalinskiHarabasz(), k);
 							Solve bestSolve = optimizers[i].getBestSolve();
 							bestSolve.evaluate();
 							resultsCH[i][rep] = bestSolve.cost;
-							Solve.problem = new Problem(arff, new Jaccard(), k);
+							solve.problem = new Problem(arff, new Jaccard(), k);
 							bestSolve.evaluate();
 							resultsJC[i][rep] = bestSolve.cost;
 
@@ -143,12 +142,12 @@ public class Main {
 					double[][] t = transp(avg);
 					int[][] rank = new int[t.length][t[0].length];
 					for (int i = 0; i < rank.length; i++) {
-						rank[i] = Analysis.getRank(t[i]);
+						rank[i] = analysis.getRank(t[i]);
 					}
 					int[][] tRank = transp(rank);
 					System.out.print(String.format("%20s%10s\t", fitness.getClass().getSimpleName(), message[res]));
 					for (int i = 0; i < tRank.length; i++) {
-						System.out.print(String.format(Locale.ENGLISH, "%6.2f±%-6.2f\t", Analysis.average(tRank[i]), Analysis.desviation(tRank[i])));
+						System.out.print(String.format(Locale.ENGLISH, "%6.2f±%-6.2f\t", analysis.average(tRank[i]), analysis.desviation(tRank[i])));
 					}
 					System.out.println();
 
@@ -159,6 +158,8 @@ public class Main {
 
 	public static Hashtable<ARFF, Double> evaluatePerformance(int k, ARFF[] arff) throws Exception {
 
+		Util util = new Util();
+		
 		Hashtable<ARFF, Double> performance = new Hashtable<ARFF, Double>();
 		for (ARFF base : arff) {
 			Instances instances = new Instances(new FileReader(new File(base.location)));
@@ -166,17 +167,17 @@ public class Main {
 			double[][] distance = new double[instances.numInstances()][instances.numInstances()];
 			for (int i = 0; i < distance.length; i++) {
 				for (int j = 0; j < distance.length; j++) {
-					distance[i][j] = Util.distance(instances.get(i), instances.get(j));
+					distance[i][j] = util.distance(instances.get(i), instances.get(j));
 				}
 			}
 
 			Problem problem = new Problem(base, new MX(), k);
-			Solve.problem = problem;
+			Solve solve = new Solve(problem);
 
 			int[][] clusterings = Main.getClusterings(base, k);
 			Solve[] start = new Solve[1];
 			for (int i = 0; i < start.length; i++) {
-				start[i] = new Solve(k, clusterings, Solve.pPartitions, Solve.pEquals);
+				start[i] = new Solve(k, clusterings, solve.pPartitions, solve.pEquals);
 				start[i].evaluate();
 			}
 			double time = System.currentTimeMillis();
@@ -191,14 +192,15 @@ public class Main {
 
 	public static void evaluate(Problem problem, ARFF arff, int numK, OptimizationAlgorithm alg) throws IOException {
 		String parans = alg.toString();
-		Solve.problem = problem;
 		double time = System.currentTimeMillis();
 		alg.run();
 		time = (System.currentTimeMillis() - time) / 1000.0;
 		Solve bestSolve = alg.getBestSolve();
 		PrintStream out = new PrintStream(new FileOutputStream(new File(logFile), true));
 		int[] cluster = bestSolve.cluster;
-		RelabelAndConsensus.remapToStartWithZero(cluster);
+		
+		RelabelAndConsensus relabelAndConsensus = new RelabelAndConsensus();
+		relabelAndConsensus.remapToStartWithZero(cluster);
 		out.println(String.format(Locale.ENGLISH, "%d\t%f\t%s\t%s\t%s\t%s\t%s\t%10.5f", numK, bestSolve.cost, problem.getFitness().getClass().getSimpleName(), alg.getClass().getSimpleName(), arff.toString(), Arrays.toString(cluster), parans, time));
 		out.close();
 	}
@@ -223,8 +225,8 @@ public class Main {
 				clustering[i][j] = c[i].clusterInstance(instances.get(j));
 			}
 		}
-
-		RelabelAndConsensus.relabel(clustering);
+		RelabelAndConsensus relabelAndConsensus = new RelabelAndConsensus();
+		relabelAndConsensus.relabel(clustering);
 		return clustering;
 	}
 

@@ -2,9 +2,9 @@ package br.ufrn.ia.naturalDomain;
 
 import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Random;
 
 import br.ufrn.ia.core.MinimumSpanningTree;
-import br.ufrn.ia.core.Problem;
 import br.ufrn.ia.core.Solve;
 import br.ufrn.ia.graph.Edge;
 
@@ -105,7 +105,8 @@ public class Ant {
 		double sum = 0;
 		for (double d : feromone.values())
 			sum += d + 1;
-		double r = sum * Problem.rand.nextDouble();
+		Random rand = new Random();
+		double r = sum * rand.nextDouble();
 		double current = 0;
 		for (T key : feromone.keySet()) {
 			current += (feromone.get(key) + 1.0) / sum;

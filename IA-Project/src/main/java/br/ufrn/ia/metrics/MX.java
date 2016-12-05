@@ -12,12 +12,13 @@ public class MX implements Fitness {
 	public static double eps = 0.8;
 
 	public double evaluate(Instances instances, int[] consensus) {
-		Util.replaceClassByConsensus(instances, consensus);
+		Util util = new Util();
+		util.replaceClassByConsensus(instances, consensus);
 
 		double[][] distance = new double[instances.numInstances()][instances.numInstances()];
 		for (int i = 0; i < distance.length; i++) {
 			for (int j = 0; j < distance.length; j++) {
-				distance[i][j] = Util.distance(instances.get(i), instances.get(j));
+				distance[i][j] = util.distance(instances.get(i), instances.get(j));
 			}
 		}
 		int quantClusters = instances.numClasses();

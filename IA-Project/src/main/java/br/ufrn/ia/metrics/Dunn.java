@@ -9,7 +9,8 @@ public class Dunn implements Fitness {
 
 	public double evaluate(Instances instances, int[] consensus) {
 		Instances dataset = new Instances(instances);
-		Util.replaceClassByConsensus(dataset, consensus);
+		Util util = new Util();
+		util.replaceClassByConsensus(dataset, consensus);
 		Instances[] clusters = new Instances[dataset.numClasses()];
 		double aux;
 

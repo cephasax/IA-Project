@@ -4,33 +4,14 @@ import java.util.Arrays;
 import java.util.PriorityQueue;
 
 import br.ufrn.ia.graph.Edge;
+import br.ufrn.ia.graph.EdgeComparator;
+import br.ufrn.ia.graph.EdgeReverseComparator;
 
 public class MinimumSpanningTreeClustering {
 
-	public static final int Kmax = 10;
+	public final int Kmax = 10;
 
 	private double mstSum;
-
-	public static void main(String[] args) {
-
-		double[][] distance = new double[6][6];
-
-		for (int i = 0; i < distance.length; i++)
-			Arrays.fill(distance[i], 100);
-
-		distance[0][1] = distance[1][0] = 1;
-		distance[0][3] = distance[3][0] = 4;
-		distance[0][4] = distance[4][0] = 3;
-		distance[1][3] = distance[3][1] = 4;
-		distance[1][4] = distance[4][1] = 2;
-		distance[2][4] = distance[4][2] = 4;
-		distance[2][5] = distance[5][2] = 5;
-		distance[3][4] = distance[4][3] = 4;
-		distance[4][5] = distance[5][4] = 7;
-
-		new MinimumSpanningTreeClustering(distance);
-	}
-
 	private int maxK;
 	private int[] maxClustering;
 

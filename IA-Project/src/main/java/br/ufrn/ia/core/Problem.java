@@ -9,12 +9,9 @@ import weka.core.Instances;
 
 public class Problem {
 
-	public static Random rand = new Random();
-
+	public Random rand = new Random();
 	private int k;
-
 	private Fitness fitness;
-
 	private Instances instances;
 
 	public Problem(ARFF base, Fitness fitness, int k) {

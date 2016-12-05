@@ -2,45 +2,17 @@ package br.ufrn.ia.core.optimizationMethods;
 
 import java.util.Hashtable;
 import java.util.Locale;
+import java.util.Random;
 
-import br.ufrn.ia.core.ARFF;
-import br.ufrn.ia.core.Main;
 import br.ufrn.ia.core.OptimizationAlgorithm;
-import br.ufrn.ia.core.Problem;
 import br.ufrn.ia.core.Solve;
-import br.ufrn.ia.metrics.MX;
 
 public class GeneticAlgorithm extends OptimizationAlgorithm {
 
-	public static void main(String[] args) throws Exception {
-		int numK = 4;
-		Problem problem = new Problem(ARFF.Breast_Cancer_Wisconsin_Original, new MX(), numK);
-		Solve.problem = problem;
-
-		int numAnts = 1;
-		int[][] clusterings = Main.getClusterings(ARFF.Balance, numK);
-		Solve[] start = new Solve[numAnts];
-		for (int i = 0; i < start.length; i++) {
-			start[i] = new Solve(numK, clusterings, Solve.pPartitions, Solve.pEquals);
-			start[i].evaluate();
-		}
-
-		double time = System.currentTimeMillis();
-		GeneticAlgorithm ga = new GeneticAlgorithm(start, 100, 0.4, 0.9);
-		ga.run();
-		System.out.println((System.currentTimeMillis() - time) / 1000);
-
-		System.out.println(ga.getBestSolve());
-	}
-
 	private int epochs;
-
 	private double mutate;
-
 	private double crossover;
-
 	private Solve[] start;
-
 	private Solve bestSolve;
 
 	/**
@@ -52,7 +24,6 @@ public class GeneticAlgorithm extends OptimizationAlgorithm {
 	 * @param mutate Taxa de mutação. 0<=mutate<=1. Geralmente 0.1.
 	 * @param crossover Taxa de cruzamento. 0<=crossover<=1. Geralmente 0.9.
 	 */
-
 	public GeneticAlgorithm(Solve[] start, int epochs, double mutate, double crossover) {
 		this.epochs = epochs;
 		this.mutate = mutate;
@@ -74,11 +45,12 @@ public class GeneticAlgorithm extends OptimizationAlgorithm {
 			for (int i = population.length / 2; i < population.length; i++) {
 				Solve parentA = roulette(population, population.length / 2);
 				Solve parentB = roulette(population, population.length / 2);
-
-				if (Problem.rand.nextDouble() < crossover)
+				
+				Random r = new Random();
+				if (r.nextDouble() < crossover)
 					population[i] = this.crossover(parentA, parentB);
 				else
-					population[i] = new Solve(Problem.rand.nextBoolean() ? parentA : parentB);
+					population[i] = new Solve(r.nextBoolean() ? parentA : parentB);
 
 				population[i] = mutation(population[i], mutate);
 			}
@@ -107,7 +79,8 @@ public class GeneticAlgorithm extends OptimizationAlgorithm {
 			sum += population[i].cost + 1;
 			maxValue = maxValue < population[i].cost ? population[i].cost : maxValue;
 		}
-		double r = Problem.rand.nextDouble();
+		Random rand = new Random();
+		double r = rand.nextDouble();
 		double current = 0;
 		for (int i = 0; i < popSize; i++) {
 			current += ((maxValue - population[i].cost) + 1) / sum; // menor valor = maior probabilidade

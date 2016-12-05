@@ -9,7 +9,7 @@ import weka.core.Instances;
 
 public class Util {
 
-	public static void printMatrix(double[][] clustering) {
+	public void printMatrix(double[][] clustering) {
 		for (int i = 0; i < clustering.length; i++) {
 			for (int j = 0; j < clustering[0].length; j++) {
 				System.out.print(String.format("%10.3f", clustering[i][j]));
@@ -18,7 +18,7 @@ public class Util {
 		}
 	}
 
-	public static void printMatrix(int[][] clustering) {
+	public void printMatrix(int[][] clustering) {
 		for (int i = 0; i < clustering.length; i++) {
 			for (int j = 0; j < clustering[0].length; j++) {
 				System.out.print(String.format("%5d", clustering[i][j]));
@@ -27,8 +27,9 @@ public class Util {
 		}
 	}
 
-	public static void replaceClassByConsensus(Instances instances, int[] consensus) {
-		RelabelAndConsensus.remapToStartWithZero(consensus);
+	public void replaceClassByConsensus(Instances instances, int[] consensus) {
+		RelabelAndConsensus relabelAndConsensus = new RelabelAndConsensus();
+		relabelAndConsensus.remapToStartWithZero(consensus);
 		instances.setClassIndex(0);
 		instances.deleteAttributeAt(instances.numAttributes() - 1);
 		ArrayList<String> newClass = new ArrayList<String>();
@@ -45,7 +46,7 @@ public class Util {
 		}
 	}
 
-	public static double distance(Instance A, Instance B) {
+	public double distance(Instance A, Instance B) {
 		double diff = 0;
 		for (int i = 1; i < A.numAttributes() - 1; i++) {
 			if (A.attribute(i).isNominal())
