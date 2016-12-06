@@ -1,7 +1,14 @@
 package br.ufrn.ia.core;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Locale;
 
 import weka.core.Attribute;
 import weka.core.Instance;
@@ -55,5 +62,46 @@ public class Util {
 				diff += Math.abs(A.value(i) - B.value(i));
 		}
 		return diff;
+	}
+	
+	public double [][] buildHeuristic1(ARFF arff, int numK, int[][]clusterings) throws IOException {
+		Instances instances = new Instances(new FileReader(new File(arff.location)));
+		instances.setClassIndex(instances.numAttributes() - 1);
+		double[][] distance = new double[instances.numInstances()][instances.numInstances()];
+		for (int i = 0; i < distance.length; i++) {
+			for (int j = 0; j < distance.length; j++) {
+				Util util = new Util();
+				distance[i][j] = util.distance(instances.get(i), instances.get(j));
+			}
+		}
+		return distance;
+	}
+
+	public double[][] buildHeuristic2(int numK, int[][] clusterings) {
+		double[][] heuristic = new double[clusterings[0].length][];
+		for (int i = 0; i < heuristic.length; i++) {
+			double[] votes = new double[numK];
+			Arrays.fill(votes, 1);
+			for (int j = 0; j < clusterings.length; j++) {
+				votes[clusterings[j][i]]++;
+			}
+			heuristic[i] = votes;
+		}
+		return heuristic;
+	}
+	
+	 public void evaluate(String logFile, Problem problem, String baseName, int numK, OptimizationAlgorithm alg) throws IOException {
+		String parans = alg.toString();
+		double time = System.currentTimeMillis();
+		alg.run();
+		time = (System.currentTimeMillis() - time) / 1000.0;
+		Solve bestSolve = alg.getBestSolve();
+		PrintStream out = new PrintStream(new FileOutputStream(new File(logFile), true));
+		int[] cluster = bestSolve.cluster;
+		
+		RelabelAndConsensus relabelAndConsensus = new RelabelAndConsensus();
+		relabelAndConsensus.remapToStartWithZero(cluster);
+		out.println(String.format(Locale.ENGLISH, "%d\t%f\t%s\t%s\t%s\t%s\t%s\t%10.5f", numK, bestSolve.cost, problem.getFitness().getClass().getSimpleName(), alg.getClass().getSimpleName(), baseName, Arrays.toString(cluster), parans, time));
+		out.close();
 	}
 }

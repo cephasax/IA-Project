@@ -5,14 +5,19 @@ import java.util.Hashtable;
 
 public class RelabelAndConsensus {
 	
-	public void relabel (int [][]clusterings){
-		remapToStartWithZero(clusterings);
-		for (int i = 1; i < clusterings.length; i++) {
+	public int[][] relabel (int [][]clusterings){
+		int [][] values = new int [clusterings.length][];
+		for(int i=0;i<values.length;i++)
+			values[i] = clusterings[i].clone();
+		
+		remapToStartWithZero(values);
+		for (int i = 1; i < values.length; i++) {
 			MinimumWeightBipartiteMatching minimumWeightBipartiteMatching = new MinimumWeightBipartiteMatching();
-			int[] assignment = minimumWeightBipartiteMatching.evaluate(clusterings[0], clusterings[i]);
-			relabel(assignment, clusterings[i]);
+			int[] assignment = minimumWeightBipartiteMatching.evaluate(values[0], values[i]);
+			relabel(assignment, values[i]);
 		}
-		remapToStartWithZero(clusterings);
+		remapToStartWithZero(values);
+		return values;
 	}
 
 	public int[] consensus(int[][] clusterings) {
@@ -43,6 +48,7 @@ public class RelabelAndConsensus {
 		}
 	}
 	
+
 	public void remapToStartWithZero(int [] cluster){
 		Hashtable<Integer, Integer> remap = new Hashtable<Integer, Integer>();
 		for (int i = 0; i < cluster.length; i++)

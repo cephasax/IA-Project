@@ -90,12 +90,12 @@ public class Main {
 						int[][] clusterings = Main.getClusterings(arff, k);
 						Solve[] start = new Solve[numPopulation];
 						for (int i = 0; i < start.length; i++) {
-							start[i] = new Solve(k, clusterings, solve.pPartitions, solve.pEquals);
+							start[i] = new Solve(k, clusterings, 0.9, 0.9);
 							start[i].evaluate();
 						}
 						
-						AntColonyOptimization antColonyOptimization = new AntColonyOptimization();
-						double[][] heuristicMachine = antColonyOptimization.buildHeuristic2(k, clusterings);
+						Util util = new Util();
+						double[][] heuristicMachine = util.buildHeuristic2(k, clusterings);
 
 						OptimizationAlgorithm[] optimizers = new OptimizationAlgorithm[] { new AntColonyOptimization(start.clone(), epochs, false, 0.5, 0.5, 0.2, heuristicMachine), new GeneticAlgorithm(start.clone(), epochs, 0.1, 0.9), new BeeColonyOptimization(start.clone(), epochs, 10), new CoralReefOptimization(start.clone(), epochs, 100, false, 0.9, 0.5, 0.8, 0.05, 1), new CoralReefOptimization(start.clone(), epochs, 100, true, 0.9, 0.5, 0.8, 0.1, 5), new CoralReefOptimization(start.clone(), epochs, 100, false, 0.9, 0.5, 0.8, 0.1, 5), new ParticleSwarmOptimization(start.clone(), epochs, 0.95, 0.05, 0) };
 
@@ -177,7 +177,7 @@ public class Main {
 			int[][] clusterings = Main.getClusterings(base, k);
 			Solve[] start = new Solve[1];
 			for (int i = 0; i < start.length; i++) {
-				start[i] = new Solve(k, clusterings, solve.pPartitions, solve.pEquals);
+				start[i] = new Solve(k, clusterings, 0.9, 0.9);
 				start[i].evaluate();
 			}
 			double time = System.currentTimeMillis();
@@ -226,7 +226,7 @@ public class Main {
 			}
 		}
 		RelabelAndConsensus relabelAndConsensus = new RelabelAndConsensus();
-		relabelAndConsensus.relabel(clustering);
+		clustering = relabelAndConsensus.relabel(clustering);
 		return clustering;
 	}
 

@@ -33,7 +33,7 @@ public class FileManager {
 		JFileChooser chooser = null;
 		chooser = new JFileChooser(url);
 		chooser.addChoosableFileFilter(new FiltraExtensoes());
-		chooser.setMultiSelectionEnabled(false);
+		chooser.setMultiSelectionEnabled(true);
 		if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 			file = chooser.getSelectedFile();
 			return file;

@@ -1,17 +1,12 @@
 package br.ufrn.ia.core.optimizationMethods;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Locale;
 
-import br.ufrn.ia.core.ARFF;
 import br.ufrn.ia.core.OptimizationAlgorithm;
 import br.ufrn.ia.core.Solve;
 import br.ufrn.ia.core.Util;
 import br.ufrn.ia.naturalDomain.Ant;
-import weka.core.Instances;
 
 public class AntColonyOptimization extends OptimizationAlgorithm {
 
@@ -24,7 +19,7 @@ public class AntColonyOptimization extends OptimizationAlgorithm {
 	private Solve bestSolve;
 	private boolean heuristic;
 
-	public AntColonyOptimization (){
+	public AntColonyOptimization(){
 		
 	}
 	
@@ -101,29 +96,31 @@ public class AntColonyOptimization extends OptimizationAlgorithm {
 		return String.format(Locale.ENGLISH, "ACO MST(%b) AFN(%b) Alpha(%f) Beta(%f) Ro(%f)", heuristic, !heuristic, alpha, beta, ro);
 	}
 	
-	public double [][] buildHeuristic1(ARFF arff, int numK, int[][]clusterings) throws IOException {
-		Instances instances = new Instances(new FileReader(new File(arff.location)));
-		instances.setClassIndex(instances.numAttributes() - 1);
-		double[][] distance = new double[instances.numInstances()][instances.numInstances()];
-		for (int i = 0; i < distance.length; i++) {
-			for (int j = 0; j < distance.length; j++) {
-				Util util = new Util();
-				distance[i][j] = util.distance(instances.get(i), instances.get(j));
-			}
-		}
+	public double[][] getDistance() {
 		return distance;
 	}
 
-	public double[][] buildHeuristic2(int numK, int[][] clusterings) {
-		double[][] heuristic = new double[clusterings[0].length][];
-		for (int i = 0; i < heuristic.length; i++) {
-			double[] votes = new double[numK];
-			Arrays.fill(votes, 1);
-			for (int j = 0; j < clusterings.length; j++) {
-				votes[clusterings[j][i]]++;
-			}
-			heuristic[i] = votes;
-		}
-		return heuristic;
+	public void setDistance(double[][] distance) {
+		this.distance = distance;
 	}
+
+	public int getEpochs() {
+		return epochs;
+	}
+
+	public void setEpochs(int epochs) {
+		this.epochs = epochs;
+	}
+
+	public Solve[] getPopulation() {
+		return population;
+	}
+
+	public void setPopulation(Solve[] population) {
+		this.population = population.clone();
+	}
+	
+	
+	
+	
 }

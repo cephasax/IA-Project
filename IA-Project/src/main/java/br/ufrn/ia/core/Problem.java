@@ -1,5 +1,6 @@
 package br.ufrn.ia.core;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashSet;
@@ -25,6 +26,17 @@ public class Problem {
 		}
 	}
 
+	public Problem(File file, Fitness fitness, int k) {
+		this.k = k;
+		this.fitness = fitness;
+		try {
+			instances = new Instances(new FileReader(file));
+			instances.setClassIndex(instances.numAttributes() - 1);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public int getNumClusterers() {
 		return k;
 	}

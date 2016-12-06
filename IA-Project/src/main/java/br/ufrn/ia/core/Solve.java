@@ -8,14 +8,17 @@ import java.util.Vector;
 
 public class Solve implements Cloneable {
 
-	public final double pPartitions = 0.9;
-	public final double pEquals = 0.9;
+
 	public Problem problem;
 	public int[] cluster;
 	public double cost;
 
 	public Solve(Problem problem){
 		this.problem = problem;
+	}
+	
+	public Solve(){
+		
 	}
 	
 	/**
@@ -95,4 +98,14 @@ public class Solve implements Cloneable {
 	public String toString() {
 		return String.format(Locale.ENGLISH, "(%6.3f,%s)", cost, Arrays.toString(cluster));
 	}
+
+	public Problem getProblem() {
+		return problem;
+	}
+
+	public void setProblem(Problem problem) {
+		this.problem = problem;
+	}
+	
+	
 }

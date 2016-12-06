@@ -12,9 +12,9 @@ public class FiltraExtensoes extends FileFilter {
             return true;
         }
 
-        String extension = Utils.getExtension(f);
+        String extension = FileUtils.getExtension(f);
         if (extension != null) {
-        	if (extension.equals(Utils.arff)){
+        	if (extension.equals(FileUtils.arff)){
         		 return true;
 /*
         	if (extension.equals(Utils.tiff) ||
