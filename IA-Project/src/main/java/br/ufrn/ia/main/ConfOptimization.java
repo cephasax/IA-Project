@@ -83,7 +83,7 @@ public class ConfOptimization {
 	}
 	
 	public void buildAlgs(){
-		this.ACO = new AntColonyOptimization(population, epoch, heuristic, alpha, beta, crossover, distanceACO);
+		this.ACO = new AntColonyOptimization(population, epoch, heuristic, alpha, beta, ro, distanceACO);
 		this.GA = new GeneticAlgorithm(population, epoch, mutate, crossover);
 		this.BCO = new BeeColonyOptimization(population, epoch, maxNotImproved);
 		

@@ -11,6 +11,7 @@ import br.ufrn.ia.metrics.DaviesBouldin;
 import br.ufrn.ia.metrics.MX;
 import weka.core.DistanceFunction;
 import weka.core.EuclideanDistance;
+import weka.core.Instances;
 
 public class Configuration {
 
@@ -28,7 +29,7 @@ public class Configuration {
 	private int m_NumClusters;
 	
 	//K-MEANS
-	private final boolean m_displayStdDevs = false;											//
+	private final boolean m_displayStdDevs = false;											
 	private final boolean m_dontReplaceMissing = false;
 	private final int m_MaxIterations = 500;
 	private final DistanceFunction m_DistanceFunction = new EuclideanDistance();
@@ -37,7 +38,7 @@ public class Configuration {
 	private SimpleKMeansIaProject kmeans1;
 	
 	//EM	
-	private final boolean m_verbose = false;													//
+	private final boolean m_verbose = false;													
 	private final int m_max_iterations = 100;
 	private final double m_minStdDev = 1e-6;
 	private final boolean m_displayModelInOldFormat = false;
@@ -48,7 +49,7 @@ public class Configuration {
 	//HIERARCHICAL
 	private final boolean m_bPrintNewick = true;
 	private final boolean m_bDistanceIsBranchLength = false;
-	private final boolean m_bDebug = true;													//
+	private final boolean m_bDebug = false;													
 	private final DistanceFunction m_DistanceFunction_Hierarchical = new EuclideanDistance();
 	private final int m_nLinkType_Hierarchical = AVERAGE;
 	private HierarchicalClustererIaProject hc1;
@@ -67,10 +68,9 @@ public class Configuration {
 	private final double pEquals = 0.9;
 	
 	
+	
 	//Constructor
-	public Configuration(int k) throws Exception{
-		
-		this.m_NumClusters = k;
+	public Configuration() throws Exception{
 		
 		kmeans1 = new SimpleKMeansIaProject();
 		kmeans1.setOptions(	m_displayStdDevs, m_dontReplaceMissing, m_NumClusters, 
@@ -93,8 +93,15 @@ public class Configuration {
 		
 	}
 
+	public void buildAlgs(Instances instances) throws Exception{
+		this.kmeans1.buildClusterer(instances);		
+		this.em1.buildClusterer(instances);
+		//this.hc1.buildClusterer(instances);
+	}
+	
 	//GETTERS AND SETTERS
 	
+
 	public SimpleKMeansIaProject getKmeans1() {
 		return kmeans1;
 	}

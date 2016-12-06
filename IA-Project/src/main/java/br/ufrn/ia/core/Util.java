@@ -5,11 +5,14 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Locale;
 
+import br.ufrn.ia.main.Configuration;
+import weka.clusterers.AbstractClusterer;
 import weka.core.Attribute;
 import weka.core.Instance;
 import weka.core.Instances;
@@ -103,5 +106,16 @@ public class Util {
 		relabelAndConsensus.remapToStartWithZero(cluster);
 		out.println(String.format(Locale.ENGLISH, "%d\t%f\t%s\t%s\t%s\t%s\t%s\t%10.5f", numK, bestSolve.cost, problem.getFitness().getClass().getSimpleName(), alg.getClass().getSimpleName(), baseName, Arrays.toString(cluster), parans, time));
 		out.close();
+	}
+	
+	public ArrayList<Solve> buildSolves(Configuration conf, int tempK, int[][] newClusters, Problem problem){
+		ArrayList<Solve> solves = new ArrayList<Solve>();						
+		for(int numberOfsolves = 1; numberOfsolves <= conf.getNumberOfSolves(); numberOfsolves++){
+			//Construção das soluções
+			Solve solve = new Solve(tempK, newClusters, conf.getpPartitions(), conf.getpEquals());
+			solve.setProblem(problem);
+			solves.add(solve);
+		}
+		return solves;
 	}
 }

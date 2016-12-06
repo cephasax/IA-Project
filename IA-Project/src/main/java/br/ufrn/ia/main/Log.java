@@ -6,8 +6,8 @@ public class Log {
 	private int[][] clusteringVectors;
 	private int[][] relabeledClusters;
 	
-	public Log(){
-		fileName = new String();
+	public Log(String fileName){
+		this.fileName = new String(fileName);
 	}
 	
 	public int[][] getClusteringVectors() {
