@@ -21,7 +21,7 @@ public class Main {
 	public static ArrayList<Solve> initialPopulation;
 	public static FileManager fileManager = new FileManager();
 	public static Configuration conf;
-	public static ConfOptimization confOptimization;
+	public static ConfigurationOptimization confOptimization;
 	public static ArrayList<Integer> epochs;
 	public static String logFileName = "log.txt";
 	
@@ -88,7 +88,7 @@ public class Main {
 						
 						//Configura e constroi os algoritmos de otimizacao
 						double[][] distances= util.buildHeuristic2(tempK, clustering);
-						confOptimization = new ConfOptimization(solves.toArray(new Solve[]{}), distances);
+						confOptimization = new ConfigurationOptimization(solves.toArray(new Solve[]{}), distances);
 						confOptimization.buildAlgs();
 						
 						//roda os algoritmos de otimizacao e salva os resultados num arquivo

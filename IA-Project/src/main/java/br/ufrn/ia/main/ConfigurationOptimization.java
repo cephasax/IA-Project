@@ -11,7 +11,7 @@ import br.ufrn.ia.core.optimizationMethods.CoralReefOptimization;
 import br.ufrn.ia.core.optimizationMethods.GeneticAlgorithm;
 import br.ufrn.ia.core.optimizationMethods.ParticleSwarmOptimization;
 
-public class ConfOptimization {
+public class ConfigurationOptimization {
 
 	//Optimization Configurations
 	
@@ -72,7 +72,7 @@ public class ConfOptimization {
 	
 	
 	//Constructor
-	public ConfOptimization(Solve[] population, double[][] distance){
+	public ConfigurationOptimization(Solve[] population, double[][] distance){
 		
 		//set optimization values
 		this.population = population;
