@@ -20,9 +20,10 @@ public class Main {
 	public static ArrayList<Log> logs;
 	public static ArrayList<Solve> initialPopulation;
 	public static FileManager fileManager = new FileManager();
+	
 	public static Configuration conf;
 	public static ConfigurationOptimization confOptimization;
-	public static ArrayList<Integer> epochs;
+	public static ConfigurationClustering confClustering;
 	public static String logFileName = "log.txt";
 	
 	public static void main(String[] args) throws Exception {
@@ -34,72 +35,92 @@ public class Main {
 		
 		//Selecionar arquivos .arff
 		files = fileManager.selecionarArquivos();
-		
+		System.out.println(1);
 		int fileIndex = 0;		
 		
 		//Para cada arquivo
 		for (File file: files){
-			
+			System.out.println(2);
 			conf = new Configuration();
 			
 			//repetir "repetitions" vezes
 			for(int repetitions = 1; repetitions <= conf.getNumberOfRepetitions(); repetitions++){
-				
+				System.out.println(3);
 				//com k variando de "minK" ate "maxK"
 				for(int tempK = conf.getMinK(); tempK <= conf.getMaxK(); tempK++){
-					
-					conf.setM_NumClusters(tempK);
+					System.out.println(3);
+					confClustering = new ConfigurationClustering();
+					confClustering.setM_NumClusters(tempK);
 										
 					//Guarda nome do arquivo
 					String logName = new String((file.getName() + " - k. " + tempK));
 					logs.add(new Log(logName));					
-
-					//criar vetores de representacao de agrupamentos
-					Instances instances = new Instances(new FileReader(file));
-					instances.deleteAttributeAt(instances.numAttributes() - 1);
-
-					conf.buildAlgs(instances);
+					System.out.println(4);
 					
-					//criar vetores de representacao de agrupamentos
-					int[][] clustering = new int[2][instances.numInstances()];
-					AbstractClusterer[] c = new AbstractClusterer[] { conf.getKmeans1(), conf.getEm1()/*, conf.getHc1()*/ };
-					
-					for (int i = 0; i < c.length; i++) {
-						for (int j = 0; j < clustering[0].length; j++) {
-							clustering[i][j] = c[i].clusterInstance(instances.get(j));
-						}
-					}
-					
-					//Resultado dos agrupamentos na classe de pedacos
-					logs.get(fileIndex).setClusteringVectors(clustering);
-										
-					//relabel
-					RelabelAndConsensus rAc = new RelabelAndConsensus();
-					int[][] newClusters = rAc.relabel(clustering);
-					
-					//Resultado do relabel na classe de pedacos
-					logs.get(fileIndex).setRelabeledClusters(newClusters);
-					
-					//criar populacoes iniciais
 					for(Fitness fitness: conf.getMetrics()){	
+						System.out.println(5);
+						//criar vetores de representacao de agrupamentos
+						Instances instances = new Instances(new FileReader(file));
+						instances.deleteAttributeAt(instances.numAttributes() - 1);
 						
+
+
+						
+						confClustering.buildAlgs(instances);
+						
+						System.out.println(6);
+						//criar vetores de representacao de agrupamentos
+						int[][] clustering = new int[3][instances.numInstances()];
+						
+						
+						
+						AbstractClusterer[] c = new AbstractClusterer[] { confClustering.getKmeans1(), confClustering.getEm1(), confClustering.getHc1() };
+						
+						System.out.println(confClustering.getEm1().getNumClusters());
+						
+						for (int i = 0; i < c.length; i++) {
+							
+							for (int j = 0; j < clustering[0].length; j++) {
+								clustering[i][j] = c[i].clusterInstance(instances.get(j));
+							}
+						}
+						
+						System.out.println(7);
+						//Resultado dos agrupamentos na classe de pedacos
+						logs.get(fileIndex).setClusteringVectors(clustering);
+									
+						//relabel
+						RelabelAndConsensus rAc = new RelabelAndConsensus();
+						int[][] newClusters = rAc.relabel(clustering);
+						System.out.println(8);
+						
+						//Resultado do relabel na classe de pedacos
+						logs.get(fileIndex).setRelabeledClusters(newClusters);
+						System.out.println(9);
+						
+						//criar populacoes iniciais
 						Problem problem = new Problem(file, fitness, tempK);
 						ArrayList<Solve> solves = util.buildSolves(conf, tempK, newClusters, problem);
+						System.out.println(10);
 						
 						//Configura e constroi os algoritmos de otimizacao
 						double[][] distances= util.buildHeuristic2(tempK, clustering);
 						confOptimization = new ConfigurationOptimization(solves.toArray(new Solve[]{}), distances);
 						confOptimization.buildAlgs();
+						System.out.println(11);
 						
 						//roda os algoritmos de otimizacao e salva os resultados num arquivo
 						for(OptimizationAlgorithm oa: confOptimization.getOptimizationAlgorithms()){
-							util.evaluate(logFileName, problem, logs.get(fileIndex).getFileName(), tempK, oa);
+							util.evaluate(logFileName, problem, file.getName().substring(0,file.getName().length()-5), tempK, oa);
 						}
-						
+						System.out.println(12);
 					}
 					fileIndex++;
+					System.out.println(13);
 				}
 			}
+			System.out.println(14);
 		}
+		System.out.println(15);
 	}	
 }

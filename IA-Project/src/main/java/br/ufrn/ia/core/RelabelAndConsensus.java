@@ -1,5 +1,6 @@
 package br.ufrn.ia.core;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Hashtable;
 
@@ -11,6 +12,8 @@ public class RelabelAndConsensus {
 			values[i] = clusterings[i].clone();
 		
 		remapToStartWithZero(values);
+		
+		
 		for (int i = 1; i < values.length; i++) {
 			MinimumWeightBipartiteMatching minimumWeightBipartiteMatching = new MinimumWeightBipartiteMatching();
 			int[] assignment = minimumWeightBipartiteMatching.evaluate(values[0], values[i]);
@@ -68,6 +71,8 @@ public class RelabelAndConsensus {
 	}
 
 	private void relabel(int[] assignment, int[] clustering) {
+		System.out.println(Arrays.toString(assignment));
+		System.out.println(Arrays.toString(clustering));
 		for (int i = 0; i < clustering.length; i++)
 			clustering[i] = assignment[clustering[i]];
 	}

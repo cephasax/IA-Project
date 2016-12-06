@@ -62,6 +62,7 @@ public class Solve implements Cloneable {
 	}
 
 	public Solve(Solve solve) {
+		problem = solve.problem;
 		cluster = solve.cluster.clone();
 		cost = solve.cost;
 	}

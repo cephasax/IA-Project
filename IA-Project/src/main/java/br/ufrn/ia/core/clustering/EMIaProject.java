@@ -84,7 +84,7 @@ public class EMIaProject extends RandomizableDensityBasedClusterer
 			this.m_displayModelInOldFormat = m_displayModelInOldFormat; //default false
 			this.m_Seed = m_Seed; 										//default 100
 			
-			m_initialNumClusters = -1;
+			this.m_initialNumClusters = m_num_clusters;
 	}
 		
 	//--- CEPHAS BARRETO --//
