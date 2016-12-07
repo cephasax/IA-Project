@@ -60,17 +60,18 @@ public class ConfigurationClustering {
 		kmeans1 = new SimpleKMeansIaProject();
 		kmeans1.setOptions(	m_displayStdDevs, m_dontReplaceMissing, m_NumClusters, 
 				 			m_MaxIterations, m_DistanceFunction, m_PreserveOrder, m_Seed);
+		kmeans1.setSeed((int)(Math.random()*Integer.MAX_VALUE));
 		
 		em1 = new EMIaProject();
 		em1.setOptions(	m_verbose, m_max_iterations, m_NumClusters, 
 						m_minStdDev, m_displayModelInOldFormat, m_Seed_EM);
+		em1.setSeed((int)(Math.random()*Integer.MAX_VALUE));
 		
 		hc1 = new HierarchicalClustererIaProject();
 		hc1.setOptions(m_bPrintNewick, m_NumClusters, m_bDistanceIsBranchLength, 
 						m_bDebug, m_DistanceFunction_Hierarchical, m_nLinkType_Hierarchical);
-		
-		System.out.println(em1.getNumClusters());
 
+		
 		this.kmeans1.buildClusterer(instances);		
 		this.em1.buildClusterer(instances);
 		this.hc1.buildClusterer(instances);

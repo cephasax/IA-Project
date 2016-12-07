@@ -1,5 +1,6 @@
 package br.ufrn.ia.main;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import br.ufrn.ia.core.Fitness;
@@ -13,12 +14,12 @@ public class Configuration {
 	private ArrayList<Fitness> metrics;
 	
 	private final int numberOfRepetitions = 10;
-	private final int numberOfSolves = 10;
 	private final int minK = 2;
 	private final int maxK = 10;
-	private final int sizeOfPupulation = 50;
+	private final int sizeOfPupulation = 10;
 	private final double pPartitions = 0.9;
 	private final double pEquals = 0.9;
+	private File outputFile;
 	
 	
 	//Constructor
@@ -64,8 +65,12 @@ public class Configuration {
 	public int getNumberOfRepetitions() {
 		return numberOfRepetitions;
 	}
-
-	public int getNumberOfSolves() {
-		return numberOfSolves;
-	}	
+	
+	public void setFileOutput(File file) {
+		this.outputFile = file;
+	}
+	
+	public File getFileOutput(){
+		return this.outputFile;
+	}
 }

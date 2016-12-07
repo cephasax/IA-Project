@@ -93,13 +93,13 @@ public class Util {
 		return heuristic;
 	}
 	
-	 public void evaluate(String logFile, Problem problem, String baseName, int numK, OptimizationAlgorithm alg) throws IOException {
+	 public void evaluate(File logFile, Problem problem, String baseName, int numK, OptimizationAlgorithm alg) throws IOException {
 		String parans = alg.toString();
 		double time = System.currentTimeMillis();
 		alg.run();
 		time = (System.currentTimeMillis() - time) / 1000.0;
 		Solve bestSolve = alg.getBestSolve();
-		PrintStream out = new PrintStream(new FileOutputStream(new File(logFile), true));
+		PrintStream out = new PrintStream(new FileOutputStream(logFile, true));
 		int[] cluster = bestSolve.cluster;
 		
 		RelabelAndConsensus relabelAndConsensus = new RelabelAndConsensus();
@@ -110,7 +110,7 @@ public class Util {
 	
 	public ArrayList<Solve> buildSolves(Configuration conf, int tempK, int[][] newClusters, Problem problem){
 		ArrayList<Solve> solves = new ArrayList<Solve>();						
-		for(int numberOfsolves = 1; numberOfsolves <= conf.getNumberOfSolves(); numberOfsolves++){
+		for(int numberOfsolves = 1; numberOfsolves <= conf.getSizeOfPupulation(); numberOfsolves++){
 			//Construção das soluções
 			Solve solve = new Solve(tempK, newClusters, conf.getpPartitions(), conf.getpEquals());
 			solve.setProblem(problem);

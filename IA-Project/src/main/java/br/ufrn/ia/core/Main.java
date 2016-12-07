@@ -83,23 +83,31 @@ public class Main {
 				int rep = 0;
 				for (int k = 2; k <= numMaxK; k++) {
 					for (int current = 0; current < numRepetitions; current++) {
-						Problem problem = new Problem(arff, fitness, k);
-						Solve solve = new Solve(problem);
-						solve.problem = problem;
+						double[][] heuristicMachine = null;
+						Solve[][] start = new Solve[algorithmsParamenters.size()][];
+						for (int i = 0; i < algorithmsParamenters.size(); i++) {
+							int[][] clusterings = Main.getClusterings(arff, k);
 
-						int[][] clusterings = Main.getClusterings(arff, k);
-						Solve[] start = new Solve[numPopulation];
-						for (int i = 0; i < start.length; i++) {
-							start[i] = new Solve(k, clusterings, 0.9, 0.9);
-							start[i].evaluate();
+							if (i == 0){
+								Util util = new Util();
+								heuristicMachine = util.buildHeuristic2(k, clusterings);
+							}
+
+							start[i] = new Solve[numPopulation];
+							for (int j = 0; j < start.length; j++) {
+								start[i][j] = new Solve(k, clusterings, 0.9, 0.9);
+								start[i][j].evaluate();
+							}
 						}
-						
-						Util util = new Util();
-						double[][] heuristicMachine = util.buildHeuristic2(k, clusterings);
 
-						OptimizationAlgorithm[] optimizers = new OptimizationAlgorithm[] { new AntColonyOptimization(start.clone(), epochs, false, 0.5, 0.5, 0.2, heuristicMachine), new GeneticAlgorithm(start.clone(), epochs, 0.1, 0.9), new BeeColonyOptimization(start.clone(), epochs, 10), new CoralReefOptimization(start.clone(), epochs, 100, false, 0.9, 0.5, 0.8, 0.05, 1), new CoralReefOptimization(start.clone(), epochs, 100, true, 0.9, 0.5, 0.8, 0.1, 5), new CoralReefOptimization(start.clone(), epochs, 100, false, 0.9, 0.5, 0.8, 0.1, 5), new ParticleSwarmOptimization(start.clone(), epochs, 0.95, 0.05, 0) };
+						OptimizationAlgorithm[] optimizers = new OptimizationAlgorithm[] { new AntColonyOptimization(start[0], epochs, false, 0.5, 0.5, 0.2, heuristicMachine), new GeneticAlgorithm(start[1], epochs, 0.1, 0.9), new BeeColonyOptimization(start[2], epochs, 10), new CoralReefOptimization(start[3], epochs, 100, false, 0.9, 0.5, 0.8, 0.05, 1), new CoralReefOptimization(start[4], epochs, 100, true, 0.9, 0.5, 0.8, 0.1, 5), new CoralReefOptimization(start[5], epochs, 100, false, 0.9, 0.5, 0.8, 0.1, 5), new ParticleSwarmOptimization(start[6], epochs, 0.95, 0.05, 0) };
 
 						for (int i = 0; i < optimizers.length; i++) {
+
+							Problem problem = new Problem(arff, fitness, k);
+							Solve solve = new Solve(problem);
+							solve.problem = problem;
+
 							evaluate(problem, arff, k, optimizers[i]);
 							solve.problem = new Problem(arff, new CalinskiHarabasz(), k);
 							Solve bestSolve = optimizers[i].getBestSolve();
@@ -212,10 +220,10 @@ public class Main {
 		c1.setOptions(Utils.splitOptions("-N " + k + " -L SINGLE -P -A \"weka.core.EuclideanDistance -R first-last\""));
 
 		AbstractClusterer c2 = new SimpleKMeans();
-		c2.setOptions(Utils.splitOptions("-init 0 -max-candidates 100 -periodic-pruning 10000 -min-density 2.0 -t1 -1.25 -t2 -1.0 -N " + k + " -A \"weka.core.EuclideanDistance -R first-last\" -I 500 -num-slots 1 -S 10"));
+		c2.setOptions(Utils.splitOptions("-init 0 -max-candidates 100 -periodic-pruning 10000 -min-density 2.0 -t1 -1.25 -t2 -1.0 -N " + k + " -A \"weka.core.EuclideanDistance -R first-last\" -I 500 -num-slots 1 -S "+  + (int)(Math.random()*Integer.MAX_VALUE)));
 
 		AbstractClusterer c3 = new EM();
-		c3.setOptions(Utils.splitOptions("-I 100 -N " + k + " -M 1.0E-6 -S 100"));
+		c3.setOptions(Utils.splitOptions("-I 100 -N " + k + " -M 1.0E-6 -S " + (int)(Math.random()*Integer.MAX_VALUE)));
 
 		int[][] clustering = new int[3][instances.numInstances()];
 		AbstractClusterer[] c = new AbstractClusterer[] { c1, c2, c3 };

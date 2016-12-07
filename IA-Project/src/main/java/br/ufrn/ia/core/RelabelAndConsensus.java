@@ -71,8 +71,6 @@ public class RelabelAndConsensus {
 	}
 
 	private void relabel(int[] assignment, int[] clustering) {
-		System.out.println(Arrays.toString(assignment));
-		System.out.println(Arrays.toString(clustering));
 		for (int i = 0; i < clustering.length; i++)
 			clustering[i] = assignment[clustering[i]];
 	}
