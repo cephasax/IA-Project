@@ -17,7 +17,6 @@ public class ConfigurationOptimization {
 	
 	//Global
 	private final int epoch = 50; 		//Use 50 or 100 or 200
-	private Solve[] population;
 	
 	//AntColonyOptimization
 	private final boolean heuristic = false;
@@ -72,26 +71,20 @@ public class ConfigurationOptimization {
 	
 	
 	//Constructor
-	public ConfigurationOptimization(Solve[] population, double[][] distance){
-		
-		//set optimization values
-		this.population = population;
-		this.distanceACO = distance;
-		
+	public ConfigurationOptimization(){
 		optimizationAlgorithms = new ArrayList<OptimizationAlgorithm>();
-		
 	}
 	
 	public void buildAlgs(){
-		this.ACO = new AntColonyOptimization(population, epoch, heuristic, alpha, beta, ro, distanceACO);
-		this.GA = new GeneticAlgorithm(population, epoch, mutate, crossover);
-		this.BCO = new BeeColonyOptimization(population, epoch, maxNotImproved);
+		this.ACO = new AntColonyOptimization(epoch, heuristic, alpha, beta, ro, distanceACO);
+		this.GA = new GeneticAlgorithm(epoch, mutate, crossover);
+		this.BCO = new BeeColonyOptimization(epoch, maxNotImproved);
 		
-		this.CRO1 = new CoralReefOptimization(population, epoch, dimension, insertRandOrRank1, rho, fa, fb, fd1, stepsDepredation1);
-		this.CRO2 = new CoralReefOptimization(population, epoch, dimension, insertRandOrRank2, rho, fa, fb, fd2, stepsDepredation2);
-		this.CRO3 = new CoralReefOptimization(population, epoch, dimension, insertRandOrRank3, rho, fa, fb, fd3, stepsDepredation3);
+		this.CRO1 = new CoralReefOptimization(epoch, dimension, insertRandOrRank1, rho, fa, fb, fd1, stepsDepredation1);
+		this.CRO2 = new CoralReefOptimization(epoch, dimension, insertRandOrRank2, rho, fa, fb, fd2, stepsDepredation2);
+		this.CRO3 = new CoralReefOptimization(epoch, dimension, insertRandOrRank3, rho, fa, fb, fd3, stepsDepredation3);
 		
-		this.PSO = new ParticleSwarmOptimization(population, epoch, pOwnWay, pPreviousPosition, pBestPosition);
+		this.PSO = new ParticleSwarmOptimization(epoch, pOwnWay, pPreviousPosition, pBestPosition);
 		
 		optimizationAlgorithms.add(ACO);
 		optimizationAlgorithms.add(GA);
@@ -112,14 +105,6 @@ public class ConfigurationOptimization {
 		map.put(CRO3, "CRO3");
 		map.put(PSO, "PSO");
 	}
-	
-	public Solve[] getPopulation() {
-		return population;
-	}
-
-	public void setPopulation(Solve[] population) {
-		this.population = population;
-	}
 
 	public double[][] getDistanceACO() {
 		return distanceACO;
@@ -127,6 +112,7 @@ public class ConfigurationOptimization {
 
 	public void setDistanceACO(double[][] distance) {
 		this.distanceACO = distance;
+		ACO.setDistance(distance);
 	}
 	
 	public void setAcoDistance(double[][] distance){

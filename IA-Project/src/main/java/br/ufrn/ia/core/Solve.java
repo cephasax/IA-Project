@@ -15,10 +15,11 @@ public class Solve implements Cloneable {
 
 	public Solve(Problem problem){
 		this.problem = problem;
+		this.cost = Double.POSITIVE_INFINITY;
 	}
 	
 	public Solve(){
-		
+		this.cost = Double.POSITIVE_INFINITY;
 	}
 	
 	/**
@@ -55,10 +56,12 @@ public class Solve implements Cloneable {
 				cluster[i] = r.nextInt(k);
 			}
 		}
+		this.cost = Double.POSITIVE_INFINITY;
 	}
 
 	public Solve(int[] cluster) {
 		this.cluster = cluster.clone();
+		this.cost = Double.POSITIVE_INFINITY;
 	}
 
 	public Solve(Solve solve) {

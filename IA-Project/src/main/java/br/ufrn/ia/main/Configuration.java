@@ -28,8 +28,8 @@ public class Configuration {
 		//set metrics
 		metrics = new ArrayList<Fitness>();	
 		metrics.add(new CorrectRand());
-		metrics.add(new DaviesBouldin());
-		metrics.add(new MX());
+		//metrics.add(new DaviesBouldin());
+		//metrics.add(new MX());
 		
 	}
 

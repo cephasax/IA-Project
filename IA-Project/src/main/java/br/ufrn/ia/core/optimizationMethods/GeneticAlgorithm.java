@@ -12,7 +12,6 @@ public class GeneticAlgorithm extends OptimizationAlgorithm {
 	private int epochs;
 	private double mutate;
 	private double crossover;
-	private Solve[] start;
 	private Solve bestSolve;
 
 	/**
@@ -24,18 +23,17 @@ public class GeneticAlgorithm extends OptimizationAlgorithm {
 	 * @param mutate Taxa de mutação. 0<=mutate<=1. Geralmente 0.1.
 	 * @param crossover Taxa de cruzamento. 0<=crossover<=1. Geralmente 0.9.
 	 */
-	public GeneticAlgorithm(Solve[] start, int epochs, double mutate, double crossover) {
+	public GeneticAlgorithm(int epochs, double mutate, double crossover) {
 		this.epochs = epochs;
 		this.mutate = mutate;
 		this.crossover = crossover;
-		this.start = start.clone();
 	}
 
 	public void run() {
 
-		Solve[] population = new Solve[start.length * 2];
+		Solve[] population = new Solve[this.population.length * 2];
 		for (int i = 0; i < population.length / 2; i++) {
-			population[i] = new Solve(start[i]);
+			population[i] = new Solve(this.population[i]);
 		}
 		bestSolve = new Solve(population[0]);
 

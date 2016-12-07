@@ -9,7 +9,6 @@ import br.ufrn.ia.core.Solve;
 public class BeeColonyOptimization extends OptimizationAlgorithm {
 
 	private int epochs;
-	private Solve[] bees;
 	private int maxNotImproved;
 	private Solve bestSolve;
 
@@ -29,57 +28,56 @@ public class BeeColonyOptimization extends OptimizationAlgorithm {
 	 *            Máxima quantidade de iterações que uma solução pode permancer
 	 *            estagnada. Valor entre 0 e infinito. Geralmente 5.
 	 */
-	public BeeColonyOptimization(Solve[] start, int epochs, int maxNotImproved) {
-		this.bees = start.clone();
+	public BeeColonyOptimization( int epochs, int maxNotImproved) {
 		this.epochs = epochs;
 		this.maxNotImproved = maxNotImproved;
 	}
 
 	@Override
 	public void run() {
-		bestSolve = bees[0];
+		bestSolve = population[0];
 
-		int[] improved = new int[bees.length];
+		int[] improved = new int[population.length];
 		int step = 0;
 		int stepsUpdate = 0;
 		while (step++ < epochs && stepsUpdate++ < maxStepsWhitoutUpdate) {
 
-			for (int i = 0; i < bees.length; i++) {
+			for (int i = 0; i < population.length; i++) {
 				for (int j = 0; j < 5; j++) {
-					Solve solve = new Solve(bees[i]);
+					Solve solve = new Solve(population[i]);
 					Random r = new Random();
 					move(solve, r);
-					if (solve.cost < bees[i].cost) {
-						bees[i] = solve;
+					if (solve.cost < population[i].cost) {
+						population[i] = solve;
 						improved[i] = step;
 					}
 				}
 			}
 
-			for (int i = 0; i < bees.length; i++) {
+			for (int i = 0; i < population.length; i++) {
 				Random r = new Random();
-				int index = wheelSelection(bees, r);
-				Solve solve = new Solve(bees[index]);
+				int index = wheelSelection(population, r);
+				Solve solve = new Solve(population[index]);
 				move(solve, r);
-				solve = localSearch(solve, r, Math.min(bees[0].cluster.length, bees.length));
-				if (solve.cost < bees[i].cost) {
-					bees[i] = solve;
+				solve = localSearch(solve, r, Math.min(population[0].cluster.length, population.length));
+				if (solve.cost < population[i].cost) {
+					population[i] = solve;
 					improved[i] = step;
 				}
 			}
 
-			for (int i = 0; i < bees.length; i++) {
-				if (bees[i].cost < bestSolve.cost) {
-					bestSolve = new Solve(bees[i]);
+			for (int i = 0; i < population.length; i++) {
+				if (population[i].cost < bestSolve.cost) {
+					bestSolve = new Solve(population[i]);
 					stepsUpdate = 0;
 				}
 			}
 
-			for (int i = 0; i < bees.length; i++) {
+			for (int i = 0; i < population.length; i++) {
 				if (step - improved[i] > maxNotImproved) {
-					bees[i] = new Solve(bees[i]);
-					bees[i].randomize();
-					bees[i].evaluate();
+					population[i] = new Solve(population[i]);
+					population[i].randomize();
+					population[i].evaluate();
 					improved[i] = step;
 				}
 			}

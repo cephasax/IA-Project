@@ -66,46 +66,45 @@ public class Main {
 						instances.deleteAttributeAt(instances.numAttributes() - 1);
 
 						confClustering.buildAlgs(instances);
-						
-						
+
 						////////////////////////////////////////////////////////////////////
 						// os algoritmos devem ser construídos antes dos clusterers
+						confOptimization = new ConfigurationOptimization();
 						confOptimization.buildAlgs();
-						
+
 						for (OptimizationAlgorithm oa : confOptimization.getOptimizationAlgorithms()) {
 
-						//criar vetores de representacao de agrupamentos
-						int[][] clustering = new int[3][instances.numInstances()];
+							//criar vetores de representacao de agrupamentos
+							int[][] clustering = new int[3][instances.numInstances()];
 
-						AbstractClusterer[] c = new AbstractClusterer[] { confClustering.getHc1(), confClustering.getKmeans1(), confClustering.getEm1() };
-						
-						for (int i = 0; i < c.length; i++) {
-							for (int j = 0; j < clustering[0].length; j++) {
-								clustering[i][j] = c[i].clusterInstance(instances.get(j));
+							AbstractClusterer[] c = new AbstractClusterer[] { confClustering.getHc1(), confClustering.getKmeans1(), confClustering.getEm1() };
+
+							for (int i = 0; i < c.length; i++) {
+								for (int j = 0; j < clustering[0].length; j++) {
+									clustering[i][j] = c[i].clusterInstance(instances.get(j));
+								}
 							}
-						}
-						
-						//Configura e constroi os algoritmos de otimizacao
-						double[][] distances = util.buildHeuristic2(tempK, clustering);
-						
-						//Resultado dos agrupamentos na classe de pedacos
-						logs.get(fileIndex).setClusteringVectors(clustering);
 
-						//relabel
-						RelabelAndConsensus rAc = new RelabelAndConsensus();
-						int[][] newClusters = rAc.relabel(clustering);
+							//Configura e constroi os algoritmos de otimizacao
+							double[][] distances = util.buildHeuristic2(tempK, clustering);
+							confOptimization.setDistanceACO(distances);
 
-						//Resultado do relabel na classe de pedacos
-						logs.get(fileIndex).setRelabeledClusters(newClusters);
+							//Resultado dos agrupamentos na classe de pedacos
+							logs.get(fileIndex).setClusteringVectors(clustering);
 
-						//criar populacoes iniciais
-						Problem problem = new Problem(file, fitness, tempK);
-						ArrayList<Solve> solves = util.buildSolves(conf, tempK, newClusters, problem);
-						confOptimization = new ConfigurationOptimization(solves.toArray(new Solve[] {}), distances);
-						
+							//relabel
+							RelabelAndConsensus rAc = new RelabelAndConsensus();
+							int[][] newClusters = rAc.relabel(clustering);
 
-						//roda os algoritmos de otimizacao e salva os resultados num arquivo
-						
+							//Resultado do relabel na classe de pedacos
+							logs.get(fileIndex).setRelabeledClusters(newClusters);
+
+							//criar populacoes iniciais
+							Problem problem = new Problem(file, fitness, tempK);
+							ArrayList<Solve> solves = util.buildSolves(conf, tempK, newClusters, problem);
+
+							//roda os algoritmos de otimizacao e salva os resultados num arquivo
+							oa.setPopulation(solves.toArray(new Solve[] {}));
 							System.out.println(file.getName().substring(0, file.getName().length() - 5) + " " + tempK + " rep " + repetitions + " " + fitness.getClass().getSimpleName());
 							util.evaluate(conf.getFileOutput(), problem, file.getName().substring(0, file.getName().length() - 5).replace(" ", "_"), tempK, oa);
 						}
@@ -115,7 +114,7 @@ public class Main {
 			}
 		}
 	}
-	
+
 	public static int[][] getClusterings(File file, int k) throws Exception {
 		Instances instances = new Instances(new FileReader(file));
 

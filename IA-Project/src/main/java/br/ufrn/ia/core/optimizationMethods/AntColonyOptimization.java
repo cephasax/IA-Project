@@ -14,7 +14,6 @@ public class AntColonyOptimization extends OptimizationAlgorithm {
 	private double alpha;
 	private double beta;
 	private double ro;
-	private Solve[] population;
 	private double[][] distance;
 	private Solve bestSolve;
 	private boolean heuristic;
@@ -36,9 +35,8 @@ public class AntColonyOptimization extends OptimizationAlgorithm {
 	 * @param ro Determina quanto do feromônios será evaporada. 0 ele armazena todos os feromônios das iterações passadas.
 	 * @param distance Informação heurística que determina a distância entre as instâncias.
 	 */
-	public AntColonyOptimization(Solve[] population, int epochs, boolean heuristic, double alpha, double beta, double ro, double[][] distance) {
+	public AntColonyOptimization(int epochs, boolean heuristic, double alpha, double beta, double ro, double[][] distance) {
 		this.epochs = epochs;
-		this.population = population.clone();
 		this.heuristic = heuristic;
 		this.alpha = alpha;
 		this.beta = beta;

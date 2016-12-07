@@ -20,7 +20,6 @@ public class CoralReefOptimization extends OptimizationAlgorithm {
 	private boolean insertRandOrRank; // true for rand and false for ranked
 	private int stepsDepredation;
 	private Solve[] reef;
-	private Solve[] start;
 	private Solve bestSolve;
 
 	/**
@@ -41,7 +40,7 @@ public class CoralReefOptimization extends OptimizationAlgorithm {
 	 * @param stepsDepredation Parâmetro de controle de quando será aplicadda a depredação no coral. Geralmente 1.
 	 * @param start Vetor de soluções iniciais.
 	 */
-	public CoralReefOptimization(Solve[] start, int epochs, int dimension, boolean insertRandOrRank, double rho, double fa, double fb, double fd, int stepsDepredation) {
+	public CoralReefOptimization(int epochs, int dimension, boolean insertRandOrRank, double rho, double fa, double fb, double fd, int stepsDepredation) {
 		this.dimension = dimension;
 		this.epochs = epochs;
 		this.rho = rho;
@@ -50,7 +49,6 @@ public class CoralReefOptimization extends OptimizationAlgorithm {
 		Fd = fd;
 		this.insertRandOrRank = insertRandOrRank;
 		this.stepsDepredation = stepsDepredation;
-		this.start = start.clone();
 	}
 
 	public void run() {
@@ -61,7 +59,7 @@ public class CoralReefOptimization extends OptimizationAlgorithm {
 		for (int i = 0; i < reef.length; i++) {
 			Random r = new Random();
 			if (r.nextDouble() < rho) {
-				reef[i] = new Solve(start[r.nextInt(start.length)]);
+				reef[i] = new Solve(population[r.nextInt(population.length)]);
 				if (bestSolve == null || reef[i].cost < bestSolve.cost) {
 					bestSolve = new Solve(reef[i]);
 				}

@@ -7,9 +7,17 @@ import java.util.Vector;
 
 public abstract class OptimizationAlgorithm {
 	
+	protected Solve [] population;
+	
 	protected final int maxStepsWhitoutUpdate = 20;
 	public abstract void run();
 	public abstract Solve getBestSolve();
+	
+	public void setPopulation (Solve [] solves){
+		this.population = solves;
+		for(int i=0;i<population.length;i++)
+			population[i].evaluate();
+	}
 
 	public int wheelSelection(Solve[] solve, Random rand) {
 		double sum = 0;

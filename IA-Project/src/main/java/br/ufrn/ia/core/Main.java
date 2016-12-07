@@ -100,8 +100,8 @@ public class Main {
 							}
 						}
 
-						OptimizationAlgorithm[] optimizers = new OptimizationAlgorithm[] { new AntColonyOptimization(start[0], epochs, false, 0.5, 0.5, 0.2, heuristicMachine), new GeneticAlgorithm(start[1], epochs, 0.1, 0.9), new BeeColonyOptimization(start[2], epochs, 10), new CoralReefOptimization(start[3], epochs, 100, false, 0.9, 0.5, 0.8, 0.05, 1), new CoralReefOptimization(start[4], epochs, 100, true, 0.9, 0.5, 0.8, 0.1, 5), new CoralReefOptimization(start[5], epochs, 100, false, 0.9, 0.5, 0.8, 0.1, 5), new ParticleSwarmOptimization(start[6], epochs, 0.95, 0.05, 0) };
-
+						//OptimizationAlgorithm[] optimizers = new OptimizationAlgorithm[] { new AntColonyOptimization(start[0], epochs, false, 0.5, 0.5, 0.2, heuristicMachine), new GeneticAlgorithm(start[1], epochs, 0.1, 0.9), new BeeColonyOptimization(start[2], epochs, 10), new CoralReefOptimization(start[3], epochs, 100, false, 0.9, 0.5, 0.8, 0.05, 1), new CoralReefOptimization(start[4], epochs, 100, true, 0.9, 0.5, 0.8, 0.1, 5), new CoralReefOptimization(start[5], epochs, 100, false, 0.9, 0.5, 0.8, 0.1, 5), new ParticleSwarmOptimization(start[6], epochs, 0.95, 0.05, 0) };
+/*()
 						for (int i = 0; i < optimizers.length; i++) {
 
 							Problem problem = new Problem(arff, fitness, k);
@@ -118,7 +118,7 @@ public class Main {
 							resultsJC[i][rep] = bestSolve.cost;
 
 						}
-						rep++;
+						rep++;()*/
 					}
 				}
 
@@ -162,40 +162,6 @@ public class Main {
 				}
 			}
 		}
-	}
-
-	public static Hashtable<ARFF, Double> evaluatePerformance(int k, ARFF[] arff) throws Exception {
-
-		Util util = new Util();
-		
-		Hashtable<ARFF, Double> performance = new Hashtable<ARFF, Double>();
-		for (ARFF base : arff) {
-			Instances instances = new Instances(new FileReader(new File(base.location)));
-			instances.setClassIndex(instances.numAttributes() - 1);
-			double[][] distance = new double[instances.numInstances()][instances.numInstances()];
-			for (int i = 0; i < distance.length; i++) {
-				for (int j = 0; j < distance.length; j++) {
-					distance[i][j] = util.distance(instances.get(i), instances.get(j));
-				}
-			}
-
-			Problem problem = new Problem(base, new MX(), k);
-			Solve solve = new Solve(problem);
-
-			int[][] clusterings = Main.getClusterings(base, k);
-			Solve[] start = new Solve[1];
-			for (int i = 0; i < start.length; i++) {
-				start[i] = new Solve(k, clusterings, 0.9, 0.9);
-				start[i].evaluate();
-			}
-			double time = System.currentTimeMillis();
-			OptimizationAlgorithm alg = new AntColonyOptimization(start, k, true, 0.5, 0.5, 0.2, distance);
-			alg.run();
-			time = (System.currentTimeMillis() - time) / 1000;
-			performance.put(base, time);
-			System.out.println(performance);
-		}
-		return performance;
 	}
 
 	public static void evaluate(Problem problem, ARFF arff, int numK, OptimizationAlgorithm alg) throws IOException {
