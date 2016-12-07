@@ -67,10 +67,9 @@ public class Main {
 
 						confClustering.buildAlgs(instances);
 						
-						//Configura e constroi os algoritmos de otimizacao
-						double[][] distances = util.buildHeuristic2(tempK, clustering);
-						confOptimization = new ConfigurationOptimization(solves.toArray(new Solve[] {}), distances);
 						
+						////////////////////////////////////////////////////////////////////
+						// os algoritmos devem ser construídos antes dos clusterers
 						confOptimization.buildAlgs();
 						
 						for (OptimizationAlgorithm oa : confOptimization.getOptimizationAlgorithms()) {
@@ -86,6 +85,8 @@ public class Main {
 							}
 						}
 						
+						//Configura e constroi os algoritmos de otimizacao
+						double[][] distances = util.buildHeuristic2(tempK, clustering);
 						
 						//Resultado dos agrupamentos na classe de pedacos
 						logs.get(fileIndex).setClusteringVectors(clustering);
@@ -100,7 +101,7 @@ public class Main {
 						//criar populacoes iniciais
 						Problem problem = new Problem(file, fitness, tempK);
 						ArrayList<Solve> solves = util.buildSolves(conf, tempK, newClusters, problem);
-
+						confOptimization = new ConfigurationOptimization(solves.toArray(new Solve[] {}), distances);
 						
 
 						//roda os algoritmos de otimizacao e salva os resultados num arquivo
