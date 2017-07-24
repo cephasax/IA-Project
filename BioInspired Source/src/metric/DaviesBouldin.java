@@ -9,18 +9,13 @@ import weka.core.SparseInstance;
 // minimization objective (0,R) range
 public class DaviesBouldin implements Fitness {
 
+	@Override
+	public boolean isMinimization (){ // quanto menor melhor
+		return true;
+	}
+	
 	public double evaluate(Instances instances, int[] clustering) {
 		Util.replaceClassByConsensus(instances, clustering);
-
-		/*
-		try {
-			PrintStream p = new PrintStream("IrisConsensus.arff");
-			p.println(instances);
-			p.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		*/
 
 		Instances[] group = new Instances[instances.numClasses()];
 		for (int i = 0; i < group.length; i++)

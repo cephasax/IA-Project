@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Locale;
 import java.util.PriorityQueue;
+import java.util.Vector;
 
 import method.AntColonyOptimization;
 import method.BeeColonyOptimization;
@@ -29,28 +30,26 @@ import weka.core.Utils;
 
 public class Main {
 
-	public static String logFile = "results.txt";
+	public static String logFile = "Results.part6.10-555.txt";
 
-	public static final int epochs = 200;
+	public static final int epochs = 200; // 50 100 200
 
 	public static final int numMaxK = 10; // 2 - 10
 
-	public static final int numRepetitions = 1;
+	public static final int numRepetitions = 10;
 
-	public static final int numPopulation = 50;
+	public static final int numPopulation = 30; // 10 30 50
+	
+	//(10|50, 10|100, 10|200, 30|50, 30|100 e 30|200)
 
 	public static void main(String[] args) throws Exception {
-		if (args.length > 0) {
-			logFile = args[0];
-		}
-
-		PrintStream output = new PrintStream(new File(logFile + ".output"));
-		System.setOut(output);
-
-		ARFF[] bases = new ARFF[] { ARFF.Lung_Cancer, ARFF.Hepatitis, ARFF.Wine, ARFF.Automobile, ARFF.Glass_Identification, ARFF.Statlog_Heart, ARFF.SolarFlare1, ARFF.Ecoli, ARFF.Ionosphere, ARFF.Dermatology, ARFF.Congressional_Voting_Records, ARFF.Breast_Cancer_Wisconsin_Original, ARFF.Connectionist_Bench_Vowel, ARFF.Balance, ARFF.Pima_Indians_Diabetes };
-		Fitness[] metrics = new Fitness[] { new CorrectRand(), new DaviesBouldin(), new MX() };
-
+		//ARFF[] bases = new ARFF[] { ARFF.Lung_Cancer, ARFF.Hepatitis, ARFF.Wine, ARFF.Automobile, ARFF.Glass_Identification, ARFF.Statlog_Heart, ARFF.SolarFlare1, ARFF.Ecoli, ARFF.Ionosphere, ARFF.Dermatology, ARFF.Congressional_Voting_Records, ARFF.Breast_Cancer_Wisconsin_Original, ARFF.Connectionist_Bench_Vowel, ARFF.Balance, ARFF.Pima_Indians_Diabetes };
+		ARFF[] bases = new ARFF[]{ARFF.Labor, ARFF.Pittsburgh_Bridges_V1, ARFF.Planning_Relax, ARFF.Flags, ARFF.Horse_Colic};
 		//bases = new ARFF[] { ARFF.Lung_Cancer, ARFF.Pima_Indians_Diabetes, ARFF.Balance, ARFF.Connectionist_Bench_Vowel, ARFF.Breast_Cancer_Wisconsin_Original, ARFF.Congressional_Voting_Records, ARFF.Dermatology, ARFF.Ionosphere, ARFF.Ecoli, ARFF.SolarFlare1, ARFF.Statlog_Heart, ARFF.Glass_Identification, ARFF.Automobile, ARFF.Wine, ARFF.Hepatitis, ARFF.Lung_Cancer };
+		//bases = new ARFF[] { ARFF.Pima_Indians_Diabetes };
+
+		Fitness[] metrics = new Fitness[] { new CorrectRand(), new DaviesBouldin(), new MX() };
+		//metrics = new Fitness[]{new MX()};
 
 		Hashtable<String, String> algorithmsParamenters = new Hashtable<String, String>();
 		algorithmsParamenters.put("ACO", "ACO MST(false) AFN(true) Alpha(0.500000) Beta(0.500000) Ro(0.200000)");
@@ -61,16 +60,47 @@ public class Main {
 		algorithmsParamenters.put("CRO3", "CRO dimension(100) InsertRand(false) InsertRank(true) Rho(0.900000) Fa-repication(0.500000) Fb-broadcast(0.800000) Fd-depredation(0.100000) StepsUntilDepredation(5)");
 		algorithmsParamenters.put("PSO", "PSO P-OwnWay(0.950000) P-PreviousPosition(0.050000) P-BestPosition(0.000000)");
 
-		PriorityQueue<String> queue = new PriorityQueue<String>();
-		queue.addAll(algorithmsParamenters.keySet());
-		System.out.print(String.format(Locale.ENGLISH, "%30s\t", ""));
-		while (!queue.isEmpty())
-			System.out.print(String.format(Locale.ENGLISH, "%10s\t", queue.poll()));
-		System.out.println();
+		//args = new String[] { "results/results.txt", ARFF.Wine.toString() };
+		//args = new String[]{logFile};
+		if (args.length > 0) {
+			if (args.length == 1) {
+				logFile = args[0]; // primeiro cria os arquivos
+				File logSummary = new File(logFile + ".output");
+				logSummary.delete();
+				File logResults = new File(logFile);
+				logResults.delete();
 
-		PrintStream out = new PrintStream(logFile);
-		out.println(String.format(Locale.ENGLISH, "%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s", "K", "Fitness", "Objective", "Algorithm", "Base", "Cluster", "AlgorithmParameters", "Time(s)"));
-		out.close();
+				PrintStream out = new PrintStream(new FileOutputStream(logFile, true));
+				out.println(String.format(Locale.ENGLISH, "%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s", "K", "Fitness", "Objective", "Algorithm", "Base", "Cluster", "AlgorithmParameters", "Time(s)"));
+				out.close();
+
+				PrintStream output = new PrintStream(new FileOutputStream(new File(logFile + ".output"), true));
+				System.setOut(output);
+
+				PriorityQueue<String> queue = new PriorityQueue<String>();
+				queue.addAll(algorithmsParamenters.keySet());
+				System.out.print(String.format(Locale.ENGLISH, "%30s\t", ""));
+				while (!queue.isEmpty())
+					System.out.print(String.format(Locale.ENGLISH, "%10s\t", queue.poll()));
+				System.out.println();
+			} else {
+				logFile = args[0];
+				ARFF arffStart = ARFF.valueOf(ARFF.class, args[1]); // segundo adiciona nos arquivos
+				MainExperimentsRestart.restartAtBase(new File(logFile), new File(logFile + ".output"), arffStart, bases);
+				Vector<ARFF> selected = new Vector<ARFF>();
+				int count = 0;
+				while (count < bases.length && bases[count] != arffStart) {
+					count++;
+				}
+				for (int i = count; i < bases.length; i++) {
+					selected.add(bases[i]);
+				}
+				bases = selected.toArray(new ARFF[] {});
+
+				PrintStream output = new PrintStream(new FileOutputStream(new File(logFile + ".output"), true));
+				System.setOut(output);
+			}
+		}
 
 		int numAlgorithms = algorithmsParamenters.size();
 		for (ARFF arff : bases) {
@@ -82,21 +112,28 @@ public class Main {
 				double[][] resultsJC = new double[numAlgorithms][(numMaxK - 1) * numRepetitions];
 
 				int rep = 0;
-				for (int k = 2; k <= numMaxK; k++) {
-					for (int current = 0; current < numRepetitions; current++) {
+				for (int current = 0; current < numRepetitions; current++) {
+					for (int k = 2; k <= numMaxK; k++) {
+						
+						///if(k!=10)
+							//continue;
+
 						Problem problem = new Problem(arff, fitness, k);
 						Solve.problem = problem;
 
 						int[][] clusterings = Main.getClusterings(arff, k);
-						Solve[] start = new Solve[numPopulation];
-						for (int i = 0; i < start.length; i++) {
-							start[i] = new Solve(k, clusterings, Solve.pPartitions, Solve.pEquals);
-							start[i].evaluate();
+						double[][] heuristicMachine = AntColonyOptimization.buildHeuristic2(k, clusterings);
+						Solve[][] start = new Solve[algorithmsParamenters.size()][];
+						for (int i = 0; i < algorithmsParamenters.size(); i++) {
+							start[i] = new Solve[numPopulation];
+							for (int j = 0; j < start[i].length; j++) {
+								start[i][j] = new Solve(k, clusterings, Solve.pPartitions, Solve.pEquals);
+								start[i][j].evaluate();
+							}
 						}
 
-						double[][] heuristicMachine = AntColonyOptimization.buildHeuristic2(k, clusterings);
-
-						OptimizationAlgorithm[] optimizers = new OptimizationAlgorithm[] { new AntColonyOptimization(start.clone(), epochs, false, 0.5, 0.5, 0.2, heuristicMachine), new GeneticAlgorithm(start.clone(), epochs, 0.1, 0.9), new BeeColonyOptimization(start.clone(), epochs, 10), new CoralReefOptimization(start.clone(), epochs, 100, false, 0.9, 0.5, 0.8, 0.05, 1), new CoralReefOptimization(start.clone(), epochs, 100, true, 0.9, 0.5, 0.8, 0.1, 5), new CoralReefOptimization(start.clone(), epochs, 100, false, 0.9, 0.5, 0.8, 0.1, 5), new ParticleSwarmOptimization(start.clone(), epochs, 0.95, 0.05, 0) };
+						OptimizationAlgorithm[] optimizers = new OptimizationAlgorithm[] { new AntColonyOptimization(start[0], epochs, false, 0.5, 0.5, 0.2, heuristicMachine), new GeneticAlgorithm(start[1], epochs, 0.1, 0.9), new BeeColonyOptimization(start[2], epochs, 10), new CoralReefOptimization(start[3], epochs, 100, false, 0.9, 0.5, 0.8, 0.05, 1), new CoralReefOptimization(start[4], epochs, 100, true, 0.9, 0.5, 0.8, 0.1, 5), new CoralReefOptimization(start[5], epochs, 100, false, 0.9, 0.5, 0.8, 0.1, 5), new ParticleSwarmOptimization(start[6], epochs, 0.95, 0.05, 0) };
+						//optimizers = new OptimizationAlgorithm[] { new BeeColonyOptimization(start[2], epochs, 10), new CoralReefOptimization(start[3], epochs, 100, false, 0.9, 0.5, 0.8, 0.05, 1), new CoralReefOptimization(start[4], epochs, 100, true, 0.9, 0.5, 0.8, 0.1, 5), new CoralReefOptimization(start[5], epochs, 100, false, 0.9, 0.5, 0.8, 0.1, 5), new ParticleSwarmOptimization(start[6], epochs, 0.95, 0.05, 0) };
 
 						for (int i = 0; i < optimizers.length; i++) {
 							evaluate(problem, arff, k, optimizers[i]);
@@ -113,6 +150,7 @@ public class Main {
 					}
 				}
 
+				boolean[] minimization = new boolean[] { new CalinskiHarabasz().isMinimization(), new Jaccard().isMinimization() };
 				String[] message = new String[] { "(CH)", "(JC)" };
 				double[][][] results = new double[][][] { resultsCH, resultsJC };
 				for (int res = 0; res < results.length; res++) {
@@ -139,14 +177,14 @@ public class Main {
 					}
 
 					double[][] t = transp(avg);
-					int[][] rank = new int[t.length][t[0].length];
+					double[][] rank = new double[t.length][t[0].length];
 					for (int i = 0; i < rank.length; i++) {
-						rank[i] = Analysis.getRank(t[i]);
+						rank[i] = minimization[res] ? Analysis.getMinimumRank(t[i]) : Analysis.getMaximumRank(t[i]);
 					}
-					int[][] tRank = transp(rank);
+					double[][] tRank = transp(rank);
 					System.out.print(String.format("%20s%10s\t", fitness.getClass().getSimpleName(), message[res]));
 					for (int i = 0; i < tRank.length; i++) {
-						System.out.print(String.format(Locale.ENGLISH, "%6.2f±%-6.2f\t", Analysis.average(tRank[i]), Analysis.desviation(tRank[i])));
+						System.out.print(String.format(Locale.ENGLISH, "%6.2fï¿½%-6.2f\t", Analysis.average(tRank[i]), Analysis.desviation(tRank[i])));
 					}
 					System.out.println();
 
@@ -208,10 +246,10 @@ public class Main {
 		c1.setOptions(Utils.splitOptions("-N " + k + " -L SINGLE -P -A \"weka.core.EuclideanDistance -R first-last\""));
 
 		AbstractClusterer c2 = new SimpleKMeans();
-		c2.setOptions(Utils.splitOptions("-init 0 -max-candidates 100 -periodic-pruning 10000 -min-density 2.0 -t1 -1.25 -t2 -1.0 -N " + k + " -A \"weka.core.EuclideanDistance -R first-last\" -I 500 -num-slots 1 -S 10"));
+		c2.setOptions(Utils.splitOptions("-init 0 -max-candidates 100 -periodic-pruning 10000 -min-density 2.0 -t1 -1.25 -t2 -1.0 -N " + k + " -A \"weka.core.EuclideanDistance -R first-last\" -I 500 -num-slots 1 -S " + Problem.rand.nextInt(Integer.MAX_VALUE)));
 
 		AbstractClusterer c3 = new EM();
-		c3.setOptions(Utils.splitOptions("-I 100 -N " + k + " -M 1.0E-6 -S 100"));
+		c3.setOptions(Utils.splitOptions("-I 100 -N " + k + " -M 1.0E-6 -S " + Problem.rand.nextInt(Integer.MAX_VALUE)));
 
 		int[][] clustering = new int[3][instances.numInstances()];
 		AbstractClusterer[] c = new AbstractClusterer[] { c1, c2, c3 };

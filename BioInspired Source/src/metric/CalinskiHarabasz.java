@@ -16,6 +16,11 @@ public class CalinskiHarabasz implements Fitness {
 	private static boolean m_PreserveOrder = false;
 	
 	@Override
+	public boolean isMinimization (){ // quanto maior melhor
+		return false;
+	}
+	
+	@Override
 	public double evaluate(Instances instances, int[] consensus) {
 		Instances dataset = new Instances(instances);
 		Util.replaceClassByConsensus(dataset, consensus);

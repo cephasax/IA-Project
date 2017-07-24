@@ -8,10 +8,15 @@ import weka.core.Instances;
 public class Dom implements Fitness {
 
 	@Override
+	public boolean isMinimization() { // quanto menor melhor
+		return false;
+	}
+
+	@Override
 	public double evaluate(Instances instances, int[] consensus) {
 		Instances y = new Instances(instances);
 		Util.replaceClassByConsensus(y, consensus);
-		
+
 		Instances[] clustersOriginal = new Instances[instances.numClasses()];
 		Instances[] clustersModified = new Instances[y.numClasses()];
 
@@ -21,7 +26,7 @@ public class Dom implements Fitness {
 			clustersModified[i] = new Instances(y, 0);
 		for (int i = 0; i < instances.numInstances(); i++)
 			clustersOriginal[((Double) instances.instance(i).classValue()).intValue()].add(instances.instance(i));
-		for (int i = 0; i < y.numInstances(); i++) 
+		for (int i = 0; i < y.numInstances(); i++)
 			clustersModified[((Double) y.instance(i).classValue()).intValue()].add(y.instance(i));
 
 		// ====================================================================
@@ -41,11 +46,16 @@ public class Dom implements Fitness {
 		// ===================================================================
 		double sum = 0;
 		for (int i = 0; i < clustersModified.length; i++) {
-			sum += Math.log(combinationOf(clustersModified[i].numInstances() + clustersModified.length - 1, clustersModified.length - 1));
+				sum += Math.log(combinationOf(clustersModified[i].numInstances() + clustersModified.length - 1, clustersModified.length - 1));
+				//System.out.println(sum + " " + Math.log(combinationOf(clustersModified[i].numInstances() + clustersModified.length - 1, clustersModified.length - 1)) +" " + (clustersModified.length - 1));
+			
 		}
 		// ===================================================================
 
 		double dom = H + sum * (1 / n);
+
+		//System.out.println(H + " + " + sum + " * " + 1 / n + " = " + dom);
+
 		return dom;
 	}
 
@@ -82,23 +92,23 @@ public class Dom implements Fitness {
 			return a;
 		if (b > (a - b))
 			b = a - b;
-		return arrange(a, b) / factorial(b);
+		return (long) (arrange(a, b) / factorial(b));
 	}
 
-	public static long factorial(long n) {
-		if (n < 3) 
+	public static double factorial(long n) {
+		if (n < 3)
 			return n;
-		long x = 2;
-		for (long i = 3; i <= n; i++)
+		double x = 2;
+		for (double i = 3; i <= n; i++)
 			x *= i;
 		return x;
 	}
 
-	public static long arrange(long a, long b) {
+	public static double arrange(long a, long b) {
 		if ((a == b) || (b == 0))
 			return 1;
-		long x = a;
-		for (long i = x - 1; i >= (a - b + 1); i--)
+		double x = a;
+		for (double i = x - 1; i >= (a - b + 1); i--)
 			x *= i;
 		return x;
 	}
