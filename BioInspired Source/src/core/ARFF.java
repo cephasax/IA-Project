@@ -1,6 +1,6 @@
 package core;
 
-public enum ARFF {
+public enum ARFF implements Database {
 
 	ADS("ADS.arff"),
 
@@ -124,9 +124,13 @@ public enum ARFF {
 
 	Zoo("Zoo.arff");
 
-	public String location;
+	private String location;
 
 	ARFF(String location) {
-		this.location = "dat/" + location;
+		this.location = "resources/" + location;
+	}
+	
+	public String getLocation(){
+		return location;
 	}
 }

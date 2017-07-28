@@ -2,33 +2,7 @@ package core;
 
 import java.util.Arrays;
 
-import org.apache.commons.math3.distribution.FDistribution;
-import org.apache.commons.math3.distribution.TDistribution;
-
 public class FriedmanTukey {
-
-	public static void main(String[] args) {
-		double[][] values = new double[][] {
-			{0.225453195,	0.023222222,	0.081850534,	0.000810373},
-				{0.215453195,	0.022222222,	0.081850534,	0.000810373},
-				{0.215453195,	0.022222222,	0.081850534,	0.000810373},
-				{0.215453195,	0.022222222,	0.081850534,	0.000810373},
-				{0.215453195,	0.022222222,	0.081850534,	0.000810373},
-				{0.215453195,	0.022222222,	0.081850534,	0.000810373},
-
-		};
-		FriedmanTukey friedman = new FriedmanTukey();
-		System.out.println(friedman.evaluate(values));
-
-		for (int i = 0; i < values.length; i++) {
-			for (int j = 0; j < values.length; j++) {
-				System.out.print(String.format("%.4f", friedman.posthoc(i, j)));
-				System.out.print(" ");
-			}
-			System.out.println();
-		}
-
-	}
 
 	private double[] R;
 
@@ -38,7 +12,7 @@ public class FriedmanTukey {
 
 	// n > 15 or k > 4
 	public double evaluate(double[]... samples) {
-		if (samples.length < 2 || samples[0].length < 2) {
+		/*if (samples.length < 2 || samples[0].length < 2) {
 			return 1;
 		}
 
@@ -135,13 +109,15 @@ public class FriedmanTukey {
 		posthoc = sse;
 		df = (b - 1) * (k - 1);
 
-		return 1.0 - new FDistribution(k - 1, (b - 1) * (k - 1)).cumulativeProbability(T2);
+		return 1.0 - new FDistribution(k - 1, (b - 1) * (k - 1)).cumulativeProbability(T2);*/
+		return Double.NaN;
 	}
 
 	public double posthoc(int a, int b) {
-		double pvalue = Math.abs(R[a] - R[b]) / posthoc;
+		/*double pvalue = Math.abs(R[a] - R[b]) / posthoc;
 		TDistribution tdist = new TDistribution(df);
 		pvalue = 2.0 * (1.0 - tdist.cumulativeProbability(pvalue));
-		return pvalue;
+		return pvalue;*/
+		return Double.NaN;
 	}
 }

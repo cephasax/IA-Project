@@ -8,6 +8,12 @@ import java.util.Vector;
 public abstract class OptimizationAlgorithm {
 	
 	protected static final int maxStepsWhitoutUpdate = 20;
+	
+	protected Random rand;
+	
+	public OptimizationAlgorithm(Random rand){
+		this.rand = rand;
+	}
 
 	public abstract void run();
 
@@ -36,8 +42,8 @@ public abstract class OptimizationAlgorithm {
 	protected Solve mutation(Solve solve, double mutate) {
 		Solve m = new Solve(solve);
 		for (int j = 0; j < solve.cluster.length; j++) {
-			if (Problem.rand.nextDouble() < mutate) {
-				int newSet = Problem.rand.nextInt(solve.getNumClusteres());
+			if (rand.nextDouble() < mutate) {
+				int newSet = rand.nextInt(solve.getNumClusteres());
 				m.cluster[j] = newSet;
 			}
 		}
@@ -47,8 +53,8 @@ public abstract class OptimizationAlgorithm {
 
 	protected Solve crossover(Solve a, Solve b) {
 		Solve out = new Solve(a);
-		int indexA = Problem.rand.nextInt(a.cluster.length / 2);
-		int indexB = b.cluster.length / 2 + Problem.rand.nextInt(b.cluster.length / 2);
+		int indexA = rand.nextInt(a.cluster.length / 2);
+		int indexB = b.cluster.length / 2 + rand.nextInt(b.cluster.length / 2);
 		for (int i = indexA; i < indexB; i++)
 			out.cluster[i] = b.cluster[i];
 		out.evaluate();
@@ -76,7 +82,7 @@ public abstract class OptimizationAlgorithm {
 			for (int i = 0; i < size; i++) {
 				int originalCluster = s.cluster[i];
 				double oldCost = s.cost;
-				int index = Problem.rand.nextInt(s.cluster.length);
+				int index = rand.nextInt(s.cluster.length);
 				s.cluster[index] = rand.nextInt(start.getNumClusteres());
 				s.evaluate();
 				if (best == null || s.cost < best.cost) {

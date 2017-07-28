@@ -3,6 +3,7 @@ package core;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Locale;
+import java.util.Random;
 import java.util.Vector;
 
 public class Solve implements Cloneable {
@@ -11,7 +12,7 @@ public class Solve implements Cloneable {
 
 	public static final double pEquals = 0.9;
 
-	public static Problem problem;
+	public Problem problem;
 
 	public int[] cluster;
 
@@ -24,10 +25,11 @@ public class Solve implements Cloneable {
 	 * @param partitions Probabilidade do valor ser escolhido entre as partições.
 	 * @param equals Se o valor for escolhido entre as partições elea probabilidade equals de ser o mesmo valor.
 	 */
-	public Solve(int k, int[][] clusterings, double partitions, double equals) {
+	public Solve(Problem problem, int k, int[][] clusterings, double partitions, double equals, Random rand) {
+		this.problem = problem;
 		cluster = new int[clusterings[0].length];
 		for (int i = 0; i < cluster.length; i++) {
-			if (Problem.rand.nextDouble() < partitions) {
+			if (rand.nextDouble() < partitions) {
 				HashSet<Integer> set = new HashSet<Integer>();
 				for (int j = 0; j < clusterings.length; j++)
 					set.add(clusterings[j][i]);
@@ -36,19 +38,21 @@ public class Solve implements Cloneable {
 					for (int j = 0; j < k; j++)
 						if (j != clusterings[0][i])
 							others.add(j);
-					cluster[i] = Problem.rand.nextDouble() < equals ? clusterings[0][i] : others.get(Problem.rand.nextInt(others.size()));
+					cluster[i] = rand.nextDouble() < equals ? clusterings[0][i] : others.get(rand.nextInt(others.size()));
 				}
 			} else {
-				cluster[i] = Problem.rand.nextInt(k);
+				cluster[i] = rand.nextInt(k);
 			}
 		}
 	}
 	
-	public Solve(int [] cluster) {
+	public Solve(Problem problem, int [] cluster) {
+		this.problem = problem;
 		this.cluster = cluster.clone();
 	}
 
 	public Solve(Solve solve) {
+		problem = solve.problem;
 		cluster = solve.cluster.clone();
 		cost = solve.cost;
 	}
@@ -64,16 +68,16 @@ public class Solve implements Cloneable {
 		return set.size() == getNumClusteres();
 	}
 
-	public void randomize() {
-		for (int i = 0; i < cluster.length; i++)
-			cluster[i] = Problem.rand.nextInt(getNumClusteres());
-	}
-
 	public int numClusteres(int clustering) {
 		HashSet<Integer> set = new HashSet<Integer>();
 		for (int i = 0; i < cluster.length; i++)
 			set.add(cluster[i]);
 		return set.size();
+	}
+	
+	public void randomize(Random rand) {
+		for (int i = 0; i < cluster.length; i++)
+			cluster[i] = rand.nextInt(getNumClusteres());
 	}
 
 	public void evaluate() {

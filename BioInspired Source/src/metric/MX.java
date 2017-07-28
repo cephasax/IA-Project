@@ -17,6 +17,7 @@ public class MX implements Fitness {
 
 	@Override
 	public double evaluate(Instances instances, int[] consensus) {
+		instances = new Instances(instances);
 		Util.replaceClassByConsensus(instances, consensus);
 
 		double[][] distance = new double[instances.numInstances()][instances.numInstances()];

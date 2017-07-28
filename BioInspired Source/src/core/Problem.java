@@ -3,13 +3,10 @@ package core;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.Random;
 
 import weka.core.Instances;
 
 public class Problem {
-
-	public static Random rand = new Random();
 
 	private int k;
 
@@ -17,11 +14,11 @@ public class Problem {
 
 	private Instances instances;
 
-	public Problem(ARFF base, Fitness fitness, int k) {
+	public Problem(Database base, Fitness fitness, int k) {
 		this.k = k;
 		this.fitness = fitness;
 		try {
-			instances = new Instances(new FileReader(base.location));
+			instances = new Instances(new FileReader(base.getLocation()));
 			instances.setClassIndex(instances.numAttributes() - 1);
 		} catch (IOException e) {
 			e.printStackTrace();

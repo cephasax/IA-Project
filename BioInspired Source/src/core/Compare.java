@@ -110,8 +110,8 @@ public class Compare {
 
 		double[] valuesInBases = new double[bases.length * sizeK * Main.numRepetitions];
 		int count = 0;
-		for (ARFF arff : bases) {
-			Instances instances = new Instances(new FileReader(new File(arff.location)));
+		for (Database arff : bases) {
+			Instances instances = new Instances(new FileReader(new File(arff.getLocation())));
 			instances.setClassIndex(instances.numAttributes() - 1);
 
 			double[] values = new double[sizeK * Main.numRepetitions];
@@ -122,9 +122,8 @@ public class Compare {
 				Vector<int[]> numk = a.get(Integer.toString(k + 2));
 				int[][] consensus = numk.toArray(new int[][] {});
 				Problem p = new Problem(arff, eval, k + 2);
-				Solve.problem = p;
 				for (int i = 0; i < consensus.length; i++) {
-					Solve solve = new Solve(consensus[i]);
+					Solve solve = new Solve(p, consensus[i]);
 					solve.evaluate();
 					values[(k * consensus.length) + i] = Double.isInfinite(solve.cost) ? 10000 : solve.cost;
 				}

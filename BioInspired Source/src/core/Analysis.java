@@ -6,18 +6,14 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Locale;
 import java.util.PriorityQueue;
 import java.util.Vector;
 
-import metric.CalinskiHarabasz;
 import metric.CorrectRand;
 import metric.DaviesBouldin;
 import metric.Dom;
-import metric.Dunn;
-import metric.Jaccard;
 import metric.MX;
 import weka.core.Instances;
 
@@ -71,8 +67,8 @@ public class Analysis {
 			
 			for (int m = 0; m < metrics.length; m++) {
 				System.out.println(String.format("%s", metrics[m].getClass().getSimpleName()));
-				for (ARFF arff : bases) {
-					Instances instances = new Instances(new FileReader(new File(arff.location)));
+				for (Database arff : bases) {
+					Instances instances = new Instances(new FileReader(new File(arff.getLocation())));
 					instances.setClassIndex(instances.numAttributes() - 1);
 
 					double[][] values = new double[algorithmsParamenters.size()][sizeK * Main.numRepetitions];
@@ -90,9 +86,8 @@ public class Analysis {
 								Vector<int[]> numk = a.get(Integer.toString(k + 2));
 								int[][] consensus = numk.toArray(new int[][] {});
 								Problem p = new Problem(arff, eval, k + 2);
-								Solve.problem = p;
 								for (int i = 0; i < consensus.length; i++) {
-									Solve solve = new Solve(consensus[i]);
+									Solve solve = new Solve(p, consensus[i]);
 									solve.evaluate();
 									values[count][(k * consensus.length) + i] = solve.cost;
 								}
@@ -131,9 +126,8 @@ public class Analysis {
 								Vector<int[]> numk = a.get(Integer.toString(k + 2));
 								int[][] consensus = numk.toArray(new int[][] {});
 								Problem p = new Problem(arff, eval, k + 2);
-								Solve.problem = p;
 								for (int i = 0; i < consensus.length; i++) {
-									Solve solve = new Solve(consensus[i]);
+									Solve solve = new Solve(p, consensus[i]);
 									solve.evaluate();
 									values[count][(k * consensus.length) + i] = solve.cost;
 								}
@@ -154,9 +148,8 @@ public class Analysis {
 								Vector<int[]> numk = a.get(Integer.toString(k + 2));
 								int[][] consensus = numk.toArray(new int[][] {});
 								Problem p = new Problem(arff, eval, k + 2);
-								Solve.problem = p;
 								for (int i = 0; i < consensus.length; i++) {
-									Solve solve = new Solve(consensus[i]);
+									Solve solve = new Solve(p, consensus[i]);
 									solve.evaluate();
 									values[count][(k * consensus.length) + i] = solve.cost;
 								}
@@ -282,7 +275,7 @@ public class Analysis {
 			}
 		}
 
-		double[][] tValues = Main.transp(avgRepetitions);
+		double[][] tValues = transp(avgRepetitions);
 		double[][] rank = new double[tValues.length][];
 		for (int i = 0; i < rank.length; i++) {
 			double[] r = minimum ? getMinimumRank(tValues[i]) : getMaximumRank(tValues[i]);
@@ -291,7 +284,7 @@ public class Analysis {
 				rank[i][j] = r[j];
 		}
 
-		double[][] tRank = Main.transp(rank);
+		double[][] tRank = transp(rank);
 		return tRank;
 	}
 
@@ -397,5 +390,13 @@ public class Analysis {
 		}
 		out.close();
 		in.close();
+	}
+	
+	public static double[][] transp(double[][] values) {
+		double[][] v = new double[values[0].length][values.length];
+		for (int i = 0; i < v.length; i++)
+			for (int j = 0; j < v[0].length; j++)
+				v[i][j] = values[j][i];
+		return v;
 	}
 }

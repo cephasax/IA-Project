@@ -18,7 +18,7 @@
 @attribute att151 numeric
 @attribute att161 numeric
 @attribute att171 numeric
-@attribute class {-3,-2,-1,0,1,2,3}
+@attribute class {-2,-1,0,1,2,3}
 
 @data
 alfa-romero,gas,std,convertible,rwd,front,0.05831,0.41343,0.31667,0.08333,0.41117,dohc,four,0.26038,mpfi,0.125,0.22222,0.28947,3

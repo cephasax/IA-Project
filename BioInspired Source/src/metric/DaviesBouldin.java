@@ -15,6 +15,7 @@ public class DaviesBouldin implements Fitness {
 	}
 	
 	public double evaluate(Instances instances, int[] clustering) {
+		instances = new Instances(instances);
 		Util.replaceClassByConsensus(instances, clustering);
 
 		Instances[] group = new Instances[instances.numClasses()];

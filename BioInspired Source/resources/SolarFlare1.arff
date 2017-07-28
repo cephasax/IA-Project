@@ -10,7 +10,7 @@
 @attribute att71 {1,2}
 @attribute att81 {1,2}
 @attribute att91 {1,2}
-@attribute class {0,1,2,3,4,5,6,8}
+@attribute class {0,1,2}
 
 @data
 C,S,O,1,2,1,1,2,1,2,0

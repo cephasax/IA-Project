@@ -1,21 +1,21 @@
-@relation 'Congressional Voting Records.arff'
+@relation 'Congressional Voting Records'
 
-@attribute att01 {n,y}
-@attribute att11 {n,y}
-@attribute att21 {n,y}
-@attribute att31 {n,y}
-@attribute att41 {n,y}
-@attribute att51 {n,y}
-@attribute att61 {n,y}
-@attribute att71 {n,y}
-@attribute att81 {n,y}
-@attribute att91 {n,y}
-@attribute att101 {n,y}
-@attribute att111 {n,y}
-@attribute att121 {n,y}
-@attribute att131 {n,y}
-@attribute att141 {n,y}
-@attribute att151 {n,y}
+@attribute ATT1 {n,y}
+@attribute ATT2 {n,y}
+@attribute ATT3 {n,y}
+@attribute ATT4 {n,y}
+@attribute ATT5 {n,y}
+@attribute ATT6 {n,y}
+@attribute ATT7 {n,y}
+@attribute ATT8 {n,y}
+@attribute ATT9 {n,y}
+@attribute ATT10 {n,y}
+@attribute ATT11 {n,y}
+@attribute ATT12 {n,y}
+@attribute ATT13 {n,y}
+@attribute ATT14 {n,y}
+@attribute ATT15 {n,y}
+@attribute ATT16 {n,y}
 @attribute class {republican,democrat}
 
 @data
@@ -36,12 +36,12 @@ y,y,y,n,n,y,y,y,y,y,y,n,n,n,y,y,democrat
 n,y,n,y,y,y,n,n,n,n,n,y,y,y,n,y,republican
 n,y,n,y,y,y,n,n,n,y,n,y,y,y,n,y,republican
 y,n,y,n,n,y,n,y,y,y,y,y,n,n,n,y,democrat
-y,y,y,n,n,n,y,y,y,n,n,n,y,n,y,y,democrat
+y,n,y,n,n,n,y,y,y,n,n,n,y,n,y,y,democrat
 n,y,n,y,y,y,n,n,n,n,n,y,y,y,n,n,republican
 y,y,y,n,n,n,y,y,y,n,y,n,n,n,y,y,democrat
 y,y,y,n,n,n,y,y,n,n,y,n,n,n,y,y,democrat
 y,y,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
-y,y,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
+y,n,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
 y,y,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
 y,n,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
 y,n,y,n,n,n,y,y,y,y,n,n,n,n,y,y,democrat
@@ -55,11 +55,11 @@ y,y,y,n,n,n,y,y,y,y,n,n,y,n,y,y,democrat
 n,y,n,y,y,y,n,n,n,n,n,y,y,y,n,y,republican
 y,y,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
 n,y,n,y,y,y,n,n,n,n,n,y,y,y,n,n,republican
-y,y,n,y,y,y,n,n,n,y,n,y,y,y,n,y,republican
+y,n,n,y,y,y,n,n,n,y,n,y,y,y,n,y,republican
 y,y,n,y,y,y,n,n,n,n,n,n,y,y,n,y,republican
 n,y,n,y,y,y,n,n,n,y,n,y,y,y,n,n,republican
 y,n,y,n,n,n,y,y,y,y,y,n,y,n,y,y,democrat
-y,y,y,n,n,n,y,y,y,n,y,n,n,n,n,y,democrat
+y,y,y,n,n,n,y,y,y,n,n,n,n,n,n,y,democrat
 y,y,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
 y,n,y,n,n,n,y,y,y,n,n,n,n,n,n,y,democrat
 y,n,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
@@ -68,7 +68,7 @@ y,y,y,n,n,n,y,y,y,n,y,n,n,n,y,y,democrat
 y,y,y,n,n,n,y,y,y,n,n,n,n,n,n,y,democrat
 y,n,y,n,n,n,y,y,y,n,n,n,n,n,n,y,democrat
 y,y,y,n,n,n,y,y,n,n,n,n,n,y,n,y,democrat
-n,y,n,y,y,y,n,n,n,n,n,y,y,y,n,n,republican
+n,n,n,y,y,y,n,n,n,n,n,y,y,y,n,n,republican
 y,y,y,n,n,n,y,y,y,n,y,n,n,n,y,y,democrat
 n,y,n,y,y,y,n,n,n,n,n,y,y,y,n,y,republican
 y,y,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
@@ -87,7 +87,7 @@ y,y,y,n,n,n,y,y,y,n,y,n,n,n,n,y,democrat
 y,y,n,y,y,y,y,n,n,n,n,y,y,y,n,y,republican
 n,y,n,y,y,y,y,n,n,n,y,y,y,y,n,y,republican
 n,y,n,y,y,y,n,n,n,y,n,y,y,y,n,n,republican
-y,y,y,n,n,n,y,y,y,n,n,n,y,n,y,y,democrat
+y,n,y,n,n,n,y,y,y,n,n,n,y,n,y,y,democrat
 y,y,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
 y,n,y,n,n,n,y,y,y,n,n,n,y,n,y,y,democrat
 y,y,y,y,n,n,y,y,y,y,y,n,n,y,n,y,republican
@@ -103,7 +103,7 @@ y,n,y,n,n,y,y,y,y,y,n,y,n,y,n,y,democrat
 y,n,y,n,n,n,y,y,y,y,y,y,n,y,n,y,democrat
 n,n,n,y,y,y,n,n,n,y,n,y,y,y,n,y,republican
 n,n,n,y,y,y,n,n,n,n,n,y,y,y,n,n,republican
-n,y,n,y,y,y,n,n,n,y,n,y,y,y,n,n,republican
+n,n,n,y,y,y,n,n,n,y,n,y,y,y,n,n,republican
 n,n,y,n,y,y,n,n,n,y,y,y,y,y,n,y,democrat
 n,n,n,y,y,y,n,n,n,y,n,y,y,y,n,n,republican
 n,n,n,y,y,y,n,n,n,n,n,y,y,y,n,n,republican
@@ -123,47 +123,47 @@ y,n,n,n,y,y,n,n,n,n,y,y,n,y,n,y,democrat
 y,n,y,n,y,y,y,n,n,n,y,n,n,y,n,y,democrat
 y,n,y,n,y,y,y,n,y,n,y,n,y,y,y,y,democrat
 y,n,n,n,y,y,y,n,y,n,n,n,n,y,y,n,democrat
-y,y,y,n,n,y,y,y,y,y,y,n,y,y,n,y,democrat
+y,n,y,n,n,y,y,y,y,y,n,n,y,y,n,y,democrat
 y,y,y,n,n,n,n,y,y,n,y,n,n,n,y,y,democrat
 n,y,n,y,y,y,n,n,n,n,n,y,y,y,n,y,republican
-n,y,n,y,y,y,n,n,n,y,n,y,y,y,n,y,republican
-y,y,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
-y,y,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
+n,n,n,y,y,y,n,n,n,y,n,y,y,y,n,y,republican
+y,n,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
+y,n,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
 n,n,y,n,n,n,y,y,y,y,n,n,n,n,y,y,democrat
-n,y,n,y,y,y,n,n,n,y,n,y,y,y,n,y,republican
-n,y,y,n,n,y,y,y,n,y,n,n,n,n,y,y,democrat
-n,y,n,y,y,y,n,n,n,y,n,y,y,y,n,n,republican
-y,y,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
-n,y,y,n,n,n,y,y,y,y,y,n,n,n,y,y,democrat
+n,n,n,y,y,y,n,n,n,y,n,y,y,y,n,y,republican
+n,n,y,n,n,y,y,y,n,y,n,n,n,n,y,y,democrat
+n,n,n,y,y,y,n,n,n,y,n,y,y,y,n,n,republican
+y,n,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
+n,n,y,n,n,n,y,y,y,y,n,n,n,n,y,y,democrat
 y,n,y,n,n,n,y,y,y,n,y,n,n,n,y,y,democrat
 y,y,y,y,y,n,y,n,n,n,n,y,y,y,n,y,republican
 n,y,y,n,n,n,n,y,y,y,y,n,n,n,y,y,democrat
 n,n,n,y,y,y,n,n,n,n,n,y,y,y,n,n,republican
-n,y,n,y,y,y,n,n,n,y,n,y,y,y,n,y,republican
-n,y,n,y,y,y,n,n,n,y,n,y,y,y,n,y,republican
+n,n,n,y,y,y,n,n,n,y,n,y,y,y,n,y,republican
+n,n,n,y,y,y,n,n,n,y,n,y,y,y,n,y,republican
 n,n,n,y,y,y,n,n,n,y,n,y,n,y,n,y,republican
-y,y,n,y,y,y,n,y,n,n,n,y,y,y,n,y,republican
-n,y,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
-n,y,n,y,y,y,n,n,n,y,n,y,y,y,n,y,republican
-n,y,n,y,y,y,n,n,n,n,n,y,y,y,n,n,republican
-n,y,y,n,n,n,y,y,y,y,y,n,n,y,y,y,democrat
-n,y,y,n,n,y,n,y,n,y,y,n,n,n,y,y,democrat
-y,y,y,n,n,n,y,y,y,n,y,n,n,n,y,y,democrat
-y,y,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
+y,n,n,y,y,y,n,y,n,n,n,y,y,y,n,y,republican
+n,n,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
+n,n,n,y,y,y,n,n,n,y,n,y,y,y,n,y,republican
+n,n,n,y,y,y,n,n,n,n,n,y,y,y,n,n,republican
+n,n,y,n,n,n,y,y,y,y,y,n,n,y,y,y,democrat
+n,n,y,n,n,y,n,y,n,y,y,n,n,n,y,y,democrat
+y,n,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
+y,n,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
 n,n,y,n,n,y,n,y,y,y,n,n,n,y,n,y,democrat
 n,n,n,y,y,y,n,n,n,y,n,y,y,y,n,y,republican
 n,n,n,y,y,y,n,n,n,y,n,y,y,y,n,y,republican
 n,n,n,y,y,y,n,n,n,n,n,y,y,y,n,y,republican
 n,n,n,y,y,y,n,n,n,y,n,y,y,y,n,n,republican
 n,y,n,y,y,y,n,n,n,y,y,y,y,n,n,y,republican
-n,y,y,n,n,y,y,y,y,y,n,n,n,y,y,y,democrat
+n,n,y,n,n,y,y,y,y,y,n,n,n,y,y,y,democrat
 n,n,y,n,n,y,y,y,y,y,n,n,n,y,n,y,democrat
 y,n,y,n,n,y,y,y,y,n,n,n,n,n,y,y,democrat
 n,n,n,y,n,n,y,y,y,y,n,n,y,y,n,y,republican
 n,n,n,y,y,y,y,y,y,y,n,y,y,y,n,y,republican
 n,n,n,y,y,y,y,y,y,y,n,y,y,y,n,y,republican
 y,y,n,n,n,n,y,y,y,y,y,n,n,y,y,y,democrat
-n,y,n,n,n,y,y,y,y,y,n,n,n,y,n,y,democrat
+n,n,n,n,n,y,y,y,y,y,n,n,n,y,n,y,democrat
 n,n,y,n,n,y,y,y,y,y,n,n,n,y,y,y,democrat
 n,y,n,y,y,y,n,n,n,n,n,y,y,y,n,y,republican
 n,n,n,n,n,n,y,y,y,y,n,y,y,y,y,y,democrat
@@ -190,33 +190,33 @@ y,n,y,y,y,y,y,y,n,y,y,y,n,y,y,y,republican
 n,n,y,y,y,y,n,n,y,n,n,n,y,y,y,y,democrat
 y,n,y,n,n,n,y,y,y,y,y,n,n,y,n,y,democrat
 y,n,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
-n,y,n,y,y,y,n,n,n,y,n,y,y,y,n,y,republican
+n,n,n,y,y,y,n,n,n,y,n,y,y,y,n,y,republican
 n,y,y,n,n,n,y,y,y,y,n,n,n,n,y,y,democrat
 n,n,n,n,y,y,n,n,n,y,y,y,y,y,n,y,democrat
-y,y,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
+y,n,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
 n,y,y,n,n,n,y,y,y,y,n,n,n,n,y,y,democrat
 n,n,y,y,n,n,y,y,y,y,n,n,n,y,y,y,republican
 n,n,y,n,n,n,y,y,y,y,y,n,n,n,y,y,democrat
 y,n,y,n,n,n,y,y,y,y,y,n,n,n,y,y,democrat
 y,n,y,n,n,n,y,y,y,y,n,n,n,n,y,y,democrat
-y,y,y,n,n,n,y,y,y,n,y,n,n,n,y,y,democrat
+y,n,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
 n,n,y,n,n,n,y,y,y,y,y,n,n,n,y,y,democrat
-y,y,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
-y,y,y,n,n,n,y,y,y,n,y,n,n,n,y,y,democrat
+y,n,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
+y,n,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
 n,n,y,n,n,n,y,y,y,y,y,n,n,n,y,y,democrat
 y,n,y,n,n,n,y,y,y,y,n,n,n,n,y,y,democrat
 n,y,y,n,n,n,y,y,y,y,y,n,n,n,y,y,democrat
 y,n,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
-y,y,n,y,y,y,y,y,n,n,n,y,y,y,n,y,republican
+y,n,n,y,y,y,y,y,n,n,n,y,y,y,n,y,republican
 y,n,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
-n,y,n,y,y,y,n,n,n,n,n,y,y,y,n,y,republican
+n,n,n,y,y,y,n,n,n,n,n,y,y,y,n,y,republican
 n,y,n,y,y,y,n,n,n,y,n,y,y,y,n,y,republican
 n,n,n,n,n,y,y,y,y,n,y,n,n,y,y,y,democrat
 n,n,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
 n,n,y,n,n,y,y,y,y,y,y,n,n,n,y,y,democrat
 n,n,n,y,y,y,n,n,n,n,n,y,y,y,n,y,republican
 n,n,y,n,n,y,y,y,y,n,y,y,n,y,y,y,democrat
-n,y,y,y,y,y,n,n,n,y,n,n,n,y,n,y,republican
+n,n,y,y,y,y,n,n,n,y,n,n,n,y,n,y,republican
 n,n,y,n,n,n,y,y,y,y,y,n,n,n,y,y,democrat
 y,y,n,n,n,n,y,y,y,n,y,n,n,n,y,y,democrat
 n,n,y,n,n,n,y,y,y,n,n,n,n,y,y,y,democrat
@@ -226,7 +226,7 @@ y,n,y,n,n,n,y,y,y,y,n,n,n,n,y,y,democrat
 n,n,y,y,y,y,y,n,n,n,n,y,y,y,n,y,republican
 n,n,y,n,n,y,y,y,y,y,n,y,n,n,n,y,democrat
 n,n,n,y,y,y,n,n,n,y,n,y,n,y,n,y,republican
-y,y,n,y,y,y,y,n,n,y,n,y,y,y,n,y,republican
+y,n,n,y,y,y,y,n,n,y,n,y,y,y,n,y,republican
 n,n,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
 y,y,y,n,n,n,y,y,y,y,y,n,n,n,n,y,democrat
 n,n,y,n,n,y,y,y,y,n,n,n,n,n,y,y,democrat
@@ -237,14 +237,14 @@ y,y,n,y,y,y,n,n,n,y,n,y,y,y,n,y,republican
 n,y,y,y,y,y,n,n,n,y,y,y,y,y,y,y,democrat
 y,y,y,n,y,y,n,n,y,y,n,n,n,y,y,y,democrat
 n,y,n,y,y,y,n,n,n,y,n,y,y,y,n,n,republican
-y,y,y,n,n,n,y,y,y,n,y,n,n,n,y,y,democrat
+y,n,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
 n,y,y,n,n,n,n,y,y,n,y,n,n,y,y,y,democrat
 n,n,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
 n,y,y,n,y,y,n,n,n,n,y,n,n,n,y,y,democrat
 y,n,y,n,n,n,y,y,y,n,y,n,n,n,y,y,democrat
 n,n,n,y,y,n,n,n,n,n,n,y,y,y,n,y,republican
 n,y,n,y,y,y,n,n,n,y,n,y,y,y,n,n,republican
-n,y,n,y,y,y,n,n,n,n,n,y,y,y,n,y,republican
+n,n,n,y,y,y,n,n,n,n,n,y,y,y,n,y,republican
 n,n,y,n,n,y,y,y,y,n,y,n,n,y,y,y,democrat
 y,n,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
 n,y,n,y,y,y,n,n,n,n,n,y,y,y,n,y,republican
@@ -267,7 +267,7 @@ y,n,y,n,n,n,n,y,y,y,n,n,n,n,y,y,democrat
 y,n,y,n,n,n,y,y,y,y,y,n,n,n,y,y,democrat
 n,n,y,n,y,n,y,y,y,n,n,n,n,y,y,y,democrat
 n,y,n,y,y,y,n,n,n,n,n,y,y,y,n,n,republican
-n,y,n,y,y,y,n,n,n,y,n,y,y,y,n,y,republican
+n,n,n,y,y,y,n,n,n,y,n,y,y,y,n,y,republican
 y,n,y,n,n,n,y,y,y,n,y,n,n,n,y,y,democrat
 n,y,n,y,y,y,n,n,n,n,n,y,y,y,n,n,republican
 n,y,n,y,y,y,n,n,n,n,n,y,y,y,n,n,republican
@@ -280,7 +280,7 @@ n,n,n,y,y,n,n,n,n,n,n,y,n,y,n,y,republican
 n,n,y,n,n,n,y,y,y,n,y,n,n,n,y,y,democrat
 y,n,y,n,n,n,y,y,y,n,n,n,n,n,n,y,democrat
 y,n,y,n,n,n,y,y,y,y,n,n,n,n,n,y,democrat
-y,n,y,n,n,n,y,y,y,n,y,n,n,n,y,y,democrat
+y,n,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
 y,n,y,n,n,n,y,y,y,y,n,n,n,n,y,y,democrat
 y,n,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
 y,n,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
@@ -290,11 +290,11 @@ y,n,n,n,n,n,y,y,y,y,n,n,n,y,n,y,republican
 y,n,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
 y,n,y,n,n,n,y,y,y,n,n,n,n,n,n,y,democrat
 y,y,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
-n,y,y,n,n,y,y,y,y,n,y,n,n,n,n,y,democrat
+n,y,y,n,n,y,y,y,y,n,n,n,n,n,n,y,democrat
 y,n,y,n,n,n,y,y,y,y,n,n,n,n,y,y,democrat
 n,n,n,y,y,n,y,y,n,y,n,y,y,y,n,y,republican
 y,n,n,y,y,n,y,n,n,y,n,n,n,y,y,y,republican
-n,n,y,n,y,y,n,n,n,n,y,n,y,y,n,n,democrat
+n,n,y,n,y,y,n,n,n,n,n,n,y,y,n,n,democrat
 n,n,n,y,y,y,n,n,n,n,n,y,y,y,y,n,republican
 n,n,y,y,y,y,y,y,n,y,n,n,n,y,n,y,republican
 n,n,n,y,y,y,n,n,n,n,n,y,y,y,n,y,republican
@@ -348,9 +348,9 @@ n,y,n,n,y,y,n,n,y,n,n,y,y,y,n,y,democrat
 y,y,n,y,n,n,y,y,y,n,y,n,n,y,n,y,democrat
 n,y,n,y,y,y,n,n,n,n,n,y,y,y,n,y,republican
 y,y,y,n,n,n,y,y,y,n,y,n,n,n,n,y,democrat
-y,y,y,n,n,y,y,y,y,y,n,n,n,n,y,y,democrat
+y,n,y,n,n,y,y,y,y,y,n,n,n,n,y,y,democrat
 n,y,n,y,y,y,n,n,n,y,n,y,y,y,n,n,republican
-y,y,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
+y,n,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
 y,n,y,n,n,n,y,y,y,n,y,n,n,n,y,y,democrat
 n,n,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
 n,y,y,n,n,y,y,y,y,n,y,y,n,n,y,y,democrat
@@ -360,7 +360,7 @@ y,n,y,n,n,n,y,y,y,n,n,n,n,n,y,y,democrat
 y,n,y,n,n,n,y,y,y,y,n,n,n,y,y,y,democrat
 y,n,n,y,y,y,n,n,n,n,y,y,y,y,n,n,republican
 n,n,n,y,y,y,n,n,n,y,y,y,n,y,n,y,republican
-n,y,y,n,n,y,y,y,y,y,y,n,n,n,y,y,democrat
+n,n,y,n,n,y,y,y,y,y,y,n,n,n,y,y,democrat
 n,y,y,n,y,n,y,n,n,y,y,n,y,n,y,y,democrat
 n,n,n,y,y,n,y,n,y,y,n,n,n,y,n,y,republican
 n,n,y,n,n,n,y,y,y,y,y,n,n,n,y,y,democrat
@@ -389,13 +389,13 @@ y,n,y,n,n,n,y,y,n,y,y,n,n,n,n,y,democrat
 y,y,y,n,y,y,y,y,n,y,y,n,n,n,y,y,democrat
 n,y,y,n,n,y,y,y,n,y,n,n,n,n,y,y,democrat
 n,y,n,y,y,y,n,n,n,n,n,n,y,y,n,y,republican
-y,y,y,n,n,y,y,y,n,y,y,n,n,n,y,y,democrat
+y,y,y,n,n,y,y,y,n,y,n,n,n,n,y,y,democrat
 y,y,y,n,n,n,y,y,y,y,n,n,n,n,y,y,democrat
 n,y,y,y,y,y,n,n,n,n,y,y,n,y,n,n,democrat
-n,y,y,n,y,y,n,y,n,y,y,n,y,y,y,y,democrat
+n,y,y,n,y,y,n,y,n,y,n,n,y,y,y,y,democrat
 n,y,n,y,y,y,n,n,n,n,n,y,y,y,n,y,republican
 n,y,n,y,y,y,n,n,n,n,y,y,n,y,n,n,democrat
-y,y,y,n,n,n,y,y,y,n,y,n,n,n,y,y,democrat
+y,n,y,n,n,n,y,y,y,n,y,n,n,n,y,y,democrat
 n,y,n,y,y,y,n,n,n,n,n,y,y,y,n,y,republican
 n,n,n,y,y,y,n,n,n,n,n,y,y,y,n,y,republican
 n,n,n,y,y,y,n,n,n,n,n,y,y,y,n,y,republican
@@ -405,14 +405,14 @@ y,y,n,y,y,y,n,n,n,n,y,n,y,y,n,y,democrat
 y,y,y,n,y,y,n,y,y,y,y,n,n,n,n,y,democrat
 y,y,y,y,y,y,n,n,n,n,y,y,y,y,n,y,democrat
 y,y,n,n,y,y,n,n,n,n,y,y,y,y,y,n,democrat
-n,y,y,n,y,y,n,y,n,n,y,n,n,n,n,y,democrat
+n,n,y,n,y,y,n,y,n,n,y,n,n,n,n,y,democrat
 y,y,y,n,y,y,n,y,y,n,y,n,n,y,n,y,democrat
 n,y,y,y,y,y,n,n,n,n,n,y,y,y,n,y,democrat
 y,n,y,n,n,n,y,y,y,n,y,n,n,n,y,y,democrat
-y,y,n,n,n,y,y,n,n,n,y,y,n,y,n,y,democrat
+y,n,n,n,n,y,y,n,n,n,y,y,n,y,n,y,democrat
 y,y,n,n,n,n,n,y,y,n,y,n,n,n,y,n,democrat
 y,y,n,y,y,y,n,n,n,n,y,y,y,y,n,y,republican
-n,y,n,y,n,y,n,y,y,n,n,y,y,n,n,y,republican
+n,n,n,y,n,y,n,y,y,n,n,y,y,n,n,y,republican
 y,y,y,n,n,y,n,n,n,n,y,n,y,n,n,y,democrat
 y,y,y,n,n,n,n,y,n,n,y,n,n,n,y,y,democrat
 y,y,y,n,y,y,n,y,n,n,y,n,y,n,y,y,democrat
@@ -447,10 +447,10 @@ n,y,y,n,n,n,y,y,y,y,y,n,n,y,y,y,democrat
 n,n,y,n,n,n,y,y,n,y,y,n,n,n,y,y,democrat
 y,n,y,n,n,n,y,y,y,y,n,n,n,n,y,y,democrat
 n,n,n,y,y,y,y,y,n,y,n,y,y,y,n,y,republican
-y,y,y,n,n,n,y,y,y,y,n,n,y,n,y,y,democrat
+y,n,y,n,n,n,y,y,y,y,n,n,y,n,y,y,democrat
 y,n,y,n,n,n,y,y,y,y,n,y,n,n,y,y,democrat
 n,n,y,y,y,y,n,n,y,y,n,y,y,y,n,y,republican
 n,n,y,n,n,n,y,y,y,y,n,n,n,n,n,y,democrat
-n,y,n,y,y,y,n,n,n,n,y,y,y,y,n,y,republican
+n,n,n,y,y,y,n,n,n,n,y,y,y,y,n,y,republican
 n,n,n,y,y,y,n,n,n,y,n,y,y,y,n,y,republican
 n,y,n,y,y,y,n,n,n,y,n,y,y,y,n,n,republican
