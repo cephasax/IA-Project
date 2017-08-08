@@ -1,5 +1,6 @@
 package core;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashSet;
@@ -18,7 +19,11 @@ public class Problem {
 		this.k = k;
 		this.fitness = fitness;
 		try {
-			instances = new Instances(new FileReader(base.getLocation()));
+			File file = new File(base.getLocation());
+			if(!file.exists()){
+				file = new File("BioInspired Source/" + base.getLocation());
+			}
+			instances = new Instances(new FileReader(file));
 			instances.setClassIndex(instances.numAttributes() - 1);
 		} catch (IOException e) {
 			e.printStackTrace();

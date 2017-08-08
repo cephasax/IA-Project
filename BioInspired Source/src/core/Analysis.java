@@ -94,7 +94,7 @@ public class Analysis {
 							}
 							count++;
 						}
-						values = getRanked(sizeK, instances, values, eval.isMinimization());
+						values = getRanked(sizeK, values, eval.isMinimization());
 						report(values);
 					} else if (method == Method.Time) {
 						System.out.print(String.format("%40s\t", arff.toString(), instances.numInstances()));
@@ -250,8 +250,7 @@ public class Analysis {
 		return data;
 	}
 
-	public static double[][] getRanked(int sizeK, Instances instances, double[][] values, boolean minimum) {
-
+	public static double[][] getRanked(int sizeK, double[][] values, boolean minimum) {
 		int repetitions = values[0].length / sizeK;
 		double[][] avgRepetitions = new double[values.length][sizeK];
 		for (int i = 0; i < avgRepetitions.length; i++) {
@@ -371,8 +370,23 @@ public class Analysis {
 			sum += values[i];
 		return sum / values.length;
 	}
+	
+	public static double average(Double[] values) {
+		double sum = 0;
+		for (int i = 0; i < values.length; i++)
+			sum += values[i];
+		return sum / values.length;
+	}
 
 	public static double desviation(double[] values) {
+		double x = average(values);
+		double sum = 0;
+		for (int i = 0; i < values.length; i++)
+			sum += Math.pow(x - values[i], 2);
+		return Math.sqrt(1.0 / (values.length - 1) * sum);
+	}
+	
+	public static double desviation(Double[] values) {
 		double x = average(values);
 		double sum = 0;
 		for (int i = 0; i < values.length; i++)

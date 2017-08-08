@@ -35,16 +35,16 @@ public class ReadResults {
 		int indexK = 0;
 		int indexFitness = 2;
 		int indexAlgorithm = 3;
-		int indexBase = 4;
-		int indexCluster = 5;
-		int indexSizeStart = 6;
-		int indexStart = 7;
+		int indexBase = 5;
+		int indexCluster = 6;
+		int indexSizeStart = 7;
+		int indexStart = 8;
 
 		String line = in.readLine(); // labels
 		line = in.readLine();
 		while (line != null) {
 			final String[] lineSplit = line.split("\t");
-			if (lineSplit.length == 10 && !lineSplit[0].equals("K")) {
+			if (lineSplit.length == 11 && !lineSplit[0].equals("K")) {
 				String baseString = lineSplit[indexBase];
 				Hashtable<String, Hashtable<String, Hashtable<String, Vector<Result>>>> fitness = data.get(baseString);
 				if (fitness == null) {
@@ -75,18 +75,18 @@ public class ReadResults {
 
 				line = lineSplit[indexCluster].substring(1, lineSplit[indexCluster].length() - 1);
 				String[] conString = line.split(", ");
-				int[] con = new int[lineSplit.length];
+				int[] con = new int[conString.length];
 				for (int i = 0; i < con.length; i++)
 					con[i] = Integer.parseInt(conString[i]);
 
 				int[][] start = new int[Integer.parseInt(lineSplit[indexSizeStart])][];
-				String[] clusteringStart = lineSplit[indexStart].split("] ");
+				String[] clusteringStart = lineSplit[indexStart].substring(0,lineSplit[indexStart].length()-1).split("] ");
 				
 				for (int i = 0; i < clusteringStart.length; i++) {
 
 					line = clusteringStart[i].substring(1);
 					String[] cluString = line.split(", ");
-					int[] clustering = new int[lineSplit.length];
+					int[] clustering = new int[cluString.length];
 					for (int j = 0; j < con.length; j++)
 						clustering[j] = Integer.parseInt(cluString[j]);
 					start[i] = clustering;
@@ -100,12 +100,13 @@ public class ReadResults {
 		in.close();
 	}
 
-	public synchronized void writeEvaluation(String base, String fitness, String algorithm, String parans, int k, double cost, int[] consensus, int[][] clusterings, double time) throws IOException {
+	public synchronized void writeEvaluation(String base, String fitness, String algorithm, int seed, String parans, int k, double cost, int[] consensus, int[][] clusterings, double time) throws IOException {
 		StringBuilder res = new StringBuilder(1000);
 		res.append(k + "\t");
 		res.append(cost + "\t");
 		res.append(fitness + "\t");
 		res.append(algorithm + "\t");
+		res.append(seed + "\t");
 		res.append(base + "\t");
 		res.append(Arrays.toString(consensus) + "\t");
 		res.append(clusterings.length + "\t");

@@ -20,19 +20,19 @@ public class Main {
 
 	public static String logFile = "NewResults.txt";
 
-	public static final int epochs = 5; // 50 100 200
+	public static final int epochs = 100; // 50 100 200
 
-	public static final int numMaxK = 2; // 2 - 10
+	public static final int numMaxK = 10; // 2 - 10
 
-	public static final int numRepetitions = 2; // 10
+	public static final int numRepetitions = 5; // 10
 
-	public static final int numPopulation = 5; // 10 30 50
+	public static final int numPopulation = 30; // 10 30 50
 
 	//(10|50, 10|100, 10|200, 30|50, 30|100 e 30|200)
 
 	public static void main(String[] args) throws Exception {
 		//ARFF[] bases = new ARFF[] { ARFF.Lung_Cancer, ARFF.Hepatitis, ARFF.Wine, ARFF.Automobile, ARFF.Glass_Identification, ARFF.Statlog_Heart, ARFF.SolarFlare1, ARFF.Ecoli, ARFF.Ionosphere, ARFF.Dermatology, ARFF.Congressional_Voting_Records, ARFF.Breast_Cancer_Wisconsin_Original, ARFF.Connectionist_Bench_Vowel, ARFF.Balance, ARFF.Pima_Indians_Diabetes, ARFF.Labor, ARFF.Pittsburgh_Bridges_V1, ARFF.Planning_Relax, ARFF.Flags, ARFF.Horse_Colic};
-
+		
 		ARFF[] base1 = new ARFF[] { ARFF.Lung_Cancer, ARFF.Labor, ARFF.Pittsburgh_Bridges_V1, ARFF.Hepatitis, ARFF.Wine, ARFF.Planning_Relax, ARFF.Flags, ARFF.Automobile, ARFF.Connectionist_Bench_Vowel, ARFF.Glass_Identification };
 		ARFF[] base2 = new ARFF[] { ARFF.Statlog_Heart, ARFF.Breast_Cancer_Wisconsin_Original, ARFF.SolarFlare1, ARFF.Ecoli, ARFF.Ionosphere, ARFF.Dermatology };
 		ARFF[] base3 = new ARFF[] { ARFF.Horse_Colic, ARFF.Congressional_Voting_Records, ARFF.Balance, ARFF.Pima_Indians_Diabetes };
@@ -154,7 +154,7 @@ public class Main {
 				Solve bestSolve = alg.getBestSolve();
 				int[] cluster = bestSolve.cluster;
 				RelabelAndConsensus.remapToStartWithZero(cluster);
-				results.writeEvaluation(arff.toString(), problem.getFitness().getClass().getSimpleName(), algorithm.toString(), algorithm.getDescription(), numK, bestSolve.cost, cluster, clusterings, time);
+				results.writeEvaluation(arff.toString(), problem.getFitness().getClass().getSimpleName(), algorithm.toString(), seed, algorithm.getDescription(), numK, bestSolve.cost, cluster, clusterings, time);
 			} catch (Exception e) {
 				e.printStackTrace(System.err);
 			}

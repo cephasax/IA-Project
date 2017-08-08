@@ -23,7 +23,11 @@ public class Split {
 
 	public static Database[] split(ARFF arff) throws IOException {
 
-		FileReader fileReader = new FileReader(new File(arff.getLocation()));
+		File file = new File(arff.getLocation());
+		if(!file.exists()){
+			file = new File("BioInspired Source/" + arff.getLocation());
+		}
+		FileReader fileReader = new FileReader(file);
 		Instances instances = new Instances(fileReader);
 		fileReader.close();
 		
@@ -150,7 +154,7 @@ public class Split {
 
 		public SampleDataBase(File file, Random rand, String name, Instances model, double[] percent, List<List<Instance>> classInInstances) throws IOException {
 			this.name = name;
-			this.location = file.getPath();
+			this.location = file.exists() ? file.getPath() : "BioInspired Source/" + file.getPath();
 
 			Instances instances = new Instances(model, model.numInstances());
 
@@ -165,7 +169,7 @@ public class Split {
 				instances.add(model.get(rand.nextInt(model.numInstances())));
 			}
 
-			PrintStream output = new PrintStream(file);
+			PrintStream output = new PrintStream(location);
 			output.println(instances);
 			output.close();
 		}
