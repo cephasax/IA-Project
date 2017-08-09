@@ -34,6 +34,12 @@ public class BeeColonyOptimization extends OptimizationAlgorithm {
 	@Override
 	public void run() {
 		bestSolve = bees[0];
+		
+		for (int i = 0; i < bees.length; i++) {
+			if (bees[i].cost < bestSolve.cost) {
+				bestSolve = new Solve(bees[i]);
+			}
+		}
 
 		int[] improved = new int[bees.length];
 		int step = 0;
@@ -77,8 +83,6 @@ public class BeeColonyOptimization extends OptimizationAlgorithm {
 					improved[i] = step;
 				}
 			}
-
-			bestSolve.evaluate();
 		}
 	}
 

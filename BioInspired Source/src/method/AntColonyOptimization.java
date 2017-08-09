@@ -67,8 +67,12 @@ public class AntColonyOptimization extends OptimizationAlgorithm {
 			Arrays.fill(pheromone[i], 1.0);
 
 		Ant[] ants = new Ant[population.length];
-		for (int i = 0; i < ants.length; i++)
+		for (int i = 0; i < ants.length; i++){
 			ants[i] = new Ant(population[i]);
+			if (bestSolve == null || ants[i].solve.cost < bestSolve.cost){
+				bestSolve = new Solve(ants[i].solve);
+			}
+		}
 
 		int stepsUpdate = 0;
 		while (epochs-- > 0 && stepsUpdate++ < maxStepsWhitoutUpdate) {

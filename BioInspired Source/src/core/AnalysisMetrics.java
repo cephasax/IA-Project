@@ -50,7 +50,7 @@ public class AnalysisMetrics {
 
 		Fitness[] metrics = new Fitness[] { new CorrectRand(), new DaviesBouldin(), new MX() };
 		//metrics = new Fitness[] { new DaviesBouldin()};//, new MX() };
-		Fitness[] evaluate = new Fitness[] { new CorrectRand(), new DaviesBouldin(), new MX(), new CalinskiHarabasz(), new Jaccard(), new Dunn(), new Dom() };
+		Fitness[] evaluate = new Fitness[] { new CalinskiHarabasz(), new Jaccard(), new Dunn(), new Dom() };
 		//evaluate = new Fitness[] { new CorrectRand(), new DaviesBouldin(), new MX()};//, new MX(), new CalinskiHarabasz(), new Jaccard(), new Dunn(), new Dom() };
 
 		Algorithms[] algorithms = { Algorithms.ACO, Algorithms.AG, Algorithms.BCO, Algorithms.CRO1, Algorithms.CRO2, Algorithms.CRO3, Algorithms.PSO };

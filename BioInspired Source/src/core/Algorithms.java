@@ -12,8 +12,15 @@ public enum Algorithms {
 	ACO, AG, BCO, CRO1, CRO2, CRO3, PSO;
 
 	public OptimizationAlgorithm newInstance(Problem problem, int seed, int k, int[][] clusterings) throws Exception {
+		
+		assert Main.numPopulation >= clusterings.length;
+		
 		Solve[] start = new Solve[Main.numPopulation];
-		for (int i = 0; i < start.length; i++) {
+		for(int i=0;i<clusterings.length;i++){
+			start[i] = new Solve(problem, clusterings[i]);
+			start[i].evaluate();
+		}
+		for (int i = clusterings.length; i < start.length; i++) {
 			start[i] = new Solve(problem, k, clusterings, Solve.pPartitions, Solve.pEquals, new Random(seed));
 			start[i].evaluate();
 		}

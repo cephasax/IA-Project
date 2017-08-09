@@ -33,9 +33,9 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		//ARFF[] bases = new ARFF[] { ARFF.Lung_Cancer, ARFF.Hepatitis, ARFF.Wine, ARFF.Automobile, ARFF.Glass_Identification, ARFF.Statlog_Heart, ARFF.SolarFlare1, ARFF.Ecoli, ARFF.Ionosphere, ARFF.Dermatology, ARFF.Congressional_Voting_Records, ARFF.Breast_Cancer_Wisconsin_Original, ARFF.Connectionist_Bench_Vowel, ARFF.Balance, ARFF.Pima_Indians_Diabetes, ARFF.Labor, ARFF.Pittsburgh_Bridges_V1, ARFF.Planning_Relax, ARFF.Flags, ARFF.Horse_Colic};
 		
-		ARFF[] base1 = new ARFF[] { ARFF.Lung_Cancer, ARFF.Labor, ARFF.Pittsburgh_Bridges_V1, ARFF.Hepatitis, ARFF.Wine, ARFF.Planning_Relax, ARFF.Flags, ARFF.Automobile, ARFF.Connectionist_Bench_Vowel, ARFF.Glass_Identification };
-		ARFF[] base2 = new ARFF[] { ARFF.Statlog_Heart, ARFF.Breast_Cancer_Wisconsin_Original, ARFF.SolarFlare1, ARFF.Ecoli, ARFF.Ionosphere, ARFF.Dermatology };
-		ARFF[] base3 = new ARFF[] { ARFF.Horse_Colic, ARFF.Congressional_Voting_Records, ARFF.Balance, ARFF.Pima_Indians_Diabetes };
+		ARFF[] base1 = new ARFF[] { ARFF.Connectionist_Bench_Vowel, ARFF.Glass_Identification, ARFF.Lung_Cancer, ARFF.Labor, ARFF.Pittsburgh_Bridges_V1, ARFF.Hepatitis, ARFF.Wine, ARFF.Planning_Relax, ARFF.Flags, ARFF.Automobile };
+		ARFF[] base2 = new ARFF[] { ARFF.Breast_Cancer_Wisconsin_Original, ARFF.SolarFlare1, ARFF.Ecoli, ARFF.Ionosphere, ARFF.Dermatology, ARFF.Statlog_Heart };
+		ARFF[] base3 = new ARFF[] { ARFF.Balance, ARFF.Pima_Indians_Diabetes, ARFF.Horse_Colic, ARFF.Congressional_Voting_Records };
 
 		ARFF[] bases = new ARFF[] { ARFF.Lung_Cancer };
 

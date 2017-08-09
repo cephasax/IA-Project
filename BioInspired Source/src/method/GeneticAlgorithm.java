@@ -38,12 +38,14 @@ public class GeneticAlgorithm extends OptimizationAlgorithm {
 	}
 
 	public void run() {
-
+		bestSolve = new Solve(start[0]);
 		Solve[] population = new Solve[start.length * 2];
 		for (int i = 0; i < population.length / 2; i++) {
 			population[i] = new Solve(start[i]);
+			if (population[0].cost < bestSolve.cost) {
+				bestSolve = new Solve(population[0]);
+			}
 		}
-		bestSolve = new Solve(population[0]);
 
 		int stepsUpdate = 0;
 		while (epochs-- > 0 && stepsUpdate++ < maxStepsWhitoutUpdate) {

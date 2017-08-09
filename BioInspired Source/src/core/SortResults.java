@@ -8,7 +8,7 @@ import java.io.IOException;
 public class SortResults {
 
 	public static void main(String[] args) throws IOException{
-		File file = new File("Results.txt");
+		File file = new File("Results2.txt");
 		
 		int numBases = 7;
 		
