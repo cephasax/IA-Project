@@ -18,7 +18,7 @@ import weka.core.Utils;
 
 public class Main {
 
-	public static String logFile = "NewResults.txt";
+	public static String logFile = "res.txt";
 
 	public static final int epochs = 100; // 50 100 200
 
@@ -32,7 +32,7 @@ public class Main {
 
 	public static void main(String[] args) throws Exception {
 		//ARFF[] bases = new ARFF[] { ARFF.Lung_Cancer, ARFF.Hepatitis, ARFF.Wine, ARFF.Automobile, ARFF.Glass_Identification, ARFF.Statlog_Heart, ARFF.SolarFlare1, ARFF.Ecoli, ARFF.Ionosphere, ARFF.Dermatology, ARFF.Congressional_Voting_Records, ARFF.Breast_Cancer_Wisconsin_Original, ARFF.Connectionist_Bench_Vowel, ARFF.Balance, ARFF.Pima_Indians_Diabetes, ARFF.Labor, ARFF.Pittsburgh_Bridges_V1, ARFF.Planning_Relax, ARFF.Flags, ARFF.Horse_Colic};
-		
+
 		ARFF[] base1 = new ARFF[] { ARFF.Connectionist_Bench_Vowel, ARFF.Glass_Identification, ARFF.Lung_Cancer, ARFF.Labor, ARFF.Pittsburgh_Bridges_V1, ARFF.Hepatitis, ARFF.Wine, ARFF.Planning_Relax, ARFF.Flags, ARFF.Automobile };
 		ARFF[] base2 = new ARFF[] { ARFF.Breast_Cancer_Wisconsin_Original, ARFF.SolarFlare1, ARFF.Ecoli, ARFF.Ionosphere, ARFF.Dermatology, ARFF.Statlog_Heart };
 		ARFF[] base3 = new ARFF[] { ARFF.Balance, ARFF.Pima_Indians_Diabetes, ARFF.Horse_Colic, ARFF.Congressional_Voting_Records };
@@ -43,7 +43,7 @@ public class Main {
 
 		Algorithms[] algorithms = { Algorithms.ACO, Algorithms.AG, Algorithms.BCO, Algorithms.CRO1, Algorithms.CRO2, Algorithms.CRO3, Algorithms.PSO };
 
-		int numThreads = 10;
+		int numThreads = 1;
 		if (args.length > 1) {
 			switch (args[1]) {
 			case "NORMAL":
@@ -90,12 +90,16 @@ public class Main {
 				}
 			}
 		}
-		
+
 		new ParallelProcessing(runners.toArray(new Runnable[runners.size()]), numThreads).start();
 	}
 
-	public static int[][] getClusterings(Database file, int k, int seed) throws Exception {
-		FileReader fileReader = new FileReader(new File(file.getLocation()));
+	public static int[][] getClusterings(Database base, int k, int seed) throws Exception {
+		File file = new File(base.getLocation());
+		if (!file.exists())
+			file = new File("BioInspired Source/" + base.getLocation());
+
+		FileReader fileReader = new FileReader(file);
 		Instances instances = new Instances(fileReader);
 		fileReader.close();
 
@@ -120,7 +124,7 @@ public class Main {
 		RelabelAndConsensus.relabel(clustering);
 		return clustering;
 	}
-	
+
 	private static class Runner implements Runnable {
 
 		private Algorithms algorithm;

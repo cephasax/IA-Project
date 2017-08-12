@@ -57,7 +57,7 @@ public class SortResults {
 			for(int j=0;j<metrics.length;j++){
 				System.out.println(); //TODO
 				System.out.println(metrics[j]); //TODO
-				System.out.println("Base	ACO	AG	BCO	CRO1	CRO2	CRO3	PSO		ACO	AG	BCO	CRO1	CRO2	CRO3	PSO");
+				System.out.println("Base	ACO	AG	BCO	CRO1	CRO2	CRO3	PSO		ACO	AG	BCO	CRO1	CRO2	CRO3	PSO		ACO	AG	BCO	CRO1	CRO2	CRO3	PSO");
 				for(int k=0;k<fitness.length;k++){
 					System.out.println(fitness[k]); //TODO
 					System.out.print(res[j][k][i]); //TODO

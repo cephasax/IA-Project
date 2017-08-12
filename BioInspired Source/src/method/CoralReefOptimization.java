@@ -70,13 +70,16 @@ public class CoralReefOptimization extends OptimizationAlgorithm {
 
 		reef = new Solve[dimension];
 
-		bestSolve = null;
+		bestSolve = new Solve(start[0]);
+		for(Solve s: start){
+			if(s.cost < bestSolve.cost){
+				bestSolve = new Solve(s);
+			}
+		}
+		
 		for (int i = 0; i < reef.length; i++) {
 			if (rand.nextDouble() < rho) {
 				reef[i] = new Solve(start[rand.nextInt(start.length)]);
-				if (bestSolve == null || reef[i].cost < bestSolve.cost) {
-					bestSolve = new Solve(reef[i]);
-				}
 			}
 		}
 

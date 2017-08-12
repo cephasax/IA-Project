@@ -18,19 +18,13 @@ import metric.MX;
 
 public class AnalysisMetrics {
 
-	public static String logFile = "output.txt";
+	public static String logFile = "log_imd2.txt";
 
 	enum EvaluationMethod {
-		Value, Norm, NormNeg
-	}
-
-	enum ViewMethod {
-		Rank, Value
+		Value, Norm
 	}
 
 	private static EvaluationMethod method = EvaluationMethod.Value;
-
-	private static ViewMethod view = ViewMethod.Value;
 
 	public static void main(String[] args) throws IOException {
 
@@ -38,7 +32,7 @@ public class AnalysisMetrics {
 		//Analysis.mergeFiles(output, new File("log_normal.txt"));
 		//Analysis.mergeFiles(output, new File("log_imd1.txt"));
 
-		System.setOut(new PrintStream("Results2.txt"));
+		//System.setOut(new PrintStream("Results.txt"));
 
 		ReadResults results = new ReadResults(new File(logFile));
 
@@ -46,7 +40,7 @@ public class AnalysisMetrics {
 		ARFF[] base2 = new ARFF[] { ARFF.Statlog_Heart, ARFF.Breast_Cancer_Wisconsin_Original, ARFF.SolarFlare1, ARFF.Ecoli, ARFF.Ionosphere, ARFF.Dermatology };
 		ARFF[] base3 = new ARFF[] { ARFF.Horse_Colic, ARFF.Congressional_Voting_Records, ARFF.Balance, ARFF.Pima_Indians_Diabetes };
 
-		ARFF[] bases = new ARFF[] { ARFF.Lung_Cancer, ARFF.Labor, ARFF.Pittsburgh_Bridges_V1, ARFF.Hepatitis, ARFF.Wine, ARFF.Planning_Relax, ARFF.Statlog_Heart};
+		ARFF[] bases = new ARFF[] { ARFF.Balance};
 
 		Fitness[] metrics = new Fitness[] { new CorrectRand(), new DaviesBouldin(), new MX() };
 		//metrics = new Fitness[] { new DaviesBouldin()};//, new MX() };
@@ -58,11 +52,11 @@ public class AnalysisMetrics {
 		String[] messages = { "Robustez", "Novidade(Distance)", "Novidade(Similarity)", "Estabilidade" };
 		String[][] metricMessages = { { "Menor", "Média" }, { "Menor", "Média" }, { "Menor", "Média" }, { "Média", "Desvio" } };
 
-		for (Fitness eval : evaluate) {
+		//for (Fitness eval : evaluate) {
 		for (Fitness metric : metrics) {
-			//Fitness eval = metric;
-			// (norm|rank|normNeg|rank|value|rank) -> metric -> base -> (m1|m2) -> algorithm -> (minimum|average)
-			double[][][][][][] values = new double[6][messages.length][bases.length][][][];
+			Fitness eval = metric;
+			// (norm|value) -> metric -> base -> (m1|m2) -> algorithm -> (minimum|average)
+			double[][][][][][] values = new double[2][messages.length][bases.length][][][];
 			for (int m = 0; m < bases.length; m++) {
 				ARFF model = bases[m];
 				Data[][] data = new Data[algorithms.length][];
@@ -80,13 +74,11 @@ public class AnalysisMetrics {
 				}
 
 
-				EvaluationMethod[] evalMethod = new EvaluationMethod[] { EvaluationMethod.Norm, EvaluationMethod.Norm, EvaluationMethod.NormNeg, EvaluationMethod.NormNeg, EvaluationMethod.Value, EvaluationMethod.Value };
-				ViewMethod[] viewMethod = new ViewMethod[] { ViewMethod.Value, ViewMethod.Rank, ViewMethod.Value, ViewMethod.Rank, ViewMethod.Value, ViewMethod.Rank };
+				EvaluationMethod[] evalMethod = new EvaluationMethod[] { EvaluationMethod.Norm, EvaluationMethod.Value};
 
 				for (int j = 0; j < evalMethod.length; j++) {
 					method = evalMethod[j];
-					view = viewMethod[j];
-					//System.out.println("-------------------------------------------------------------"); //TODO
+					System.out.println("-------------------------------------------------------------"); //TODO
 					values[j][0][m] = sturdiness(eval, model, data);
 					values[j][1][m] = distance(eval, model, data);
 					values[j][2][m] = similarity(eval, model, data);
@@ -135,10 +127,39 @@ public class AnalysisMetrics {
 
 						System.out.println(str);
 					}
+					
+					str = new StringBuilder(1000);
+					str.append("Média\t");
+					for (int r = 0; r < values.length; r++) {
+						for (int j = 0; j < algorithms.length; j++) {
+							double value = dataAverage(values[r][i],messageMetric,j,0);
+							double dev = dataAverage(values[r][i],messageMetric,j,1);
+							str.append(String.format(Locale.ENGLISH, "%.2f±%.2f\t", value, dev));
+						}
+						str.append("\t");
+					}
+
+					for (int r = 0; r < values.length; r++) {
+						for (int j = 0; j < algorithms.length; j++) {
+							str.append(dataAverage(values[r][i],messageMetric,j,0) + "\t");
+						}
+						str.append("\t");
+					}
+
+					System.out.println(str);
+					
 				}
 			}
 		}
+		//}
+	}
+	
+	private static double dataAverage(double[][][][] data, int index1, int index2, int index3){
+		double avg = 0;
+		for(int i=0;i<data.length;i++){
+			avg += data[i][index1][index2][index3];
 		}
+		return avg / data.length;
 	}
 
 	private static Data[] getData(Fitness eval, Fitness metric, Database model, Algorithms algorithm, ReadResults results) {
@@ -257,6 +278,9 @@ public class AnalysisMetrics {
 
 				minimum[i][j] = mp != null ? evalDiff(mp.cost, opt, eval.isMinimization()) : Double.POSITIVE_INFINITY;
 				average[i][j] = avg;
+				
+				if(average[i][j] < 0 || minimum[i][j] < 0)
+					System.out.println("ALG " + i + " " + opt + " " + data[i][j].clusterings[0].cost + " " + data[i][j].clusterings[1].cost + " " + data[i][j].clusterings[2].cost + " " + (mp==null?"NULL":mp.cost) + " " + valid); //TODO
 			}
 		}
 
@@ -280,17 +304,6 @@ public class AnalysisMetrics {
 					res = -1;
 				} else {
 					res = (big - sml) / big;
-				}
-				break;
-			case NormNeg:
-				if (big == 0 && sml == 0) {
-					res = 0;
-				} else if (big > sml) {
-					res = big == 0 ? 0 : (big - sml) / big;
-				} else if(sml > big){
-					res = sml == 0 ? 0 : (big - sml) / sml;
-				} else if(sml == big){
-					res = 1;
 				}
 				break;
 			case Value:
@@ -326,11 +339,7 @@ public class AnalysisMetrics {
 	}
 
 	private static double[][] evaluate(double[][] values, boolean minimization) {
-		if (view == ViewMethod.Rank) {
-			values = Analysis.getRanked(Main.numMaxK - 1, values, minimization);
-		}
-
-		double[][] eval = new double[values.length][2];
+		double[][] eval = new double[values.length+1][2];
 		for (int i = 0; i < values.length; i++) {
 			double[] column = new double[values[0].length];
 			for (int j = 0; j < values[0].length; j++)
@@ -356,11 +365,11 @@ public class AnalysisMetrics {
 		Solve[] clusterings;
 
 		public Data(int[] consensus, int[][] clusterings, Problem problem) {
-			this.consensus = new Solve(problem, consensus);
+			this.consensus = new Solve(problem, consensus.clone());
 			this.consensus.evaluate();
 			this.clusterings = new Solve[clusterings.length];
 			for (int i = 0; i < clusterings.length; i++) {
-				this.clusterings[i] = new Solve(problem, clusterings[i]);
+				this.clusterings[i] = new Solve(problem, clusterings[i].clone());
 				this.clusterings[i].evaluate();
 			}
 		}
