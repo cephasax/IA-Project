@@ -34,6 +34,4 @@ public class Log {
 		this.fileName = fileName;
 	}
 
-	
-	
 }

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import br.ufrn.ia.core.OptimizationAlgorithm;
-import br.ufrn.ia.core.Solve;
 import br.ufrn.ia.core.optimizationMethods.AntColonyOptimization;
 import br.ufrn.ia.core.optimizationMethods.BeeColonyOptimization;
 import br.ufrn.ia.core.optimizationMethods.CoralReefOptimization;
@@ -67,15 +66,14 @@ public class ConfigurationOptimization {
 	
 	private ArrayList<OptimizationAlgorithm> optimizationAlgorithms;
 	private HashMap <OptimizationAlgorithm,String> map;
-	
-	
-	
+
 	//Constructor
 	public ConfigurationOptimization(){
 		optimizationAlgorithms = new ArrayList<OptimizationAlgorithm>();
 	}
 	
 	public void buildAlgs(){
+		
 		this.ACO = new AntColonyOptimization(epoch, heuristic, alpha, beta, ro, distanceACO);
 		this.GA = new GeneticAlgorithm(epoch, mutate, crossover);
 		this.BCO = new BeeColonyOptimization(epoch, maxNotImproved);

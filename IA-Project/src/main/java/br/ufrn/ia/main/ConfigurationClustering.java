@@ -1,14 +1,8 @@
 package br.ufrn.ia.main;
 
-import java.util.ArrayList;
-
-import br.ufrn.ia.core.Fitness;
 import br.ufrn.ia.core.clustering.EMIaProject;
 import br.ufrn.ia.core.clustering.HierarchicalClustererIaProject;
 import br.ufrn.ia.core.clustering.SimpleKMeansIaProject;
-import br.ufrn.ia.metrics.CorrectRand;
-import br.ufrn.ia.metrics.DaviesBouldin;
-import br.ufrn.ia.metrics.MX;
 import weka.core.DistanceFunction;
 import weka.core.EuclideanDistance;
 import weka.core.Instances;
@@ -55,7 +49,6 @@ public class ConfigurationClustering {
 	private HierarchicalClustererIaProject hc1;
 	
 	
-	
 	public void buildAlgs(Instances instances) throws Exception{
 		kmeans1 = new SimpleKMeansIaProject();
 		kmeans1.setOptions(	m_displayStdDevs, m_dontReplaceMissing, m_NumClusters, 
@@ -70,7 +63,6 @@ public class ConfigurationClustering {
 		hc1 = new HierarchicalClustererIaProject();
 		hc1.setOptions(m_bPrintNewick, m_NumClusters, m_bDistanceIsBranchLength, 
 						m_bDebug, m_DistanceFunction_Hierarchical, m_nLinkType_Hierarchical);
-
 		
 		this.kmeans1.buildClusterer(instances);		
 		this.em1.buildClusterer(instances);

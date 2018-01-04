@@ -5,8 +5,6 @@ import java.util.ArrayList;
 
 import br.ufrn.ia.core.Fitness;
 import br.ufrn.ia.metrics.CorrectRand;
-import br.ufrn.ia.metrics.DaviesBouldin;
-import br.ufrn.ia.metrics.MX;
 
 public class Configuration {
 
@@ -30,7 +28,6 @@ public class Configuration {
 		metrics.add(new CorrectRand());
 		//metrics.add(new DaviesBouldin());
 		//metrics.add(new MX());
-		
 	}
 
 	//GETTERS AND SETTERS

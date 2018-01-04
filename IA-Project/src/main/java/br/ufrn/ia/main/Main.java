@@ -1,9 +1,7 @@
 package br.ufrn.ia.main;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.PrintStream;
 import java.util.ArrayList;
 
 import br.ufrn.ia.core.Fitness;
@@ -13,7 +11,6 @@ import br.ufrn.ia.core.RelabelAndConsensus;
 import br.ufrn.ia.core.Solve;
 import br.ufrn.ia.core.Util;
 import br.ufrn.ia.view.FileManager;
-import core.ARFF;
 import weka.clusterers.AbstractClusterer;
 import weka.clusterers.EM;
 import weka.clusterers.HierarchicalClusterer;
@@ -40,41 +37,43 @@ public class Main {
 		logs = new ArrayList<Log>();
 		initialPopulation = new ArrayList<Solve>();
 
-		//Selecionar arquivos .arff
+		//Select Files - only .arff
 		files = fileManager.selecionarArquivos();
 		int fileIndex = 0;
 
-		//Para cada arquivo
+		//for each file
 		for (File file : files) {
 			conf = new Configuration();
 			conf.setFileOutput(new File("IA-Project\\results\\" + file.getName().substring(0, file.getName().length() - 5) + ".txt"));
 
-			//repetir "repetitions" vezes
+			//repeat "repetitions" times
 			for (int repetitions = 1; repetitions <= conf.getNumberOfRepetitions(); repetitions++) {
-				//com k variando de "minK" ate "maxK"
+				
+				//with k from "minK" to "maxK"
 				for (int tempK = conf.getMinK(); tempK <= conf.getMaxK(); tempK++) {
 					confClustering = new ConfigurationClustering();
 					confClustering.setM_NumClusters(tempK);
 
-					//Guarda nome do arquivo
+					//Keep filename on Log object
 					String logName = new String((file.getName() + " - k. " + tempK));
 					logs.add(new Log(logName));
 
 					for (Fitness fitness : conf.getMetrics()) {
-						//criar vetores de representacao de agrupamentos
+						
+						//create arrays with clustering representation
 						Instances instances = new Instances(new FileReader(file));
 						instances.deleteAttributeAt(instances.numAttributes() - 1);
-
+						
+						//Build clustering algorithms
 						confClustering.buildAlgs(instances);
 
-						////////////////////////////////////////////////////////////////////
-						// os algoritmos devem ser construídos antes dos clusterers
+						///Build clustering algorithms
 						confOptimization = new ConfigurationOptimization();
 						confOptimization.buildAlgs();
 
 						for (OptimizationAlgorithm oa : confOptimization.getOptimizationAlgorithms()) {
 
-							//criar vetores de representacao de agrupamentos
+							//create arrays with clustering representation
 							int[][] clustering = new int[3][instances.numInstances()];
 
 							AbstractClusterer[] c = new AbstractClusterer[] { confClustering.getHc1(), confClustering.getKmeans1(), confClustering.getEm1() };
