@@ -1,15 +1,13 @@
 package core;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.Random;
 
 import weka.core.Instances;
 
 public class Problem {
-
-	public static Random rand = new Random();
 
 	private int k;
 
@@ -17,11 +15,15 @@ public class Problem {
 
 	private Instances instances;
 
-	public Problem(ARFF base, Fitness fitness, int k) {
+	public Problem(Database base, Fitness fitness, int k) {
 		this.k = k;
 		this.fitness = fitness;
 		try {
-			instances = new Instances(new FileReader(base.location));
+			File file = new File(base.getLocation());
+			if(!file.exists()){
+				file = new File("BioInspired Source/" + base.getLocation());
+			}
+			instances = new Instances(new FileReader(file));
 			instances.setClassIndex(instances.numAttributes() - 1);
 		} catch (IOException e) {
 			e.printStackTrace();

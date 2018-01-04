@@ -1,9 +1,9 @@
 package core;
 
-public enum ARFF {
-	
+public enum ARFF implements Database {
+
 	ADS("ADS.arff"),
-	
+
 	Annealing("Annealing.arff"),
 
 	Arrhythmia("Arrhythmia.arff"),
@@ -11,9 +11,9 @@ public enum ARFF {
 	Audiology("Audiology.arff"),
 
 	Automobile("Automobile.arff"),
-	
+
 	Balance("Balance.arff"),
-	
+
 	Balance2("Balance2.arff"),
 
 	Breast_Cancer_Wisconsin_Diagnostic("Breast Cancer Wisconsin Diagnostic.arff"),
@@ -73,13 +73,13 @@ public enum ARFF {
 	Libras_Movement("Libras Movement.arff"),
 
 	Lung_Cancer("Lung Cancer.arff"),
-	
+
 	Micromass("Micromass.arff"),
-	
+
 	Musk("Musk.arff"),
 
 	Parkinsons("Parkinsons.arff"),
-	
+
 	Pima_Indians_Diabetes("Pima_Indians_Diabetes.arff"),
 
 	Pittsburgh_Bridges_V1("Pittsburgh Bridges V1.arff"),
@@ -97,7 +97,7 @@ public enum ARFF {
 	Sick("Sick.arff"),
 
 	Simulated("Simulated.arff"),
-	
+
 	SolarFlare1("SolarFlare1.arff"),
 
 	Soybean_Large("Soybean Large.arff"),
@@ -124,9 +124,13 @@ public enum ARFF {
 
 	Zoo("Zoo.arff");
 
-	public String location;
+	private String location;
+
+	ARFF(String location) {
+		this.location = "resources/" + location;
+	}
 	
-	ARFF (String location){
-		this.location = location;
+	public String getLocation(){
+		return location;
 	}
 }

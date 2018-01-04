@@ -1,0 +1,78 @@
+@relation Labor.arff
+
+@attribute att01 numeric
+@attribute att11 numeric
+@attribute att21 numeric
+@attribute att31 numeric
+@attribute att41 {none,tcf,tc}
+@attribute att51 numeric
+@attribute att61 {none,ret_allw,empl_contr}
+@attribute att71 numeric
+@attribute att81 numeric
+@attribute att91 {yes,no}
+@attribute att101 numeric
+@attribute att111 {below_average,average,generous}
+@attribute att121 {yes,no}
+@attribute att131 {none,half,full}
+@attribute att141 {yes,no}
+@attribute att151 {none,half,full}
+@attribute class {bad,good}
+
+@data
+0,0.6,0.34703,0.19787,none,1,empl_contr,0.07708,0.08,yes,0.33333,average,yes,full,yes,full,good
+0.5,0.5,0.76,0.19787,none,0.61538,ret_allw,0.07708,0.13946,yes,0.33333,below_average,yes,full,yes,full,good
+0.59459,0.46,0.34703,0.19787,none,0.84615,empl_contr,0.07708,0.2,yes,0.33333,generous,yes,half,yes,half,good
+1,0.34,0.4,0.97859,tc,0.41164,empl_contr,0.07708,0.13946,yes,0.21171,generous,yes,full,yes,full,good
+1,0.5,0.5,0.97859,none,1,empl_contr,0.07708,0.13946,yes,0.5,average,yes,half,yes,half,good
+0.5,0,0.1,0.19787,none,0.61538,empl_contr,0.07708,0.24,yes,0.5,average,yes,full,yes,full,good
+1,0.4,0.6,0.97859,tc,0.41164,empl_contr,0.07708,0.13946,yes,0.5,generous,yes,none,yes,half,good
+1,0.98,0.56,0.40043,none,1,empl_contr,0.07708,0.12,yes,0.5,below_average,yes,full,yes,full,good
+0.5,0.2,1,0.19787,none,0.84615,empl_contr,0.85185,1,yes,0.33333,below_average,yes,half,yes,full,good
+0,0.74,0.34703,0.19787,none,1,empl_contr,0.07708,0.16,yes,0.33333,generous,yes,full,yes,full,good
+1,0.3,0.4,0.89293,none,0.69231,empl_contr,0.07708,0.12,yes,0.66667,generous,yes,full,yes,full,good
+0.5,0.88,0.88,0.19787,none,0.84615,empl_contr,0.07708,0.16,yes,1,generous,yes,full,yes,full,good
+0.5,0.3,0.4,0,none,1,none,0,0.08,no,0.16667,below_average,no,half,yes,half,bad
+1,0.3,0.4,1,tcf,0.76923,empl_contr,0.07708,0.16,yes,0.66667,generous,yes,full,yes,full,good
+0,0.2,0.34703,0.19787,none,0.69231,empl_contr,0.07708,0.4,no,0.33333,generous,yes,full,yes,full,good
+0.5,0.5,0.4,0.19787,none,0.76923,empl_contr,0.07708,0.13946,yes,0.33333,average,yes,full,yes,full,good
+0,0.16,0.34703,0.19787,none,0.61538,empl_contr,0.07708,0.08,yes,0.5,below_average,yes,full,yes,full,good
+0,0.02,0.045,0,tc,1,ret_allw,0.11111,0.12,no,0,below_average,yes,half,yes,none,bad
+0,0,0.045,0,none,0.84615,none,0,0.044,yes,0.33333,average,no,none,no,none,bad
+0.5,0.4,0.6,0.19787,tcf,0.61538,empl_contr,0.92593,0.2,yes,1,generous,yes,full,yes,full,good
+0.5,0.46,0.48,0.19787,none,0.84615,empl_contr,0.07708,0.16,yes,0.5,generous,yes,full,yes,full,good
+0.5,0.1,0.2,0,none,1,none,0,0.044,no,0.33333,below_average,no,none,yes,none,bad
+1,0.3,0.4,0.89293,tcf,0,empl_contr,0.07708,0.13946,yes,0.21171,generous,yes,full,yes,full,good
+0.5,0.5,0.4,0.19787,none,1,empl_contr,0.07708,0.16,yes,0.16667,generous,yes,half,yes,full,good
+0,0.8,0.34703,0.19787,none,0.84615,empl_contr,0.55556,0.12,yes,0,generous,yes,full,yes,full,good
+1,0,0,0.33619,none,1,none,0,0.044,no,0.16667,below_average,no,half,yes,full,bad
+0.5,0.5,0.5,0.19787,tcf,0.41164,empl_contr,0.07708,0.13946,yes,0.16667,below_average,yes,none,yes,half,good
+0.5,0.2,0.2,0.19787,none,0.46154,empl_contr,0.07708,0.13946,yes,0.5,generous,yes,full,yes,full,good
+0.5,0.6,0.4,0.19787,none,0.76923,empl_contr,0.07708,0.2,no,0.33333,below_average,yes,full,yes,full,good
+1,0,0.1,0,none,0.61538,none,0,0.044,no,0.16667,average,no,none,yes,full,bad
+1,0.5,0.5,0.97859,none,1,empl_contr,0.07708,0.13946,no,0.33333,average,yes,half,yes,full,good
+1,0.2,0,0.44325,tc,1,none,0,0.2,no,0.16667,below_average,yes,half,yes,full,bad
+0.5,0.1,0.1,0,none,0.84615,empl_contr,0,0.044,no,0.16667,average,no,none,yes,none,bad
+0.5,0.4,0.6,0,none,1,none,0,0.12,no,0.16667,below_average,no,none,yes,none,bad
+1,0,0.1,0.3576,tc,1,none,0.11111,0.04,no,0.16667,below_average,no,half,yes,full,bad
+0.5,0,0,0,none,1,none,0,0.044,no,0.33333,average,yes,none,yes,full,bad
+0,0,0.045,0,tc,1,ret_allw,0.25926,0,no,0.33333,generous,no,none,no,none,bad
+0,0.16,0.045,0,none,0.84615,empl_contr,0.11111,0.12,no,0,below_average,yes,half,yes,none,bad
+1,0,0.1,0.33619,none,0.76923,empl_contr,0,0.044,no,0.16667,average,no,none,yes,none,bad
+0.5,0.5,0.4,0.19787,none,1,empl_contr,0.07708,0.16,yes,0.5,average,yes,full,yes,half,good
+0,0.4,0.045,0,none,0.78077,none,0,0.044,yes,0.33333,average,no,none,no,none,bad
+0.5,0,0.2,0,none,0.84615,empl_contr,0,0.044,yes,0.5,generous,yes,none,yes,full,bad
+0.5,0.1,0.1,0,tc,0.92308,empl_contr,0,0.044,no,0.5,average,no,none,yes,none,bad
+0.5,0.1,0.2,0,tcf,1,none,0,0.044,no,0.33333,below_average,no,none,yes,none,bad
+0.5,0.4,0.4,0,none,1,none,0,0.12,no,0.16667,below_average,no,none,yes,none,bad
+0.5,0.5,0.4,0,none,1,none,0,0.08,no,0.16667,below_average,no,half,yes,half,bad
+0.5,0.5,0.4,0.19787,none,1,empl_contr,0.07708,0.2,yes,0.33333,average,yes,full,yes,full,good
+0.5,0.52,0.52,0.19787,tcf,0.84615,empl_contr,0.07708,0.13946,yes,0.21171,generous,yes,half,yes,half,good
+0.5,0.6,0.5,0.19787,none,0.84615,empl_contr,1,0.2,yes,0.33333,below_average,yes,full,yes,full,good
+0.5,0.74,0.5,0.19787,none,1,ret_allw,0.07708,0.13946,yes,0.33333,average,yes,full,yes,full,good
+0.5,1,0.66,0.19787,none,0.41164,empl_contr,0.07708,0.13946,yes,0.33333,generous,yes,full,yes,full,good
+1,0,0.2,0.19787,tcf,0.41164,empl_contr,0.07708,0.13946,yes,0.21171,generous,yes,half,yes,full,good
+1,0.3,0.4,0.87152,tcf,0.61538,empl_contr,0.07708,0.13946,yes,0.66667,generous,yes,full,yes,full,good
+1,0.4,0.3,0.19787,none,1,empl_contr,0.07708,0.24,yes,0.33333,average,yes,full,yes,full,good
+1,0.6,0.48,0.19787,none,0.84615,empl_contr,0.7037,0.24,yes,0.33333,generous,yes,full,yes,full,good
+1,0.6,0.6,0.97859,none,1,empl_contr,0.07708,0.13946,yes,0.5,average,yes,half,yes,half,good
+1,0.8,0.8,0.76445,none,0.61538,empl_contr,0.07708,0.56,yes,0,generous,yes,full,yes,full,good

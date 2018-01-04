@@ -9,9 +9,15 @@ import weka.core.Instances;
 public class MX implements Fitness {
 
 	public static double eps = 0.8;
+	
+	@Override
+	public boolean isMinimization (){ // quanto maior melhor
+		return true; // inverse mx 1-mx
+	}
 
 	@Override
 	public double evaluate(Instances instances, int[] consensus) {
+		instances = new Instances(instances);
 		Util.replaceClassByConsensus(instances, consensus);
 
 		double[][] distance = new double[instances.numInstances()][instances.numInstances()];

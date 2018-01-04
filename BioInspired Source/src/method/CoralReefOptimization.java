@@ -2,46 +2,13 @@ package method;
 
 import java.util.Hashtable;
 import java.util.Locale;
+import java.util.Random;
 import java.util.Vector;
 
-import core.ARFF;
-import core.Main;
 import core.OptimizationAlgorithm;
-import core.Problem;
 import core.Solve;
-import metric.CorrectRand;
 
 public class CoralReefOptimization extends OptimizationAlgorithm {
-
-	public static void main(String[] args) throws Exception {
-		int numK = 2;
-		Problem problem = new Problem(ARFF.Breast_Cancer_Wisconsin_Original, new CorrectRand(), numK);
-		Solve.problem = problem;
-
-		int numAnts = 10;
-		int[][] clusterings = Main.getClusterings(ARFF.Breast_Cancer_Wisconsin_Original, numK);
-		Solve[] start = new Solve[numAnts];
-		for (int i = 0; i < start.length; i++) {
-			start[i] = new Solve(numK, clusterings, Solve.pPartitions, Solve.pEquals);
-			start[i].evaluate();
-		}
-
-		//cro1
-		double time = System.currentTimeMillis();
-		CoralReefOptimization cro = new CoralReefOptimization(start, 10, 25, false, 0.7, 0.1, 0.8, 0.05, 1);
-		cro.run();
-		System.out.println((System.currentTimeMillis() - time) / 1000);
-
-		// cro2
-		//CoralReefOptimization cro = new CoralReefOptimization(start, 10, 25, true, 0.7, 0.1, 0.8, 0.1, 5);
-		//cro.run();
-
-		// cro3
-		//CoralReefOptimization cro = new CoralReefOptimization(start, 10, 25, false, 0.7, 0.1, 0.8, 0.1, 5);
-		//cro.run();
-
-		System.out.println(cro.getBestSolve());
-	}
 
 	public static final int k = 5; // tryes to insert
 
@@ -86,7 +53,8 @@ public class CoralReefOptimization extends OptimizationAlgorithm {
 	 * @param start Vetor de soluções iniciais.
 	 */
 
-	public CoralReefOptimization(Solve[] start, int epochs, int dimension, boolean insertRandOrRank, double rho, double fa, double fb, double fd, int stepsDepredation) {
+	public CoralReefOptimization(Random rand, Solve[] start, int epochs, int dimension, boolean insertRandOrRank, double rho, double fa, double fb, double fd, int stepsDepredation) {
+		super(rand);
 		this.dimension = dimension;
 		this.epochs = epochs;
 		this.rho = rho;
@@ -102,13 +70,16 @@ public class CoralReefOptimization extends OptimizationAlgorithm {
 
 		reef = new Solve[dimension];
 
-		bestSolve = null;
+		bestSolve = new Solve(start[0]);
+		for(Solve s: start){
+			if(s.cost < bestSolve.cost){
+				bestSolve = new Solve(s);
+			}
+		}
+		
 		for (int i = 0; i < reef.length; i++) {
-			if (Problem.rand.nextDouble() < rho) {
-				reef[i] = new Solve(start[Problem.rand.nextInt(start.length)]);
-				if (bestSolve == null || reef[i].cost < bestSolve.cost) {
-					bestSolve = new Solve(reef[i]);
-				}
+			if (rand.nextDouble() < rho) {
+				reef[i] = new Solve(start[rand.nextInt(start.length)]);
 			}
 		}
 
@@ -118,7 +89,7 @@ public class CoralReefOptimization extends OptimizationAlgorithm {
 			Vector<Solve> brooding = new Vector<Solve>();
 			for (int i = 0; i < reef.length; i++) {
 				if (reef[i] != null) {
-					if (Problem.rand.nextDouble() < Fb) {
+					if (rand.nextDouble() < Fb) {
 						broadcastSpawing.add(reef[i]);
 					} else {
 						brooding.add(reef[i]);
@@ -128,8 +99,8 @@ public class CoralReefOptimization extends OptimizationAlgorithm {
 
 			Vector<Solve> larvaes = new Vector<Solve>();
 			while (broadcastSpawing.size() > 2) {
-				Solve a = broadcastSpawing.remove(Problem.rand.nextInt(broadcastSpawing.size()));
-				Solve b = broadcastSpawing.remove(Problem.rand.nextInt(broadcastSpawing.size()));
+				Solve a = broadcastSpawing.remove(rand.nextInt(broadcastSpawing.size()));
+				Solve b = broadcastSpawing.remove(rand.nextInt(broadcastSpawing.size()));
 				larvaes.add(crossover(a, b));
 				larvaes.add(crossover(b, a));
 			}
@@ -196,7 +167,7 @@ public class CoralReefOptimization extends OptimizationAlgorithm {
 	private void insertLarvae(Solve solve) {
 		if (insertRandOrRank) {
 			for (int i = 0; i < k; i++) {
-				int index = Problem.rand.nextInt(reef.length);
+				int index = rand.nextInt(reef.length);
 				if (reef[index] == null || solve.cost < reef[index].cost) {
 					reef[index] = solve;
 					return;

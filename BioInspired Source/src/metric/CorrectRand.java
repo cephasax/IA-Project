@@ -1,13 +1,16 @@
 package metric;
 
-import java.util.Arrays;
-
 import core.Fitness;
 import core.Util;
 import weka.core.Instances;
 
 // maximization objective (0,1) range
 public class CorrectRand implements Fitness {
+	
+	@Override
+	public boolean isMinimization (){ // quanto menor melhor
+		return true; // inverted correct rand 1-cr
+	}
 
 	@Override
 	public double evaluate(Instances instances, int[] consensus) {

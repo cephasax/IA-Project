@@ -2,10 +2,17 @@ package metric;
 
 import core.Fitness;
 import core.Util;
+import weka.core.DenseInstance;
 import weka.core.EuclideanDistance;
+import weka.core.Instance;
 import weka.core.Instances;
 
 public class Dunn implements Fitness {
+
+	@Override
+	public boolean isMinimization() { // quanto menor melhor
+		return false;
+	}
 
 	@Override
 	public double evaluate(Instances instances, int[] consensus) {
@@ -48,23 +55,20 @@ public class Dunn implements Fitness {
 
 	public static double distanceBetweenClusters(Instances clusterA, Instances clusterB) {
 		EuclideanDistance measure = new EuclideanDistance(clusterA);
+		double distance = measure.distance(getAveragePoint(clusterA), getAveragePoint(clusterB));
+		return distance;
+	}
 
-		int numInstancesA = clusterA.numInstances();
-		int numInstancesB = clusterB.numInstances();
-
-		double min = measure.distance(clusterA.firstInstance(), clusterB.firstInstance());
-		double aux;
-
-		for (int i = 0; i < numInstancesA; i++) {
-			for (int j = 0; j < numInstancesB; j++) {
-				aux = measure.distance(clusterA.instance(i), clusterB.instance(j));
-				if (aux < min) {
-					min = aux;
-				}
+	public static Instance getAveragePoint(Instances instances) {
+		double[] average = new double[instances.numAttributes()];
+		for (int i = 0; i < instances.numInstances(); i++) {
+			for (int j = 0; j < instances.numAttributes() - 1; j++) {
+				average[j] += instances.get(i).value(j);
 			}
 		}
-
-		return min;
+		for (int i = 0; i < average.length; i++)
+			average[i] /= (double) instances.numInstances();
+		return new DenseInstance(1.0, average);
 	}
 
 	public static double clusterDiameter(Instances cluster) {
